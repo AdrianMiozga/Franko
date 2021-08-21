@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+        private const val DEFAULT_ZOOM = 17F
     }
 
     private var locationCallback: LocationCallback = object : LocationCallback() {
@@ -49,7 +50,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 currentLocation = LatLng(latitude, longitude)
 
                 myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(15F))
+                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+
+                if (ContextCompat.checkSelfPermission(
+                        applicationContext,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    fusedLocationClient.removeLocationUpdates(this)
+                }
             }
         }
     }
@@ -91,13 +101,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             )
             == PackageManager.PERMISSION_GRANTED
         ) {
-
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         myMap = googleMap
+        myMap.isMyLocationEnabled = true
     }
 
     private fun checkLocationPermission() {

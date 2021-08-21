@@ -3,9 +3,11 @@ package org.wentura.physicalapplication
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +19,17 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myMap: GoogleMap
     private lateinit var currentLocation: LatLng
+    private val polylinePoints: MutableList<LatLng> = mutableListOf()
+    private lateinit var polyline: Polyline
+    private var trackPosition: Boolean = false
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
         interval = 30
@@ -32,8 +39,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     companion object {
+        private const val TAG = "MainActivity"
+
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val DEFAULT_ZOOM = 17F
+        private const val LINE_WIDTH = 50F
+        private const val LINE_COLOR = Color.BLUE
     }
 
     private var locationCallback: LocationCallback = object : LocationCallback() {
@@ -52,13 +63,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
                 myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
 
-                if (ContextCompat.checkSelfPermission(
-                        applicationContext,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    )
-                    == PackageManager.PERMISSION_GRANTED
-                ) {
-                    fusedLocationClient.removeLocationUpdates(this)
+                if (trackPosition) {
+                    polylinePoints.add(currentLocation)
+                    polyline.points = polylinePoints
+                } else {
+                    stopTrackingLocation()
                 }
             }
         }
@@ -72,43 +81,50 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
 
+        val startStopButton: Button = findViewById(R.id.start_stop)
+
+        startStopButton.setOnClickListener {
+            trackPosition = !trackPosition
+
+            if (trackPosition) {
+                startStopButton.text = getString(R.string.stop)
+                startTrackingLocation()
+            } else {
+                startStopButton.text = getString(R.string.start)
+                stopTrackingLocation()
+            }
+        }
+
+        val resetButton: Button = findViewById(R.id.reset)
+
+        resetButton.setOnClickListener {
+            polylinePoints.clear()
+            polyline.points = polylinePoints
+        }
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
-    @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
-        }
+        startTrackingLocation()
     }
 
     override fun onPause() {
         super.onPause()
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.removeLocationUpdates(locationCallback)
-        }
+        stopTrackingLocation()
     }
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         myMap = googleMap
         myMap.isMyLocationEnabled = true
+
+        polyline = myMap.addPolyline(PolylineOptions().width(LINE_WIDTH).color(LINE_COLOR))
     }
 
     private fun checkLocationPermission() {
@@ -163,7 +179,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -177,17 +192,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     // permission was granted, yay! Do the
                     // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        fusedLocationClient.requestLocationUpdates(
-                            locationRequest,
-                            locationCallback,
-                            Looper.getMainLooper()
-                        )
-                    }
+                    startTrackingLocation()
 
                 } else {
 
@@ -197,6 +202,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 return
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun startTrackingLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
+    }
+
+    private fun stopTrackingLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
         }
     }
 }

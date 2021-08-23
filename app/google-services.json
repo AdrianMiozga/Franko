@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "287787433902",
+    "project_id": "physicalapplication-40b67",
+    "storage_bucket": "physicalapplication-40b67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287787433902:android:82c95ddfa4074fd4d7123f",
+        "android_client_info": {
+          "package_name": "org.wentura.physicalapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287787433902-9uiu6ispcvalb6cgbktc87u5qtpgqddc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_bkx3gWKeTPA13BY3VhQ5uEhUpYdDKw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287787433902-9uiu6ispcvalb6cgbktc87u5qtpgqddc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

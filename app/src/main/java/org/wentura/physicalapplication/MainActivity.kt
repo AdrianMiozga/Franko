@@ -1,231 +1,149 @@
 package org.wentura.physicalapplication
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.os.Looper
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.firebase.ui.auth.util.ExtraConstants
+import com.google.firebase.auth.ActionCodeSettings
+import com.google.firebase.auth.FirebaseAuth
 
-
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var myMap: GoogleMap
-    private lateinit var currentLocation: LatLng
-    private val polylinePoints: MutableList<LatLng> = mutableListOf()
-    private lateinit var polyline: Polyline
-    private var trackPosition: Boolean = false
-
-    private val locationRequest: LocationRequest = LocationRequest.create().apply {
-        interval = 30
-        fastestInterval = 10
-        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        maxWaitTime = 60
+class MainActivity : AppCompatActivity() {
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+        this.onSignInResult(res)
     }
 
     companion object {
         private const val TAG = "MainActivity"
-
-        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-        private const val DEFAULT_ZOOM = 17F
-        private const val LINE_WIDTH = 50F
-        private const val LINE_COLOR = Color.BLUE
-    }
-
-    private var locationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            val locationList = locationResult.locations
-
-            if (locationList.isNotEmpty()) {
-                // The last location in the list is the newest
-                val location = locationList.last()
-
-                val latitude = location.latitude
-                val longitude = location.longitude
-
-                currentLocation = LatLng(latitude, longitude)
-
-                myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
-
-                if (trackPosition) {
-                    polylinePoints.add(currentLocation)
-                    polyline.points = polylinePoints
-                } else {
-                    stopTrackingLocation()
-                }
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main_new)
 
-        setContentView(R.layout.activity_main)
+        createSignInIntent()
+    }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        checkLocationPermission()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
 
-        val startStopButton: Button = findViewById(R.id.start_stop)
-
-        startStopButton.setOnClickListener {
-            trackPosition = !trackPosition
-
-            if (trackPosition) {
-                startStopButton.text = getString(R.string.stop)
-                startTrackingLocation()
-            } else {
-                startStopButton.text = getString(R.string.start)
-                stopTrackingLocation()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.sign_out -> {
+                signOut()
+                true
             }
-        }
-
-        val resetButton: Button = findViewById(R.id.reset)
-
-        resetButton.setOnClickListener {
-            polylinePoints.clear()
-            polyline.points = polylinePoints
-        }
-
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        startTrackingLocation()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        stopTrackingLocation()
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onMapReady(googleMap: GoogleMap) {
-        myMap = googleMap
-        myMap.isMyLocationEnabled = true
-
-        polyline = myMap.addPolyline(PolylineOptions().width(LINE_WIDTH).color(LINE_COLOR))
-    }
-
-    private fun checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                AlertDialog.Builder(this)
-                    .setTitle("Location Permission Needed")
-                    .setMessage("This app needs the Location permission, please accept to use location functionality")
-                    .setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        //Prompt the user once explanation has been shown
-                        requestLocationPermission()
-                    }
-                    .create()
-                    .show()
-            } else {
-                // No explanation needed, we can request the permission.
-                requestLocationPermission()
-            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun requestLocationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ),
-                MY_PERMISSIONS_REQUEST_LOCATION
-            )
+    private fun createSignInIntent() {
+        // Choose authentication providers
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode == RESULT_OK) {
+            val user = FirebaseAuth.getInstance().currentUser
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                MY_PERMISSIONS_REQUEST_LOCATION
-            )
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_LOCATION -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    startTrackingLocation()
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-                }
-                return
+    private fun signOut() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                Log.d(TAG, "signOut: Log out")
             }
-        }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun startTrackingLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
-        }
+    private fun themeAndLogo() {
+        val providers = emptyList<AuthUI.IdpConfig>()
+
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+//            .setLogo(R.drawable.my_great_logo) // Set logo drawable
+//            .setTheme(R.style.MySuperAppTheme) // Set theme
+            .build()
+        signInLauncher.launch(signInIntent)
     }
 
-    private fun stopTrackingLocation() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
+    private fun privacyAndTerms() {
+        val providers = emptyList<AuthUI.IdpConfig>()
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setTosAndPrivacyPolicyUrls(
+                "https://example.com/terms.html",
+                "https://example.com/privacy.html"
             )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.removeLocationUpdates(locationCallback)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    open fun emailLink() {
+        val actionCodeSettings = ActionCodeSettings.newBuilder()
+            .setAndroidPackageName( /* yourPackageName= */
+                "...",  /* installIfNotAvailable= */
+                true,  /* minimumVersion= */
+                null
+            )
+            .setHandleCodeInApp(true) // This must be set to true
+            .setUrl("https://google.com") // This URL needs to be whitelisted
+            .build()
+
+        val providers = listOf(
+            AuthUI.IdpConfig.EmailBuilder()
+                .enableEmailLinkSignIn()
+                .setActionCodeSettings(actionCodeSettings)
+                .build()
+        )
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    open fun catchEmailLink() {
+        val providers: List<AuthUI.IdpConfig> = emptyList()
+
+        if (AuthUI.canHandleIntent(intent)) {
+            val extras = intent.extras ?: return
+            val link = extras.getString(ExtraConstants.EMAIL_LINK_SIGN_IN)
+            if (link != null) {
+                val signInIntent = AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setEmailLink(link)
+                    .setAvailableProviders(providers)
+                    .build()
+                signInLauncher.launch(signInIntent)
+            }
         }
     }
 }

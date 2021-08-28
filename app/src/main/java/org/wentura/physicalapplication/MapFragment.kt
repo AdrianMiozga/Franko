@@ -7,12 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.view.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,8 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 
-
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myMap: GoogleMap
     private lateinit var currentLocation: LatLng
@@ -39,7 +40,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "MapFragment"
 
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val DEFAULT_ZOOM = 17F
@@ -73,15 +74,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_map, container, false)
 
-        setContentView(R.layout.activity_main)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         checkLocationPermission()
 
-        val startStopButton: Button = findViewById(R.id.start_stop)
+        val startStopButton: Button = view.findViewById(R.id.start_stop)
 
         startStopButton.setOnClickListener {
             trackPosition = !trackPosition
@@ -95,28 +97,37 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        val resetButton: Button = findViewById(R.id.reset)
+        val resetButton: Button = view.findViewById(R.id.reset)
 
         resetButton.setOnClickListener {
             polylinePoints.clear()
             polyline.points = polylinePoints
         }
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
+
+        return view
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        startTrackingLocation()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
 
-        stopTrackingLocation()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.sign_out -> {
+                view?.let { Navigation.findNavController(it).navigate(R.id.navigate_to_first_fragment) }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -129,20 +140,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
+            if (shouldShowRequestPermissionRationale(
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                AlertDialog.Builder(this)
+                AlertDialog.Builder(requireContext())
                     .setTitle("Location Permission Needed")
                     .setMessage("This app needs the Location permission, please accept to use location functionality")
                     .setPositiveButton(
@@ -162,8 +172,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(
-                this,
+            requestPermissions(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
@@ -171,8 +180,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 MY_PERMISSIONS_REQUEST_LOCATION
             )
         } else {
-            ActivityCompat.requestPermissions(
-                this,
+            requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 MY_PERMISSIONS_REQUEST_LOCATION
             )
@@ -185,6 +193,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
@@ -198,7 +207,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_LONG).show()
                 }
                 return
             }
@@ -207,7 +216,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun startTrackingLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
             fusedLocationClient.requestLocationUpdates(
@@ -220,7 +229,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun stopTrackingLocation() {
         if (ContextCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             == PackageManager.PERMISSION_GRANTED

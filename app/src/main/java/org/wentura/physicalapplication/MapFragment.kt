@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import org.wentura.physicalapplication.databinding.FragmentMapBinding
 
 class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -31,6 +32,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private lateinit var polyline: Polyline
     private var trackPosition: Boolean = false
+
+    private var _binding: FragmentMapBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
         interval = 30
@@ -77,13 +84,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_map, container, false)
+    ): View {
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         checkLocationPermission()
 
-        val startStopButton: Button = view.findViewById(R.id.start_stop)
+        val startStopButton: Button = binding.startStop
 
         startStopButton.setOnClickListener {
             trackPosition = !trackPosition
@@ -97,7 +105,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        val resetButton: Button = view.findViewById(R.id.reset)
+        val resetButton: Button = binding.reset
 
         resetButton.setOnClickListener {
             polylinePoints.clear()
@@ -109,6 +117,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

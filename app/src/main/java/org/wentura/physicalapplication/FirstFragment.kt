@@ -4,23 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import org.wentura.physicalapplication.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
+    private var _binding: FragmentFirstBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_first, container, false)
+    ): View {
+        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        val button: Button = view.findViewById(R.id.show_map)
-
-        button.setOnClickListener {
+        binding.showMap.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.navigate_to_map_fragment)
         }
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

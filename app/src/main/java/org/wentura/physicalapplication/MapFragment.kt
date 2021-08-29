@@ -232,6 +232,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
+            polylinePoints.clear()
+
             fusedLocationClient.requestLocationUpdates(
                 locationRequest,
                 locationCallback,

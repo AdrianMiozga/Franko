@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -32,6 +35,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private lateinit var polyline: Polyline
     private var trackPosition: Boolean = false
+
+    private val db = Firebase.firestore
 
     private var _binding: FragmentMapBinding? = null
 
@@ -249,6 +254,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             )
             == PackageManager.PERMISSION_GRANTED
         ) {
+            val array: MutableList<HashMap<String, Double>> = ArrayList()
+
+            for (point in polylinePoints) {
+                array.add(
+                    hashMapOf(
+                        "latitude" to point.latitude,
+                        "longitude" to point.longitude
+                    )
+                )
+            }
+
+            val path = hashMapOf("path" to array)
+
+            db.collection("users")
+                // User Adrian
+                .document("TOURzsg6oEHolzaml1hZ")
+                .collection("paths").add(path)
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
     }

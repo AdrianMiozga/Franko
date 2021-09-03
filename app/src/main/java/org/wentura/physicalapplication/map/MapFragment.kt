@@ -1,4 +1,4 @@
-package org.wentura.physicalapplication
+package org.wentura.physicalapplication.map
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -28,6 +28,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import org.wentura.physicalapplication.Path
+import org.wentura.physicalapplication.R
+import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 

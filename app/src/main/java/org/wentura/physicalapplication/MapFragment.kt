@@ -11,7 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -38,6 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var polyline: Polyline
     private var trackPosition: Boolean = false
     private var startTime by Delegates.notNull<Long>()
+    private lateinit var spinner: Spinner
 
     private val db = Firebase.firestore
 
@@ -96,7 +99,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermission()
 
         val startStopButton: Button = binding.startStop
@@ -121,8 +124,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
-
         mapFragment.getMapAsync(this)
+
+        spinner = binding.activitySpinner
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.activities_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
         return view
     }
@@ -253,7 +266,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val path = Path(
                 startTime,
                 (System.currentTimeMillis() / 1000),
-                array
+                array,
+                spinner.selectedItem.toString()
             )
 
             db.collection("users")

@@ -5,4 +5,5 @@
     <string name="reset">Reset</string>
     <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
     <string name="sign_out">Sign Out</string>
+    <string name="activities">Activities</string>
 </resources>

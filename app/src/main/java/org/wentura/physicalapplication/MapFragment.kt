@@ -268,8 +268,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val path = hashMapOf("path" to array)
 
             db.collection("users")
-                // User Adrian
-                .document("TOURzsg6oEHolzaml1hZ")
+                .document(Constants.USER)
                 .collection("paths").add(path)
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)

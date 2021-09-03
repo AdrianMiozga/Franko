@@ -20,6 +20,9 @@
             app:destination="@id/activities_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/navigate_to_statistics_fragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -36,11 +39,22 @@
 
     <fragment
         android:id="@+id/activities_fragment"
-        android:name="org.wentura.physicalapplication.ActivitiesFragment"
+        android:name="org.wentura.physicalapplication.activities.ActivitiesFragment"
         tools:layout="@layout/fragment_activities"
         android:label="Activities">
         <action
             android:id="@+id/action_activities_fragment_to_first_fragment"
+            app:destination="@id/first_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="org.wentura.physicalapplication.statistics.StatisticsFragment"
+        android:label="Statistics">
+        <action
+            android:id="@+id/action_statisticsFragment_to_first_fragment"
             app:destination="@id/first_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />

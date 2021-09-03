@@ -1,4 +1,4 @@
-package org.wentura.physicalapplication
+package org.wentura.physicalapplication.activities
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import org.wentura.physicalapplication.Path
+import org.wentura.physicalapplication.R
 import java.text.SimpleDateFormat
 
 class ActivityAdapter(private val dataSet: List<Path>) :

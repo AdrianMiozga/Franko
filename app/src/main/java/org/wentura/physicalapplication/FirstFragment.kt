@@ -30,13 +30,16 @@ class FirstFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.navigate_to_activities_fragment)
         }
 
+        binding.showStatistics.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.navigate_to_statistics_fragment)
+        }
+
         return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
     }
 
     override fun onDestroyView() {

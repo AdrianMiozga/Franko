@@ -8,6 +8,9 @@
     <string name="activities">Activities</string>
     <string name="time_span">%s - %s</string>
     <string name="activity_title">%s: %d (%s)</string>
+    <string name="show_map">Map</string>
+    <string name="show_activities">Activities</string>
+    <string name="show_statistics">Statistics</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

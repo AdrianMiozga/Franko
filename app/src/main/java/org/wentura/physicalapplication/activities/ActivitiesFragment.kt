@@ -1,4 +1,4 @@
-package org.wentura.physicalapplication
+package org.wentura.physicalapplication.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import org.wentura.physicalapplication.Path
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
 class ActivitiesFragment : Fragment() {

@@ -11,10 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,19 +25,21 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myMap: GoogleMap
     private lateinit var currentLocation: LatLng
-    private val polylinePoints: MutableList<LatLng> = mutableListOf()
+    private lateinit var spinner: Spinner
     private lateinit var polyline: Polyline
+    private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private var trackPosition: Boolean = false
     private var startTime by Delegates.notNull<Long>()
-    private lateinit var spinner: Spinner
+    private var initialOnItemSelected = true
 
     private val db = Firebase.firestore
 
@@ -127,6 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         spinner = binding.activitySpinner
+        spinner.onItemSelectedListener = this
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -135,6 +135,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
+
+            db.collection("users")
+                .document(Constants.USER)
+                .get()
+                .addOnSuccessListener { result ->
+                    val lastActivity = result.toObject<User>()?.lastActivity
+                    spinner.setSelection(adapter.getPosition(lastActivity))
+                }
         }
 
         return view
@@ -279,5 +287,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        if (initialOnItemSelected) {
+            initialOnItemSelected = false
+            return
+        }
+
+        db.collection("users")
+            .document(Constants.USER)
+            .update("lastActivity", parent.getItemAtPosition(pos))
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
     }
 }

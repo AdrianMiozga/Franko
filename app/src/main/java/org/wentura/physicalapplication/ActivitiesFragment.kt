@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
 class ActivitiesFragment : Fragment() {
     private val db = Firebase.firestore
-    private val pointsArray: ArrayList<ArrayList<LatLng>> = arrayListOf()
+    private val pathsArray: ArrayList<Path> = arrayListOf()
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
@@ -50,28 +50,13 @@ class ActivitiesFragment : Fragment() {
         collectionReference.get()
             .addOnSuccessListener { paths ->
                 if (paths != null) {
-                    for (path in paths) {
-                        val entries = path.data.entries
+                    pathsArray.addAll(paths.toObjects())
 
-                        entries.forEach {
-                            val points = it.value as ArrayList<HashMap<String, Double>>
-
-                            val pointsResult: ArrayList<LatLng> = arrayListOf()
-
-                            for (point in points) {
-                                pointsResult.add(LatLng(point["latitude"]!!, point["longitude"]!!))
-                            }
-
-                            pointsArray.add(pointsResult)
-                        }
-
-                        binding.activitesRecyclerView.apply {
-                            setHasFixedSize(true)
-                            layoutManager = linearLayoutManager
-                            adapter = ActivityAdapter(pointsArray)
-                            setRecyclerListener(recycleListener)
-                        }
-
+                    binding.activitesRecyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = linearLayoutManager
+                        adapter = ActivityAdapter(pathsArray)
+                        setRecyclerListener(recycleListener)
                     }
                 } else {
                     Log.d(TAG, "No such collection")

@@ -9,12 +9,12 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 
-class ActivityAdapter(private val dataSet: List<List<LatLng>>) :
+class ActivityAdapter(private val dataSet: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
         private lateinit var map: GoogleMap
-        private lateinit var latLng: List<LatLng>
+        private var latLng: ArrayList<LatLng> = arrayListOf()
 
         private val title: TextView = view.findViewById(R.id.activity_title)
         private val mapView: MapView = view.findViewById(R.id.map)
@@ -27,8 +27,11 @@ class ActivityAdapter(private val dataSet: List<List<LatLng>>) :
             }
         }
 
-        fun bindView(position: Int, dataSet: List<List<LatLng>>) {
-            latLng = dataSet[position]
+        fun bindView(position: Int, dataSet: List<Path>) {
+            dataSet[position].path?.forEach {
+                latLng.add(LatLng(it["latitude"]!!, it["longitude"]!!))
+            }
+
             mapView.tag = this
             title.text = (position + 1).toString()
             setupMap()

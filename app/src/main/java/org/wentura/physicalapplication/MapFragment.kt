@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
+import kotlin.properties.Delegates
 
 class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -36,6 +37,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private lateinit var polyline: Polyline
     private var trackPosition: Boolean = false
+    private var startTime by Delegates.notNull<Long>()
 
     private val db = Firebase.firestore
 
@@ -220,6 +222,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             == PackageManager.PERMISSION_GRANTED
         ) {
             polylinePoints.clear()
+            startTime = System.currentTimeMillis() / 1000
 
             fusedLocationClient.requestLocationUpdates(
                 locationRequest,
@@ -247,7 +250,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 )
             }
 
-            val path = hashMapOf("path" to array)
+            val path = Path(
+                startTime,
+                (System.currentTimeMillis() / 1000),
+                array
+            )
 
             db.collection("users")
                 .document(Constants.USER)

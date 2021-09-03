@@ -26,6 +26,10 @@ class FirstFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.navigate_to_map_fragment)
         }
 
+        binding.showActivities.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.navigate_to_activities_fragment)
+        }
+
         return view
     }
 

@@ -1,13 +1,10 @@
 package org.wentura.physicalapplication
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.firebase.ui.auth.util.ExtraConstants
-import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -50,80 +47,6 @@ class MainActivity : AppCompatActivity() {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
-        }
-    }
-
-    private fun signOut() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                Log.d(TAG, "signOut: Log out")
-            }
-    }
-
-    private fun themeAndLogo() {
-        val providers = emptyList<AuthUI.IdpConfig>()
-
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-//            .setLogo(R.drawable.my_great_logo) // Set logo drawable
-//            .setTheme(R.style.MySuperAppTheme) // Set theme
-            .build()
-        signInLauncher.launch(signInIntent)
-    }
-
-    private fun privacyAndTerms() {
-        val providers = emptyList<AuthUI.IdpConfig>()
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setTosAndPrivacyPolicyUrls(
-                "https://example.com/terms.html",
-                "https://example.com/privacy.html"
-            )
-            .build()
-        signInLauncher.launch(signInIntent)
-    }
-
-    open fun emailLink() {
-        val actionCodeSettings = ActionCodeSettings.newBuilder()
-            .setAndroidPackageName( /* yourPackageName= */
-                "...",  /* installIfNotAvailable= */
-                true,  /* minimumVersion= */
-                null
-            )
-            .setHandleCodeInApp(true) // This must be set to true
-            .setUrl("https://google.com") // This URL needs to be whitelisted
-            .build()
-
-        val providers = listOf(
-            AuthUI.IdpConfig.EmailBuilder()
-                .enableEmailLinkSignIn()
-                .setActionCodeSettings(actionCodeSettings)
-                .build()
-        )
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .build()
-        signInLauncher.launch(signInIntent)
-    }
-
-    open fun catchEmailLink() {
-        val providers: List<AuthUI.IdpConfig> = emptyList()
-
-        if (AuthUI.canHandleIntent(intent)) {
-            val extras = intent.extras ?: return
-            val link = extras.getString(ExtraConstants.EMAIL_LINK_SIGN_IN)
-            if (link != null) {
-                val signInIntent = AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setEmailLink(link)
-                    .setAvailableProviders(providers)
-                    .build()
-                signInLauncher.launch(signInIntent)
-            }
         }
     }
 }

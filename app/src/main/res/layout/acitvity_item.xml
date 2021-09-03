@@ -14,15 +14,40 @@
         android:layout_margin="8dp"
         android:textSize="20sp"
         tools:text="Item"
-        app:layout_constraintBottom_toTopOf="@id/map"
+        app:layout_constraintBottom_toTopOf="@id/start_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        tools:text="2021-09-10 12:43"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/end_time"
+        app:layout_constraintTop_toBottomOf="@id/activity_title" />
+
+    <TextView
+        android:id="@+id/end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        tools:text="2021-09-10 12:50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintTop_toBottomOf="@id/start_time" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        map:layout_constraintTop_toBottomOf="@id/activity_title"
+        android:layout_marginTop="2dp"
+        map:layout_constraintTop_toBottomOf="@id/end_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         map:uiMapToolbar="false"

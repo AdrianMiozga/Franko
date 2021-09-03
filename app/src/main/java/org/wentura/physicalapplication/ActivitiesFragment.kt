@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -43,8 +44,10 @@ class ActivitiesFragment : Fragment() {
         _binding = FragmentActivitiesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
         val collectionReference = db.collection("users")
-            .document(Constants.USER)
+            .document(uid)
             .collection("paths")
 
         collectionReference.get()

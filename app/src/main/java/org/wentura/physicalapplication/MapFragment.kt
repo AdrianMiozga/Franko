@@ -117,7 +117,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             polyline.points = polylinePoints
         }
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
 

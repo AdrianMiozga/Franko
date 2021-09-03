@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import org.wentura.physicalapplication.databinding.FragmentFirstBinding
+import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
-class FirstFragment : Fragment() {
-    private var _binding: FragmentFirstBinding? = null
+class MainFragment : Fragment() {
+    private var _binding: FragmentMainBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -19,7 +19,7 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         val view = binding.root
 
         binding.showMap.setOnClickListener {
@@ -32,6 +32,10 @@ class FirstFragment : Fragment() {
 
         binding.showStatistics.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.navigate_to_statistics_fragment)
+        }
+
+        binding.showOptions.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.navigate_to_settings_fragment)
         }
 
         return view

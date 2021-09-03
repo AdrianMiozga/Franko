@@ -7,13 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
 class ActivitiesFragment : Fragment() {
     private val db = Firebase.firestore
-    private val pointsArray: ArrayList<String> = arrayListOf()
+    private val pointsArray: ArrayList<ArrayList<LatLng>> = arrayListOf()
+
+    private val linearLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(context)
+    }
+
+    private val recycleListener = RecyclerView.RecyclerListener { holder ->
+        val mapHolder = holder as ActivityAdapter.ViewHolder
+        mapHolder.clearView()
+    }
 
     private var _binding: FragmentActivitiesBinding? = null
 
@@ -45,26 +56,21 @@ class ActivitiesFragment : Fragment() {
                         entries.forEach {
                             val points = it.value as ArrayList<HashMap<String, Double>>
 
-                            var pointsResult = ""
+                            val pointsResult: ArrayList<LatLng> = arrayListOf()
 
                             for (point in points) {
-                                Log.d(TAG, "lat: ${point["latitude"]}, longitude: ${point["longitude"]}")
-                                pointsResult += point["latitude"]
-                                pointsResult += ", "
-                                pointsResult += point["longitude"]
-                                pointsResult += "; "
+                                pointsResult.add(LatLng(point["latitude"]!!, point["longitude"]!!))
                             }
-
-                            Log.d(TAG, "onCreateView: $pointsResult")
 
                             pointsArray.add(pointsResult)
                         }
 
-                        val activitiesRecyclerView = binding.activitesRecyclerView
-                        val adapter = ActivityAdapter(pointsArray)
-
-                        activitiesRecyclerView.adapter = adapter
-                        activitiesRecyclerView.layoutManager = LinearLayoutManager(context)
+                        binding.activitesRecyclerView.apply {
+                            setHasFixedSize(true)
+                            layoutManager = linearLayoutManager
+                            adapter = ActivityAdapter(pointsArray)
+                            setRecyclerListener(recycleListener)
+                        }
 
                     }
                 } else {

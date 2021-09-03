@@ -5,35 +5,69 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 
-class ActivityAdapter(private val dataSet: List<String>) :
+class ActivityAdapter(private val dataSet: List<List<LatLng>>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
+        private lateinit var map: GoogleMap
+        private lateinit var latLng: List<LatLng>
+
+        private val title: TextView = view.findViewById(R.id.activity_title)
+        private val mapView: MapView = view.findViewById(R.id.map)
 
         init {
-            // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.text_view)
+            with(mapView) {
+                onCreate(null)
+                getMapAsync(this@ViewHolder)
+                isClickable = false
+            }
+        }
+
+        fun bindView(position: Int, dataSet: List<List<LatLng>>) {
+            latLng = dataSet[position]
+            mapView.tag = this
+            title.text = (position + 1).toString()
+            setupMap()
+        }
+
+        fun clearView() {
+            with(map) {
+                clear()
+                mapType = GoogleMap.MAP_TYPE_NONE
+            }
+        }
+
+        override fun onMapReady(googleMap: GoogleMap) {
+            MapsInitializer.initialize(mapView.context)
+            map = googleMap
+            setupMap()
+        }
+
+        private fun setupMap() {
+            if (!::map.isInitialized) return
+
+            with(map) {
+                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
+                addPolyline(PolylineOptions().addAll(latLng))
+                mapType = GoogleMap.MAP_TYPE_NORMAL
+            }
         }
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.acitvity_row_item, viewGroup, false)
+            .inflate(R.layout.acitvity_item, viewGroup, false)
 
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.textView.text = dataSet[position]
+        viewHolder.bindView(position, dataSet)
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 }

@@ -6,8 +6,12 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+    private val db = Firebase.firestore
+
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { res ->
@@ -42,7 +46,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+            db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (!document.exists()) {
+                        db.collection("users")
+                            .document(uid)
+                            .set(hashMapOf("name" to "Nothing"))
+                    }
+                }
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check

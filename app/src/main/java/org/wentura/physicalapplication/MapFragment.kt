@@ -24,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -136,8 +137,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
 
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
             db.collection("users")
-                .document(Constants.USER)
+                .document(uid)
                 .get()
                 .addOnSuccessListener { result ->
                     val lastActivity = result.toObject<User>()?.lastActivity
@@ -278,8 +281,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
                 spinner.selectedItem.toString()
             )
 
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
             db.collection("users")
-                .document(Constants.USER)
+                .document(uid)
                 .collection("paths").add(path)
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
@@ -295,8 +300,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
             return
         }
 
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
         db.collection("users")
-            .document(Constants.USER)
+            .document(uid)
             .update("lastActivity", parent.getItemAtPosition(pos))
     }
 

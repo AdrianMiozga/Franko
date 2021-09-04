@@ -34,16 +34,20 @@ import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 
-class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedListener {
+class MapFragment : Fragment(),
+    OnMapReadyCallback,
+    AdapterView.OnItemSelectedListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myMap: GoogleMap
     private lateinit var currentLocation: LatLng
     private lateinit var spinner: Spinner
+    private lateinit var speed: TextView
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private var trackPosition: Boolean = false
     private var startTime by Delegates.notNull<Long>()
     private var initialOnItemSelected = true
+    private val speedometer: Speedometer = Speedometer()
 
     private val db = Firebase.firestore
 
@@ -73,24 +77,35 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
         override fun onLocationResult(locationResult: LocationResult) {
             val locationList = locationResult.locations
 
-            if (locationList.isNotEmpty()) {
-                // The last location in the list is the newest
-                val location = locationList.last()
+            if (locationList.isEmpty()) return
+           
+            // The last location in the list is the newest
+            val location = locationList.last()
 
-                val latitude = location.latitude
-                val longitude = location.longitude
+            val latitude = location.latitude
+            val longitude = location.longitude
 
-                currentLocation = LatLng(latitude, longitude)
+            speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                location.speedAccuracyMetersPerSecond.toDouble()
+            } else {
+                location.speed.toDouble()
+            }
 
-                myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+            speed.text = getString(
+                R.string.speed,
+                speedometer.speed.toInt()
+            )
 
-                if (trackPosition) {
-                    polylinePoints.add(currentLocation)
-                    polyline.points = polylinePoints
-                } else {
-                    stopTrackingLocation()
-                }
+            currentLocation = LatLng(latitude, longitude)
+
+            myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
+            myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+
+            if (trackPosition) {
+                polylinePoints.add(currentLocation)
+                polyline.points = polylinePoints
+            } else {
+                stopTrackingLocation()
             }
         }
     }
@@ -128,6 +143,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        speed = binding.speed
 
         spinner = binding.activitySpinner
         spinner.onItemSelectedListener = this
@@ -251,6 +268,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
             polylinePoints.clear()
             startTime = System.currentTimeMillis() / 1000
 
+            speed.visibility = View.VISIBLE
+
             fusedLocationClient.requestLocationUpdates(
                 locationRequest,
                 locationCallback,
@@ -294,6 +313,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
                 }
 
             fusedLocationClient.removeLocationUpdates(locationCallback)
+
+            speed.visibility = View.INVISIBLE
         }
     }
 
@@ -310,6 +331,5 @@ class MapFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedLi
             .update("lastActivity", parent.getItemAtPosition(pos))
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>) {
-    }
+    override fun onNothingSelected(parent: AdapterView<*>) = Unit
 }

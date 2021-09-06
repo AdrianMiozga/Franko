@@ -94,7 +94,11 @@ class MapFragment : Fragment(),
             }
 
             speed.text = getString(
-                R.string.speed,
+                if (speedometer.miles) {
+                    R.string.mph
+                } else {
+                    R.string.kmh
+                },
                 speedometer.speed.toInt()
             )
 
@@ -176,6 +180,21 @@ class MapFragment : Fragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        db.collection(Constants.USERS)
+            .document(uid)
+            .get()
+            .addOnSuccessListener { result ->
+                val user: User? = result.toObject()
+
+                speedometer.miles = user?.miles ?: false
+            }
     }
 
     @SuppressLint("MissingPermission")

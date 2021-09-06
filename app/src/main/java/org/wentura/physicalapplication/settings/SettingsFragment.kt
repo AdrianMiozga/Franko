@@ -28,7 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
         val milesSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.MILES_KEY)
 
-        db.collection("users")
+        db.collection(Constants.USERS)
             .document(uid)
             .get()
             .addOnSuccessListener { result ->

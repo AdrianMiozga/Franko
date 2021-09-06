@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import org.wentura.physicalapplication.Constants
 import org.wentura.physicalapplication.Path
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
@@ -47,9 +48,9 @@ class ActivitiesFragment : Fragment() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-        val collectionReference = db.collection("users")
+        val collectionReference = db.collection(Constants.USERS)
             .document(uid)
-            .collection("paths")
+            .collection(Constants.PATHS)
 
         collectionReference.get()
             .addOnSuccessListener { paths ->

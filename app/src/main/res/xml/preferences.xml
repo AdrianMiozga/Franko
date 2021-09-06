@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        app:key="dark_mode"
-        app:title="Dark mode"/>
+        app:key="darkMode"
+        app:title="Dark mode" />
+
+    <SwitchPreferenceCompat
+        app:key="miles"
+        app:title="Display miles per hour" />
 
 </PreferenceScreen>

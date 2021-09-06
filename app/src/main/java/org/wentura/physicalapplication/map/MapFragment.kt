@@ -37,6 +37,7 @@ import kotlin.properties.Delegates
 class MapFragment : Fragment(),
     OnMapReadyCallback,
     AdapterView.OnItemSelectedListener {
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myMap: GoogleMap
     private lateinit var currentLocation: LatLng
@@ -78,7 +79,7 @@ class MapFragment : Fragment(),
             val locationList = locationResult.locations
 
             if (locationList.isEmpty()) return
-           
+
             // The last location in the list is the newest
             val location = locationList.last()
 

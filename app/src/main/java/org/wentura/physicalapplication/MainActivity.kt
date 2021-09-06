@@ -67,12 +67,12 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
-            db.collection("users")
+            db.collection(Constants.USERS)
                 .document(uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (!document.exists()) {
-                        db.collection("users")
+                        db.collection(Constants.USERS)
                             .document(uid)
                             .set(hashMapOf("name" to "Nothing"))
                     }

@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import org.wentura.physicalapplication.Constants
 import org.wentura.physicalapplication.Path
 import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
@@ -160,7 +161,7 @@ class MapFragment : Fragment(),
 
             val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-            db.collection("users")
+            db.collection(Constants.USERS)
                 .document(uid)
                 .get()
                 .addOnSuccessListener { result ->
@@ -306,9 +307,9 @@ class MapFragment : Fragment(),
 
             val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-            db.collection("users")
+            db.collection(Constants.USERS)
                 .document(uid)
-                .collection("paths").add(path)
+                .collection(Constants.PATHS).add(path)
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
@@ -327,7 +328,7 @@ class MapFragment : Fragment(),
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-        db.collection("users")
+        db.collection(Constants.USERS)
             .document(uid)
             .update("lastActivity", parent.getItemAtPosition(pos))
     }

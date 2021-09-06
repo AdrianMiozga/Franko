@@ -1,11 +1,16 @@
 package org.wentura.physicalapplication.map
 
-class Speedometer(speed: Double = 0.0) {
-    var speed: Double = speed
+import org.wentura.physicalapplication.Constants
+
+class Speedometer {
+    var miles = false
+
+    var speed: Double = 0.0
         get() {
-            // MP/H
-//            return field.times(2.23694)
-            // KM/H
-            return field.times(3.6)
+            return if (miles) {
+                field.times(Constants.MPH)
+            } else {
+                field.times(Constants.KMH)
+            }
         }
 }

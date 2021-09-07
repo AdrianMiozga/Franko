@@ -1,6 +1,7 @@
 # TODO
 
-Searching people  
+Display profiles  
+Recent searches  
 Clear recent searches  
 Adding friends
 

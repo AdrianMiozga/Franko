@@ -15,6 +15,9 @@
     <string name="kmh">%d km/h</string>
     <string name="mph">%d mp/h</string>
     <string name="show_people">People</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="logged_out">Logged out</string>
+    <string name="account_deleted">Account deleted</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Physical Application</string>
+    <string name="app_name" translatable="false">Physical Application</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
@@ -20,6 +20,7 @@
     <string name="account_deleted">Account deleted</string>
     <string name="profile_picture">Profile picture</string>
     <string name="search_people">Search people</string>
+    <string name="sample_user_name" translatable="false">Pascal Winters</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

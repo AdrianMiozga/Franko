@@ -30,13 +30,10 @@ class ActivitiesFragment : Fragment() {
     }
 
     private var _binding: FragmentActivitiesBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     companion object {
-        const val TAG = "ActivitiesFragment"
+        val TAG = ActivitiesFragment::class.simpleName
     }
 
     override fun onCreateView(
@@ -54,17 +51,18 @@ class ActivitiesFragment : Fragment() {
 
         collectionReference.get()
             .addOnSuccessListener { paths ->
-                if (paths != null) {
-                    pathsArray.addAll(paths.toObjects())
-
-                    binding.activitesRecyclerView.apply {
-                        setHasFixedSize(true)
-                        layoutManager = linearLayoutManager
-                        adapter = ActivityAdapter(pathsArray)
-                        setRecyclerListener(recyclerListener)
-                    }
-                } else {
+                if (paths == null) {
                     Log.d(TAG, "No such collection")
+                    return@addOnSuccessListener
+                }
+
+                pathsArray.addAll(paths.toObjects())
+
+                binding.activitesRecyclerView.apply {
+                    setHasFixedSize(true)
+                    layoutManager = linearLayoutManager
+                    adapter = ActivityAdapter(pathsArray)
+                    setRecyclerListener(recyclerListener)
                 }
             }
             .addOnFailureListener { exception ->

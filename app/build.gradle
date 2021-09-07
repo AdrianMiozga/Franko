@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -19,6 +20,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -48,12 +53,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.google.firebase:firebase-auth-ktx'
 
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
     // Google Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-
-    // Firestore
-    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     // Navigation Framework
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'

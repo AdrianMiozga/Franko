@@ -1,6 +1,7 @@
 package org.wentura.physicalapplication
 
 object Constants {
+   
     // Firestore Paths
     const val USERS = "users"
     const val PATHS = "paths"
@@ -8,6 +9,9 @@ object Constants {
     // Setting Keys
     const val DARK_MODE_KEY = "darkMode"
     const val MILES_KEY = "miles"
+
+    // Providers
+    const val PROVIDER_GOOGLE = "google.com"
 
     /** Meters per second to miles per hour **/
     const val MPH = 2.23694

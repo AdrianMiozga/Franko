@@ -12,6 +12,7 @@ import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 
 class SettingsFragment : PreferenceFragmentCompat() {
+   
     private val db = Firebase.firestore
 
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""

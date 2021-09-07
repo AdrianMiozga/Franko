@@ -17,6 +17,7 @@ import org.wentura.physicalapplication.Path
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
 class ActivitiesFragment : Fragment() {
+   
     private val db = Firebase.firestore
     private val pathsArray: ArrayList<Path> = arrayListOf()
 

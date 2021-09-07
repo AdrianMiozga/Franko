@@ -3,6 +3,7 @@ package org.wentura.physicalapplication.map
 import org.wentura.physicalapplication.Constants
 
 class Speedometer {
+   
     var miles = false
 
     var speed: Double = 0.0

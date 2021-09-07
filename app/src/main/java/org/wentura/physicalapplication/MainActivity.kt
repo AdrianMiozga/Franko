@@ -15,6 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val db = Firebase.firestore
 
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser ?: return
+            val photoUrl = Util.extractPhotoUrl(user)
 
             db.collection(Constants.USERS)
                 .document(user.uid)
@@ -79,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                         .set(
                             hashMapOf(
                                 "uid" to user.uid,
-                                "photoUrl" to user.photoUrl
+                                "name" to user.displayName,
+                                "photoUrl" to photoUrl
                             )
                         )
                 }

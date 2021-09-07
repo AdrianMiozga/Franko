@@ -20,6 +20,7 @@ class PeopleAdapter(private val people: List<User>) :
     }
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+
         private val name: TextView = view.findViewById(R.id.name)
         private val profilePicture: ImageView = view.findViewById(R.id.profile_picture)
 

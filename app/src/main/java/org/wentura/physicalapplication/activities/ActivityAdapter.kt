@@ -16,6 +16,7 @@ class ActivityAdapter(private val dataSet: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
+
         private lateinit var map: GoogleMap
         private var latLng: ArrayList<LatLng> = arrayListOf()
 

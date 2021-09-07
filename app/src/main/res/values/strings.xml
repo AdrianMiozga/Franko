@@ -21,6 +21,7 @@
     <string name="profile_picture">Profile picture</string>
     <string name="search_people">Search people</string>
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
+    <string name="show_achievements">Achievements</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

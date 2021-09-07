@@ -1,9 +1,8 @@
 # TODO
 
-Display profiles  
+Adding friends  
 Recent searches  
-Clear recent searches  
-Adding friends
+Clear recent searches
 
 Apply dark mode setting  
 Achievements  

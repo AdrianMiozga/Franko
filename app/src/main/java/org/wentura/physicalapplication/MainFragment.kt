@@ -38,6 +38,10 @@ class MainFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.navigate_to_settings_fragment)
         }
 
+        binding.showPeople.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.navigate_to_people_fragment)
+        }
+
         return view
     }
 

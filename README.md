@@ -1,9 +1,9 @@
 # TODO
 
-Calculate speed during activity  
-Options MPH/KMH
+Searching people  
+Clear recent searches  
+Adding friends
 
-Adding friends  
 Apply dark mode setting  
 Achievements  
 Dialog in case of disabled location setting  

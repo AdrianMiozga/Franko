@@ -24,7 +24,7 @@ class ActivitiesFragment : Fragment() {
         LinearLayoutManager(context)
     }
 
-    private val recycleListener = RecyclerView.RecyclerListener { holder ->
+    private val recyclerListener = RecyclerView.RecyclerListener { holder ->
         val mapHolder = holder as ActivityAdapter.ViewHolder
         mapHolder.clearView()
     }
@@ -61,7 +61,7 @@ class ActivitiesFragment : Fragment() {
                         setHasFixedSize(true)
                         layoutManager = linearLayoutManager
                         adapter = ActivityAdapter(pathsArray)
-                        setRecyclerListener(recycleListener)
+                        setRecyclerListener(recyclerListener)
                     }
                 } else {
                     Log.d(TAG, "No such collection")

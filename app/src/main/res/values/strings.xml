@@ -14,6 +14,7 @@
     <string name="show_options">Settings</string>
     <string name="kmh">%d km/h</string>
     <string name="mph">%d mp/h</string>
+    <string name="show_people">People</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

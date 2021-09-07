@@ -31,6 +31,11 @@
             app:destination="@id/settings_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/navigate_to_people_fragment"
+            app:destination="@id/people_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -81,4 +86,16 @@
             android:id="@+id/action_settingsFragment_to_first_fragment"
             app:destination="@id/main_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/people_fragment"
+        android:name="org.wentura.physicalapplication.people.PeopleFragment"
+        android:label="People"
+        tools:layout="@layout/fragment_people">
+
+        <action
+            android:id="@+id/action_peopleFragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
+    </fragment>
+
 </navigation>

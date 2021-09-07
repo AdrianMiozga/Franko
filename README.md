@@ -8,4 +8,5 @@ Apply dark mode setting
 Achievements  
 Dialog in case of disabled location setting  
 Dialog in case of disabled network  
-Notification during activity recording
+Notification during activity recording  
+Option to delete account

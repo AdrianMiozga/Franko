@@ -2,10 +2,10 @@ package org.wentura.physicalapplication
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.firebase.ui.auth.AuthUI
 import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -62,7 +62,27 @@ class MainFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sign_out -> {
-                Firebase.auth.signOut()
+                AuthUI.getInstance()
+                    .signOut(requireContext())
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.logged_out),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                true
+            }
+            R.id.delete_account -> {
+                AuthUI.getInstance()
+                    .delete(requireContext())
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.account_deleted),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 true
             }
             else -> super.onOptionsItemSelected(item)

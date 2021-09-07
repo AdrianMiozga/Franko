@@ -19,24 +19,30 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.showMap.setOnClickListener {
-            Navigation.findNavController(view).navigate(MainFragmentDirections.toMapFragment())
-        }
+        binding.apply {
+            showMap.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toMapFragment())
+            }
 
-        binding.showActivities.setOnClickListener {
-            Navigation.findNavController(view).navigate(MainFragmentDirections.toActivitiesFragment())
-        }
+            showActivities.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toActivitiesFragment())
+            }
 
-        binding.showStatistics.setOnClickListener {
-            Navigation.findNavController(view).navigate(MainFragmentDirections.toStatisticsFragment())
-        }
+            showStatistics.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toStatisticsFragment())
+            }
 
-        binding.showOptions.setOnClickListener {
-            Navigation.findNavController(view).navigate(MainFragmentDirections.toSettingsFragment())
-        }
+            showAchievements.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toAchievementsFragment())
+            }
 
-        binding.showPeople.setOnClickListener {
-            Navigation.findNavController(view).navigate(MainFragmentDirections.toPeopleFragment())
+            showOptions.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toSettingsFragment())
+            }
+
+            showPeople.setOnClickListener {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.toPeopleFragment())
+            }
         }
 
         return view

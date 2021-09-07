@@ -40,6 +40,12 @@
             app:destination="@id/people_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+
+        <action
+            android:id="@+id/to_achievements_fragment"
+            app:destination="@id/achievements_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -88,5 +94,11 @@
             android:name="uid"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/achievements_fragment"
+        android:name="org.wentura.physicalapplication.achievements.AchievementsFragment"
+        android:label="Achievements"
+        tools:layout="@layout/fragment_achievements" />
 
 </navigation>

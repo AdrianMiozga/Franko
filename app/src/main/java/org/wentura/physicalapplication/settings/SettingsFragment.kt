@@ -17,7 +17,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     companion object {
-        const val TAG = "SettingsFragment"
+        val TAG = SettingsFragment::class.simpleName
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

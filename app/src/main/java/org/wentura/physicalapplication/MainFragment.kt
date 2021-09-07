@@ -10,9 +10,6 @@ import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,23 +20,23 @@ class MainFragment : Fragment() {
         val view = binding.root
 
         binding.showMap.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.navigate_to_map_fragment)
+            Navigation.findNavController(view).navigate(MainFragmentDirections.toMapFragment())
         }
 
         binding.showActivities.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.navigate_to_activities_fragment)
+            Navigation.findNavController(view).navigate(MainFragmentDirections.toActivitiesFragment())
         }
 
         binding.showStatistics.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.navigate_to_statistics_fragment)
+            Navigation.findNavController(view).navigate(MainFragmentDirections.toStatisticsFragment())
         }
 
         binding.showOptions.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.navigate_to_settings_fragment)
+            Navigation.findNavController(view).navigate(MainFragmentDirections.toSettingsFragment())
         }
 
         binding.showPeople.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.navigate_to_people_fragment)
+            Navigation.findNavController(view).navigate(MainFragmentDirections.toPeopleFragment())
         }
 
         return view

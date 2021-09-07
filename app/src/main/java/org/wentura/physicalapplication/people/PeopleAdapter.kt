@@ -5,21 +5,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 
-class PeopleAdapter(private val peoples: List<User>) :
+class PeopleAdapter(private val people: List<User>) :
     RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    companion object {
+        val TAG = PeopleAdapter::class.simpleName
+    }
+
+    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val name: TextView = view.findViewById(R.id.name)
         private val profilePicture: ImageView = view.findViewById(R.id.profile_picture)
 
-        fun bindView(position: Int, dataSet: List<User>) {
-            val uri = dataSet[position].photoUrl
+        fun bindView(position: Int, people: List<User>) {
+            view.setOnClickListener {
+                Navigation.findNavController(view).navigate(
+                    PeopleFragmentDirections.toProfileFragment
+                        (people[position].uid ?: "")
+                )
+            }
+
+            val uri = people[position].photoUrl
 
             if (uri == null) {
                 profilePicture.load(R.drawable.profile_picture_placeholder) {
@@ -31,7 +43,7 @@ class PeopleAdapter(private val peoples: List<User>) :
                 }
             }
 
-            name.text = dataSet[position].name
+            name.text = people[position].name
         }
     }
 
@@ -43,8 +55,8 @@ class PeopleAdapter(private val peoples: List<User>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, peoples)
+        viewHolder.bindView(position, people)
     }
 
-    override fun getItemCount() = peoples.size
+    override fun getItemCount() = people.size
 }

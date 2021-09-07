@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "MainActivity"
+        private val TAG = MainActivity::class.simpleName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,11 +72,16 @@ class MainActivity : AppCompatActivity() {
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener { document ->
-                    if (!document.exists()) {
-                        db.collection(Constants.USERS)
-                            .document(user.uid)
-                            .set(hashMapOf("photoUrl" to user.photoUrl))
-                    }
+                    if (document.exists()) return@addOnSuccessListener
+
+                    db.collection(Constants.USERS)
+                        .document(user.uid)
+                        .set(
+                            hashMapOf(
+                                "uid" to user.uid,
+                                "photoUrl" to user.photoUrl
+                            )
+                        )
                 }
         } else {
             // Sign in failed. If response is null the user canceled the

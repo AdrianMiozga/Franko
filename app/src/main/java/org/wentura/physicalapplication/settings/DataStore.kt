@@ -12,7 +12,7 @@ class DataStore : PreferenceDataStore() {
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     companion object {
-        const val TAG = "DataStore"
+        val TAG = DataStore::class.simpleName
     }
 
     override fun putBoolean(key: String?, value: Boolean) {

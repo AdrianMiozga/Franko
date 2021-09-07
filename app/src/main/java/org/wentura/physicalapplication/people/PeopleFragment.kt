@@ -21,26 +21,19 @@ class PeopleFragment : Fragment(),
     SearchView.OnQueryTextListener {
 
     private val db = Firebase.firestore
-    private val peoples: ArrayList<User> = arrayListOf()
-    private val filteredPeoples: ArrayList<User> = arrayListOf()
+    private val people: ArrayList<User> = arrayListOf()
+    private val filteredPeople: ArrayList<User> = arrayListOf()
     private lateinit var peopleAdapter: PeopleAdapter
-
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(context)
-    }
 
     private val recyclerListener = RecyclerView.RecyclerListener { holder ->
         holder as PeopleAdapter.ViewHolder
     }
 
     private var _binding: FragmentPeopleBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     companion object {
-        const val TAG = "PeopleFragment"
+        val TAG = PeopleFragment::class.simpleName
     }
 
     override fun onCreateView(
@@ -54,25 +47,29 @@ class PeopleFragment : Fragment(),
         db.collection(Constants.USERS)
             .get()
             .addOnSuccessListener { users ->
-                if (users != null) {
-                    peoples.addAll(users.toObjects())
-                    filteredPeoples.addAll(users.toObjects())
-
-                    peopleAdapter = PeopleAdapter(filteredPeoples)
-
-                    binding.peopleRecyclerView.apply {
-                        setHasFixedSize(true)
-                        layoutManager = linearLayoutManager
-                        adapter = peopleAdapter
-                        setRecyclerListener(recyclerListener)
-                    }
-
-                    binding.searchView.apply {
-                        queryHint = getString(R.string.search_people)
-                        setOnQueryTextListener(this@PeopleFragment)
-                    }
-                } else {
+                if (users == null) {
                     Log.d(TAG, "No such collection")
+                    return@addOnSuccessListener
+                }
+
+                people.clear()
+                filteredPeople.clear()
+
+                people.addAll(users.toObjects())
+                filteredPeople.addAll(users.toObjects())
+
+                peopleAdapter = PeopleAdapter(filteredPeople)
+
+                binding.peopleRecyclerView.apply {
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = peopleAdapter
+                    setRecyclerListener(recyclerListener)
+                }
+
+                binding.searchView.apply {
+                    queryHint = getString(R.string.search_people)
+                    setOnQueryTextListener(this@PeopleFragment)
                 }
             }
             .addOnFailureListener { exception ->
@@ -92,12 +89,12 @@ class PeopleFragment : Fragment(),
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        val newFilter = peoples.filter { user ->
+        val newFilter = people.filter { user ->
             user.name?.lowercase()?.contains(newText.toString()) ?: false
         }
 
-        filteredPeoples.clear()
-        filteredPeoples.addAll(newFilter)
+        filteredPeople.clear()
+        filteredPeople.addAll(newFilter)
 
         peopleAdapter.notifyDataSetChanged()
         return true

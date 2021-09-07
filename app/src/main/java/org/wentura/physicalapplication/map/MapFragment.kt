@@ -54,9 +54,6 @@ class MapFragment : Fragment(),
     private val db = Firebase.firestore
 
     private var _binding: FragmentMapBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
@@ -67,7 +64,7 @@ class MapFragment : Fragment(),
     }
 
     companion object {
-        private const val TAG = "MapFragment"
+        private val TAG = MapFragment::class.simpleName
 
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val DEFAULT_ZOOM = 17F

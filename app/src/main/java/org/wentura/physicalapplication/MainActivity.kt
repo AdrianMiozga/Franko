@@ -66,16 +66,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
-            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+            val user = FirebaseAuth.getInstance().currentUser ?: return
 
             db.collection(Constants.USERS)
-                .document(uid)
+                .document(user.uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (!document.exists()) {
                         db.collection(Constants.USERS)
-                            .document(uid)
-                            .set(hashMapOf("name" to "Nothing"))
+                            .document(user.uid)
+                            .set(hashMapOf("photoUrl" to user.photoUrl))
                     }
                 }
         } else {

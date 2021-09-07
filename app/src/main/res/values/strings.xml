@@ -18,6 +18,7 @@
     <string name="delete_account">Delete Account</string>
     <string name="logged_out">Logged out</string>
     <string name="account_deleted">Account deleted</string>
+    <string name="profile_picture">Profile picture</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

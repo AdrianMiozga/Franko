@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import org.wentura.physicalapplication.databinding.FragmentStatisticsBinding
 
 class StatisticsFragment : Fragment() {
+
     private var _binding: FragmentStatisticsBinding? = null
     private val binding get() = _binding!!
 

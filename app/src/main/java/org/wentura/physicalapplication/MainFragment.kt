@@ -9,6 +9,7 @@ import com.firebase.ui.auth.AuthUI
 import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+   
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 

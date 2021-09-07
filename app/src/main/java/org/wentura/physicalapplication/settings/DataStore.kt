@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.Constants
 
 class DataStore : PreferenceDataStore() {
+
     private val db = Firebase.firestore
 
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""

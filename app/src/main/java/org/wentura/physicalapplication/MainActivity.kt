@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) { res ->
-        this.onSignInResult(res)
+    ) { result ->
+        this.onSignInResult(result)
     }
 
     companion object {

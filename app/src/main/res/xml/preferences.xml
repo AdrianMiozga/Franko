@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="darkMode"
-        app:title="Dark mode" />
+    <PreferenceCategory app:title="@string/general">
 
-    <SwitchPreferenceCompat
-        app:key="miles"
-        app:title="Display miles per hour" />
+        <SwitchPreferenceCompat
+            app:key="darkMode"
+            app:title="@string/dark_mode" />
+
+        <SwitchPreferenceCompat
+            app:key="miles"
+            app:title="@string/display_miles_per_hour" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/privacy">
+
+        <Preference
+            app:key="who_can_see_my_profile"
+            app:summary="@string/everyone"
+            app:title="@string/who_can_see_my_profile" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

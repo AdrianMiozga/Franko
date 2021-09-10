@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
@@ -46,9 +47,11 @@
             app:destination="@id/achievements_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+
         <action
             android:id="@+id/to_edit_profile_fragment"
             app:destination="@id/edit_profile_fragment" />
+
     </fragment>
 
     <fragment
@@ -96,6 +99,7 @@
         <argument
             android:name="uid"
             app:argType="string" />
+
     </fragment>
 
     <fragment
@@ -116,6 +120,7 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/navigation" />
+
     </fragment>
 
 </navigation>

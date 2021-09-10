@@ -36,6 +36,5 @@ class Util {
             this.recycle()
             return byteArray
         }
-
     }
 }

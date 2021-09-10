@@ -28,6 +28,12 @@
     <string name="full_name">%s %s</string>
     <string name="city">City</string>
     <string name="edit_profile_picture">Edit Profile Picture</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="display_miles_per_hour">Display miles per hour</string>
+    <string name="general">General</string>
+    <string name="privacy">Privacy</string>
+    <string name="who_can_see_my_profile">Who can see my profile?</string>
+    <string name="everyone">Everyone</string>
 
     <string-array name="activities_array">
         <item>Bike</item>

@@ -1,5 +1,6 @@
 package org.wentura.physicalapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
 
         val navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragment_container_view)
+        val navController = findNavController(R.id.main_fragment_container_view)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
+//            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
             .build()
 
         signInLauncher.launch(signInIntent)
@@ -80,9 +81,9 @@ class MainActivity : AppCompatActivity() {
                         .document(user.uid)
                         .set(
                             hashMapOf(
-                                "uid" to user.uid,
-                                "name" to user.displayName,
-                                "photoUrl" to photoUrl
+                                Constants.UID to user.uid,
+                                Constants.FIRST_NAME to user.displayName,
+                                Constants.PHOTO_URL to photoUrl
                             )
                         )
                 }
@@ -90,6 +91,14 @@ class MainActivity : AppCompatActivity() {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+       
+        for (fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 }

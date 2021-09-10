@@ -9,7 +9,7 @@ import com.firebase.ui.auth.AuthUI
 import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
-   
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
@@ -21,28 +21,39 @@ class MainFragment : Fragment() {
         val view = binding.root
 
         binding.apply {
-            showMap.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toMapFragment())
+            mainShowMap.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toMapFragment())
             }
 
-            showActivities.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toActivitiesFragment())
+            mainShowActivities.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toActivitiesFragment())
             }
 
-            showStatistics.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toStatisticsFragment())
+            mainShowStatistics.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toStatisticsFragment())
             }
 
-            showAchievements.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toAchievementsFragment())
+            mainShowAchievements.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toAchievementsFragment())
             }
 
-            showOptions.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toSettingsFragment())
+            mainShowOptions.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toSettingsFragment())
             }
 
-            showPeople.setOnClickListener {
-                Navigation.findNavController(view).navigate(MainFragmentDirections.toPeopleFragment())
+            mainShowPeople.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toPeopleFragment())
+            }
+
+            mainEditProfile.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toEditProfileFragment())
             }
         }
 

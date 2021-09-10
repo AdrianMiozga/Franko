@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.physicalapplication.Path
 import org.wentura.physicalapplication.R
+import org.wentura.physicalapplication.databinding.AcitvityItemBinding
 import java.text.SimpleDateFormat
 
 class ActivityAdapter(private val dataSet: List<Path>) :
@@ -19,12 +20,13 @@ class ActivityAdapter(private val dataSet: List<Path>) :
 
         private lateinit var map: GoogleMap
         private var latLng: ArrayList<LatLng> = arrayListOf()
+        private val binding = AcitvityItemBinding.bind(view)
 
-        private val title: TextView = view.findViewById(R.id.activity_title)
-        private val mapView: MapView = view.findViewById(R.id.map)
-        private val timeSpan: TextView = view.findViewById(R.id.time_span)
+        private val title: TextView = binding.activityTitle
+        private val mapView: MapView = binding.activityMap
+        private val timeSpan: TextView = binding.activityTimeSpan
 
-        private val context = mapView.context
+        private val context = view.context
 
         init {
             with(mapView) {

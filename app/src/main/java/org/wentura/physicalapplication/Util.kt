@@ -1,6 +1,8 @@
 package org.wentura.physicalapplication
 
+import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseUser
+import java.io.ByteArrayOutputStream
 
 class Util {
 
@@ -26,5 +28,14 @@ class Util {
 
             return photoUrl
         }
+
+        fun Bitmap.convertToByteArray(): ByteArray {
+            val stream = ByteArrayOutputStream()
+            this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val byteArray: ByteArray = stream.toByteArray()
+            this.recycle()
+            return byteArray
+        }
+
     }
 }

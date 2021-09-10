@@ -46,6 +46,9 @@
             app:destination="@id/achievements_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/to_edit_profile_fragment"
+            app:destination="@id/edit_profile_fragment" />
     </fragment>
 
     <fragment
@@ -57,14 +60,14 @@
     <fragment
         android:id="@+id/activities_fragment"
         android:name="org.wentura.physicalapplication.activities.ActivitiesFragment"
-        tools:layout="@layout/fragment_activities"
-        android:label="Activities" />
+        android:label="Activities"
+        tools:layout="@layout/fragment_activities" />
 
     <fragment
         android:id="@+id/statistics_fragment"
         android:name="org.wentura.physicalapplication.statistics.StatisticsFragment"
-        tools:layout="@layout/fragment_statistics"
-        android:label="Statistics" />
+        android:label="Statistics"
+        tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/settings_fragment"
@@ -100,5 +103,19 @@
         android:name="org.wentura.physicalapplication.achievements.AchievementsFragment"
         android:label="Achievements"
         tools:layout="@layout/fragment_achievements" />
+
+    <fragment
+        android:id="@+id/edit_profile_fragment"
+        android:name="org.wentura.physicalapplication.editprofile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile">
+
+        <action
+            android:id="@+id/to_main_fragment"
+            app:destination="@id/main_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/navigation" />
+    </fragment>
 
 </navigation>

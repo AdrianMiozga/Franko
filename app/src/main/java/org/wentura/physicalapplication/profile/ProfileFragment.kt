@@ -12,11 +12,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.Constants
+import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
-   
+
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -42,11 +43,15 @@ class ProfileFragment : Fragment() {
             .addOnSuccessListener { document ->
                 val user: User = document.toObject() ?: return@addOnSuccessListener
 
-                binding.profilePicture.load(user.photoUrl) {
+                binding.profileProfilePicture.load(user.photoUrl) {
                     transformations(CircleCropTransformation())
                 }
 
-                binding.userName.text = user.name
+                binding.profileFullName.text = getString(
+                    R.string.full_name,
+                    user.firstName,
+                    user.lastName
+                )
             }
 
         return view

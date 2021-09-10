@@ -6,8 +6,8 @@
     <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
     <string name="sign_out">Sign Out</string>
     <string name="activities">Activities</string>
-    <string name="time_span">%s - %s</string>
-    <string name="activity_title">%s: %d (%s)</string>
+    <string name="time_span" translatable="false">%s - %s</string>
+    <string name="activity_title" translatable="false">%s: %d (%s)</string>
     <string name="show_map">Map</string>
     <string name="show_activities">Activities</string>
     <string name="show_statistics">Statistics</string>
@@ -22,10 +22,22 @@
     <string name="search_people">Search people</string>
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
     <string name="show_achievements">Achievements</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="save">Save</string>
+    <string name="full_name">%s %s</string>
+    <string name="city">City</string>
+    <string name="edit_profile_picture">Edit Profile Picture</string>
 
     <string-array name="activities_array">
         <item>Bike</item>
         <item>Walking</item>
         <item>Running</item>
+    </string-array>
+
+    <string-array name="edit_profile_choice_array">
+        <item>Take Picture</item>
+        <item>Select From Gallery</item>
     </string-array>
 </resources>

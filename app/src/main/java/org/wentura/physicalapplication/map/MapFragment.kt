@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,6 +54,12 @@ class MapFragment : Fragment(),
 
     private val db = Firebase.firestore
 
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
+    private val requestMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
+
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
@@ -66,7 +73,6 @@ class MapFragment : Fragment(),
     companion object {
         private val TAG = MapFragment::class.simpleName
 
-        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val DEFAULT_ZOOM = 17F
         private const val LINE_WIDTH = 50F
         private const val LINE_COLOR = Color.BLUE
@@ -123,7 +129,7 @@ class MapFragment : Fragment(),
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermission()
 
-        val startStopButton: Button = binding.startStop
+        val startStopButton: Button = binding.mapStartStop
 
         startStopButton.setOnClickListener {
             trackPosition = !trackPosition
@@ -137,19 +143,19 @@ class MapFragment : Fragment(),
             }
         }
 
-        val resetButton: Button = binding.reset
+        val resetButton: Button = binding.mapReset
 
         resetButton.setOnClickListener {
             polylinePoints.clear()
             polyline.points = polylinePoints
         }
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        speed = binding.speed
+        speed = binding.mapSpeed
 
-        spinner = binding.activitySpinner
+        spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
         ArrayAdapter.createFromResource(
@@ -236,18 +242,14 @@ class MapFragment : Fragment(),
 
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            requestPermissions(
+            requestMultiplePermissions.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ),
-                MY_PERMISSIONS_REQUEST_LOCATION
+                )
             )
         } else {
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                MY_PERMISSIONS_REQUEST_LOCATION
-            )
+            requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 
@@ -259,18 +261,13 @@ class MapFragment : Fragment(),
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
-            MY_PERMISSIONS_REQUEST_LOCATION -> {
+            Constants.MY_PERMISSIONS_REQUEST_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
                     startTrackingLocation()
-
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_LONG).show()
                 }
                 return

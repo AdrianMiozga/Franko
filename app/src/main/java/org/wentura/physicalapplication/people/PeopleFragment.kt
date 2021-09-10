@@ -90,7 +90,7 @@ class PeopleFragment : Fragment(),
 
     override fun onQueryTextChange(newText: String?): Boolean {
         val newFilter = people.filter { user ->
-            user.firstName?.lowercase()?.contains(newText.toString()) ?: false
+            user.firstName.lowercase().contains(newText.toString())
         }
 
         filteredPeople.clear()

@@ -13,7 +13,6 @@ object Constants {
     const val CITY = "city"
     const val PHOTO_URL = "photoUrl"
 
-
     // Storage Paths
     const val IMAGES = "images"
 
@@ -25,9 +24,7 @@ object Constants {
     const val PROVIDER_GOOGLE = "google.com"
 
     // Intent Request Codes
-    const val REQUEST_IMAGE_CAPTURE = 1
-    const val REQUEST_IMAGE_FROM_GALLERY = 2
-    const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+    const val PERMISSIONS_REQUEST_LOCATION = 1
 
     /** Meters per second to miles per hour **/
     const val MPH = 2.23694

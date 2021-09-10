@@ -1,10 +1,21 @@
 package org.wentura.physicalapplication
 
 object Constants {
-   
+
     // Firestore Paths
     const val USERS = "users"
     const val PATHS = "paths"
+
+    // Firestore Fields
+    const val UID = "uid"
+    const val FIRST_NAME = "firstName"
+    const val LAST_NAME = "lastName"
+    const val CITY = "city"
+    const val PHOTO_URL = "photoUrl"
+
+
+    // Storage Paths
+    const val IMAGES = "images"
 
     // Setting Keys
     const val DARK_MODE_KEY = "darkMode"
@@ -12,6 +23,11 @@ object Constants {
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"
+
+    // Intent Request Codes
+    const val REQUEST_IMAGE_CAPTURE = 1
+    const val REQUEST_IMAGE_FROM_GALLERY = 2
+    const val MY_PERMISSIONS_REQUEST_LOCATION = 99
 
     /** Meters per second to miles per hour **/
     const val MPH = 2.23694

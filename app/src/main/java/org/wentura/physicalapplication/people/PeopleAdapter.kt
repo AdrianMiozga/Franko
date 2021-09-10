@@ -11,6 +11,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
+import org.wentura.physicalapplication.databinding.UserItemBinding
 
 class PeopleAdapter(private val people: List<User>) :
     RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
@@ -20,9 +21,12 @@ class PeopleAdapter(private val people: List<User>) :
     }
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = UserItemBinding.bind(view)
 
-        private val name: TextView = view.findViewById(R.id.name)
-        private val profilePicture: ImageView = view.findViewById(R.id.profile_picture)
+        private val fullName: TextView = binding.recyclerViewFullName
+        private val profilePicture: ImageView = binding.recyclerViewProfilePicture
+
+        private val context = view.context
 
         fun bindView(position: Int, people: List<User>) {
             view.setOnClickListener {
@@ -44,7 +48,11 @@ class PeopleAdapter(private val people: List<User>) :
                 }
             }
 
-            name.text = people[position].name
+            fullName.text = context.getString(
+                R.string.full_name,
+                people[position].firstName,
+                people[position].lastName
+            )
         }
     }
 

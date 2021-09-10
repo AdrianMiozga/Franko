@@ -67,7 +67,7 @@ class PeopleFragment : Fragment(),
                     setRecyclerListener(recyclerListener)
                 }
 
-                binding.searchView.apply {
+                binding.peopleSearchView.apply {
                     queryHint = getString(R.string.search_people)
                     setOnQueryTextListener(this@PeopleFragment)
                 }
@@ -90,7 +90,7 @@ class PeopleFragment : Fragment(),
 
     override fun onQueryTextChange(newText: String?): Boolean {
         val newFilter = people.filter { user ->
-            user.name?.lowercase()?.contains(newText.toString()) ?: false
+            user.firstName?.lowercase()?.contains(newText.toString()) ?: false
         }
 
         filteredPeople.clear()

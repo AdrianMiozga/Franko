@@ -87,16 +87,12 @@ class MainActivity : AppCompatActivity() {
                             )
                         )
                 }
-        } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-       
+
         for (fragment in supportFragmentManager.fragments) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }

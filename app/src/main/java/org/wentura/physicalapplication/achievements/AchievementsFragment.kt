@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
 class AchievementsFragment : Fragment() {
-   
+
     private var _binding: FragmentActivitiesBinding? = null
     private val binding get() = _binding!!
 
@@ -21,9 +21,8 @@ class AchievementsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentActivitiesBinding.inflate(inflater, container, false)
-        val view = binding.root
 
-        return view
+        return binding.root
     }
 
     override fun onDestroyView() {

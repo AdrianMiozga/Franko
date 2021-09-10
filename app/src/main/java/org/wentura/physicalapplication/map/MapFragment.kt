@@ -261,7 +261,7 @@ class MapFragment : Fragment(),
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
-            Constants.MY_PERMISSIONS_REQUEST_LOCATION -> {
+            Constants.PERMISSIONS_REQUEST_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED

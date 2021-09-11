@@ -45,6 +45,8 @@
     <string name="follow">Follow</string>
     <string name="who_can_see_my_following_count">Who can see who I follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="OK">OK</string>
+    <string name="enable_location_dialog_message">Location services are disabled. Would you like to enabled them?</string>
 
     <plurals name="d_following">
         <item quantity="one">%d Follow</item>

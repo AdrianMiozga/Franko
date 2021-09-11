@@ -27,10 +27,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import org.wentura.physicalapplication.Constants
-import org.wentura.physicalapplication.Path
+import org.wentura.physicalapplication.*
 import org.wentura.physicalapplication.R
-import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 
@@ -125,6 +123,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermission()
 
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        checkLocationServicesState()
+
         val startStopButton: Button = binding.mapStartStop
 
         startStopButton.setOnClickListener {
@@ -145,9 +148,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
             polylinePoints.clear()
             polyline.points = polylinePoints
         }
-
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
 
         speed = binding.mapSpeed
 
@@ -174,6 +174,21 @@ class MapFragment : Fragment(R.layout.fragment_map),
         }
     }
 
+    private fun checkLocationServicesState() {
+        LocationServices.getSettingsClient(requireContext())
+            .checkLocationSettings(LocationSettingsRequest.Builder().build())
+            .addOnSuccessListener { response ->
+                val locationSettingsStates = response.locationSettingsStates ?: return@addOnSuccessListener
+
+                if (locationSettingsStates.isLocationUsable) return@addOnSuccessListener
+
+                EnableLocationDialogFragment().show(
+                    parentFragmentManager,
+                    EnableLocationDialogFragment::class.simpleName
+                )
+            }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentMapBinding = null
@@ -198,13 +213,14 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.d(TAG, "onMapReady: ")
         myMap = googleMap
         myMap.isMyLocationEnabled = true
 
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 if (location == null) return@addOnSuccessListener
-               
+
                 val latLng = LatLng(location.latitude, location.longitude)
 
                 myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))

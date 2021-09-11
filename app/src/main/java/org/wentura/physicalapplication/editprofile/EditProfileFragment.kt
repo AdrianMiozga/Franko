@@ -12,9 +12,11 @@ import androidx.navigation.Navigation
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import org.wentura.physicalapplication.Constants
 import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
@@ -79,8 +81,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 user = document.toObject() ?: return@addOnSuccessListener
 
                 binding.apply {
-                    editProfileProfilePicture.load(user.photoUrl) {
-                        transformations(CircleCropTransformation())
+                    if (user.photoUrl == null) {
+                        editProfileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                            transformations(CircleCropTransformation())
+                        }
+                    } else {
+                        editProfileProfilePicture.load(user.photoUrl) {
+                            transformations(CircleCropTransformation())
+                        }
                     }
 
                     editProfileFirstName.setText(user.firstName)
@@ -94,10 +102,26 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
             builder.setTitle(R.string.edit_profile_picture)
                 .setItems(R.array.edit_profile_choice_array) { _, which ->
-                    if (which == 0) {
-                        takePicture.launch(null)
-                    } else if (which == 1) {
-                        openGallery.launch(arrayOf("image/*"))
+                    when (which) {
+                        0 -> {
+                            takePicture.launch(null)
+                        }
+                        1 -> {
+                            openGallery.launch(arrayOf("image/*"))
+                        }
+                        2 -> {
+                            val updates: Map<String, Any> =
+                                hashMapOf(Constants.PHOTO_URL to FieldValue.delete())
+
+                            db.collection(Constants.USERS)
+                                .document(uid)
+                                .update(updates)
+
+                            val imagesRef = Firebase.storage.reference.child(Constants.IMAGES)
+                            val thisImageRef = imagesRef.child("$uid.png")
+
+                            thisImageRef.delete()
+                        }
                     }
                 }
 
@@ -118,7 +142,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         .setMessage(getString(R.string.you_have_unsaved_changes))
                         .setPositiveButton(getString(R.string.save)) { _, _ ->
                             Util.closeKeyboard(view)
-
                             saveChanges()
                         }
                         .setNegativeButton(getString(R.string.cancel)) { _, _ -> }

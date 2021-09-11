@@ -52,6 +52,12 @@ class ProfileFragment : Fragment() {
                     user.firstName,
                     user.lastName
                 )
+
+                val everyone = resources.getStringArray(R.array.who_can_see_my_location)[0]
+
+                if (user.whoCanSeeMyLocation == everyone) {
+                    binding.profileCity.text = user.city
+                }
             }
 
         return view

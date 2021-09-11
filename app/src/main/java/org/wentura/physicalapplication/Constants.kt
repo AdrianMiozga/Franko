@@ -20,6 +20,7 @@ object Constants {
     const val DARK_MODE_KEY = "darkMode"
     const val MILES_KEY = "miles"
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
+    const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"

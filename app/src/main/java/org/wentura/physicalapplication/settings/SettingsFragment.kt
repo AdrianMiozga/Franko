@@ -30,6 +30,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
         val milesSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.MILES_KEY)
         val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
+        val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
 
         db.collection(Constants.USERS)
             .document(uid)
@@ -50,6 +51,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val index = array.indexOf(user.whoCanSeeMyProfile)
 
                     whoCanSeeMyProfile.setValueIndex(if (index == -1) 0 else index)
+                }
+
+                whoCanSeeMyLocation?.let {
+                    val array = resources.getStringArray(R.array.who_can_see_my_location)
+                    val index = array.indexOf(user.whoCanSeeMyLocation)
+
+                    whoCanSeeMyLocation.setValueIndex(if (index == -1) 0 else index)
                 }
             }
     }

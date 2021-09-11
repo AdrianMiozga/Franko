@@ -9,5 +9,6 @@ data class User(
     val lastActivity: String? = null,
     val darkMode: Boolean? = null,
     val miles: Boolean? = null,
-    val whoCanSeeMyProfile: String? = null
+    val whoCanSeeMyProfile: String? = null,
+    val whoCanSeeMyLocation: String? = null
 )

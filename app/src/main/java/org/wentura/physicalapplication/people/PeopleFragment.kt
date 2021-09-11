@@ -62,6 +62,14 @@ class PeopleFragment : Fragment(),
                 people.addAll(users.toObjects())
                 filteredPeople.addAll(users.toObjects())
 
+                if (people.size == 0) {
+                    binding.apply {
+                        peopleNothingToShow.visibility = View.VISIBLE
+                        peopleRecyclerView.visibility = View.GONE
+                        peopleSearchView.visibility = View.GONE
+                    }
+                }
+
                 peopleAdapter = PeopleAdapter(filteredPeople)
 
                 binding.peopleRecyclerView.apply {

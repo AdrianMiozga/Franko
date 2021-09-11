@@ -1,6 +1,5 @@
 # TODO
 
-Nothing to display when no profiles  
 Scale profile pic to lower bandwidth  
 Adding friends  
 Recent searches  

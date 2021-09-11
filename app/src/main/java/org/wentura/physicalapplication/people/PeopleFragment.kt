@@ -45,6 +45,10 @@ class PeopleFragment : Fragment(),
         val view = binding.root
 
         db.collection(Constants.USERS)
+            .whereEqualTo(
+                Constants.WHO_CAN_SEE_MY_PROFILE,
+                resources.getStringArray(R.array.who_can_see_my_profile)[0]
+            )
             .get()
             .addOnSuccessListener { users ->
                 if (users == null) {

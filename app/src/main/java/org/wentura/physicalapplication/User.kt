@@ -8,5 +8,6 @@ data class User(
     val photoUrl: String? = null,
     val lastActivity: String? = null,
     val darkMode: Boolean? = null,
-    val miles: Boolean? = null
+    val miles: Boolean? = null,
+    val whoCanSeeMyProfile: String? = null
 )

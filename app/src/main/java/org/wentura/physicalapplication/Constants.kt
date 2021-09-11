@@ -5,6 +5,7 @@ object Constants {
     // Firestore Paths
     const val USERS = "users"
     const val PATHS = "paths"
+    const val FOLLOWERS = "followers"
 
     // Firestore Fields
     const val UID = "uid"
@@ -21,6 +22,7 @@ object Constants {
     const val MILES_KEY = "miles"
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
+    const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"

@@ -1,7 +1,7 @@
 # TODO
 
-Compress profile pic to lower bandwidth  
-Adding friends  
+Can't binding be done easier?  
+Add spinning bars when loading (Spotify?)  
 Recent searches  
 Clear recent searches  
 Ability to display profile pic on full screen
@@ -11,3 +11,4 @@ Achievements
 Dialog in case of disabled location setting  
 Dialog in case of disabled network  
 Notification during activity recording  
+Compress profile pic to lower bandwidth  

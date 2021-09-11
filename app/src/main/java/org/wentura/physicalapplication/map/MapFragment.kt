@@ -201,6 +201,16 @@ class MapFragment : Fragment(R.layout.fragment_map),
         myMap = googleMap
         myMap.isMyLocationEnabled = true
 
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location == null) return@addOnSuccessListener
+               
+                val latLng = LatLng(location.latitude, location.longitude)
+
+                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+            }
+
         polyline = myMap.addPolyline(PolylineOptions().width(LINE_WIDTH).color(LINE_COLOR))
     }
 

@@ -5,6 +5,7 @@ Recent searches
 Clear recent searches  
 Ability to display profile pic on full screen
 
+Optional notification when somebody follows you  
 Apply dark mode setting  
 Achievements  
 Dialog in case of disabled location setting  

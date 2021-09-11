@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.Constants
 import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
+import org.wentura.physicalapplication.Util
 import org.wentura.physicalapplication.databinding.FragmentEditProfileBinding
 
 
@@ -106,6 +108,33 @@ class EditProfileFragment : Fragment() {
             builder.show()
         }
 
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner) {
+                if (user.firstName != firstNameEditText.text.toString() ||
+                    user.lastName != lastNameEditText.text.toString() ||
+                    user.city != cityEditText.text.toString()
+                ) {
+                    val builder = AlertDialog.Builder(requireContext())
+
+                    builder.setTitle(getString(R.string.unsaved_changes))
+                        .setMessage(getString(R.string.you_have_unsaved_changes))
+                        .setPositiveButton(getString(R.string.save)) { _, _ ->
+                            Util.closeKeyboard(view)
+
+                            saveChanges()
+                        }
+                        .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+
+                    builder.create()
+                    builder.show()
+
+                    return@addCallback
+                }
+
+                Navigation.findNavController(view).navigateUp()
+            }
+
         setHasOptionsMenu(true)
         return view
     }
@@ -122,24 +151,26 @@ class EditProfileFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
-                val updates = hashMapOf(
-                    Constants.FIRST_NAME to firstNameEditText.text.toString(),
-                    Constants.LAST_NAME to lastNameEditText.text.toString(),
-                    Constants.CITY to cityEditText.text.toString()
-                )
-
-                db.collection(Constants.USERS)
-                    .document(uid)
-                    .update(updates as Map<String, Any>)
-
-                view?.let {
-                    Navigation.findNavController(it)
-                        .navigate(EditProfileFragmentDirections.toMainFragment())
-                }
-
+                saveChanges()
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun saveChanges() {
+        val updates = hashMapOf(
+            Constants.FIRST_NAME to firstNameEditText.text.toString(),
+            Constants.LAST_NAME to lastNameEditText.text.toString(),
+            Constants.CITY to cityEditText.text.toString()
+        )
+
+        db.collection(Constants.USERS)
+            .document(uid)
+            .update(updates as Map<String, Any>)
+
+        view?.let {
+            Navigation.findNavController(it).navigateUp()
         }
     }
 }

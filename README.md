@@ -1,6 +1,6 @@
 # TODO
 
-Scale profile pic to lower bandwidth  
+Compress profile pic to lower bandwidth  
 Adding friends  
 Recent searches  
 Clear recent searches  

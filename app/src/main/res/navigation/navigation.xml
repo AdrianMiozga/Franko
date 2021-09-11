@@ -117,15 +117,6 @@
         android:id="@+id/edit_profile_fragment"
         android:name="org.wentura.physicalapplication.editprofile.EditProfileFragment"
         android:label="Edit Profile"
-        tools:layout="@layout/fragment_edit_profile">
-
-        <action
-            android:id="@+id/to_main_fragment"
-            app:destination="@id/main_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/navigation" />
-
-    </fragment>
+        tools:layout="@layout/fragment_edit_profile" />
 
 </navigation>

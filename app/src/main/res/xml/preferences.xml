@@ -23,6 +23,13 @@
             app:useSimpleSummaryProvider="true"
             app:title="@string/who_can_see_my_profile" />
 
+        <ListPreference
+            app:entries="@array/who_can_see_my_location"
+            app:entryValues="@array/who_can_see_my_location"
+            app:key="whoCanSeeMyLocation"
+            app:useSimpleSummaryProvider="true"
+            app:title="@string/who_can_see_my_location" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -21,6 +21,7 @@
     <string name="profile_picture">Profile picture</string>
     <string name="search_people">Search people</string>
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
+    <string name="sample_city" translatable="false">New York</string>
     <string name="show_achievements">Achievements</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="first_name">First Name</string>
@@ -40,6 +41,7 @@
     <string name="cancel">Cancel</string>
     <string name="unsaved_changes">Unsaved changes</string>
     <string name="you_have_unsaved_changes">You have unsaved changes</string>
+    <string name="who_can_see_my_location">Who can see my location</string>
 
     <string-array name="activities_array">
         <item>Bike</item>
@@ -54,6 +56,12 @@
 
     <string-array name="who_can_see_my_profile">
         <item>Everyone</item>
+        <item>No one</item>
+    </string-array>
+
+    <string-array name="who_can_see_my_location">
+        <item>Everyone</item>
+        <item>Friends</item>
         <item>No one</item>
     </string-array>
 

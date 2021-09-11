@@ -25,9 +25,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/profile_city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_profile_picture"
         tools:text="@string/sample_user_name" />
+
+    <TextView
+        android:id="@+id/profile_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_full_name"
+        tools:text="@string/sample_city" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

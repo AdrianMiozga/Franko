@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name" translatable="false">Physical Application</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
@@ -32,8 +33,9 @@
     <string name="display_miles_per_hour">Display miles per hour</string>
     <string name="general">General</string>
     <string name="privacy">Privacy</string>
-    <string name="who_can_see_my_profile">Who can see my profile?</string>
+    <string name="who_can_see_my_profile">Who can see my profile</string>
     <string name="everyone">Everyone</string>
+    <string name="only_me">Only me</string>
 
     <string-array name="activities_array">
         <item>Bike</item>
@@ -45,4 +47,10 @@
         <item>Take Picture</item>
         <item>Select From Gallery</item>
     </string-array>
+
+    <string-array name="who_can_see_my_profile">
+        <item>Everyone</item>
+        <item>No one</item>
+    </string-array>
+
 </resources>

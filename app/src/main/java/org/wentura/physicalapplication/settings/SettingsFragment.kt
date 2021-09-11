@@ -1,6 +1,7 @@
 package org.wentura.physicalapplication.settings
 
 import android.os.Bundle
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -12,7 +13,7 @@ import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 
 class SettingsFragment : PreferenceFragmentCompat() {
-   
+
     private val db = Firebase.firestore
 
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
@@ -28,19 +29,27 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
         val milesSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.MILES_KEY)
+        val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
 
         db.collection(Constants.USERS)
             .document(uid)
             .get()
             .addOnSuccessListener { result ->
-                val user = result.toObject<User>()
+                val user = result.toObject<User>() ?: return@addOnSuccessListener
 
                 darkModeSwitch?.let {
-                    it.isChecked = user?.darkMode ?: false
+                    it.isChecked = user.darkMode ?: false
                 }
 
                 milesSwitch?.let {
-                    it.isChecked = user?.miles ?: false
+                    it.isChecked = user.miles ?: false
+                }
+
+                whoCanSeeMyProfile?.let {
+                    val array = resources.getStringArray(R.array.who_can_see_my_profile)
+                    val index = array.indexOf(user.whoCanSeeMyProfile)
+
+                    whoCanSeeMyProfile.setValueIndex(if (index == -1) 0 else index)
                 }
             }
     }

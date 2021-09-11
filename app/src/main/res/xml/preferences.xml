@@ -16,9 +16,11 @@
 
     <PreferenceCategory app:title="@string/privacy">
 
-        <Preference
-            app:key="who_can_see_my_profile"
-            app:summary="@string/everyone"
+        <ListPreference
+            app:entries="@array/who_can_see_my_profile"
+            app:entryValues="@array/who_can_see_my_profile"
+            app:key="whoCanSeeMyProfile"
+            app:useSimpleSummaryProvider="true"
             app:title="@string/who_can_see_my_profile" />
 
     </PreferenceCategory>

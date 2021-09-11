@@ -41,4 +41,37 @@
         app:layout_constraintTop_toBottomOf="@id/profile_full_name"
         tools:text="@string/sample_city" />
 
+    <Button
+        android:id="@+id/profile_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/follow"
+        app:layout_constraintBottom_toTopOf="@id/profile_following"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_city" />
+
+    <Button
+        android:id="@+id/profile_unfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/unfollow"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/profile_following"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_city" />
+
+    <TextView
+        android:id="@+id/profile_following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_unfollow"
+        tools:text="34 Following" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

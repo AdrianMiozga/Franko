@@ -6,9 +6,11 @@ data class User(
     val lastName: String = "",
     val city: String = "",
     val photoUrl: String? = null,
+    val followers: Int? = null,
     val lastActivity: String? = null,
     val darkMode: Boolean? = null,
     val miles: Boolean? = null,
     val whoCanSeeMyProfile: String? = null,
-    val whoCanSeeMyLocation: String? = null
+    val whoCanSeeMyLocation: String? = null,
+    val whoCanSeeMyFollowingCount: String? = null
 )

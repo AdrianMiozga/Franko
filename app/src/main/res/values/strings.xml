@@ -42,6 +42,14 @@
     <string name="unsaved_changes">Unsaved changes</string>
     <string name="you_have_unsaved_changes">You have unsaved changes</string>
     <string name="who_can_see_my_location">Who can see my location</string>
+    <string name="follow">Follow</string>
+    <string name="who_can_see_my_following_count">Who can see who I follow</string>
+    <string name="unfollow">Unfollow</string>
+
+    <plurals name="d_following">
+        <item quantity="one">%d Follow</item>
+        <item quantity="other">%d Following</item>
+    </plurals>
 
     <string-array name="activities_array">
         <item>Bike</item>
@@ -61,7 +69,11 @@
 
     <string-array name="who_can_see_my_location">
         <item>Everyone</item>
-        <item>Friends</item>
+        <item>No one</item>
+    </string-array>
+
+    <string-array name="who_can_see_my_following_count">
+        <item>Everyone</item>
         <item>No one</item>
     </string-array>
 

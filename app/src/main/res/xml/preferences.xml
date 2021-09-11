@@ -30,6 +30,13 @@
             app:useSimpleSummaryProvider="true"
             app:title="@string/who_can_see_my_location" />
 
+        <ListPreference
+            app:entries="@array/who_can_see_my_following_count"
+            app:entryValues="@array/who_can_see_my_following_count"
+            app:key="whoCanSeeMyFollowingCount"
+            app:useSimpleSummaryProvider="true"
+            app:title="@string/who_can_see_my_following_count" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

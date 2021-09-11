@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/main_fragment"
         android:name="org.wentura.physicalapplication.MainFragment"
-        android:label="Main Activity"
+        android:label="Main"
         tools:layout="@layout/fragment_main">
 
         <action

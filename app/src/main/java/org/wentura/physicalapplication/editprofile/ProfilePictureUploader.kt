@@ -43,13 +43,12 @@ class ProfilePictureUploader {
             thisImageRef.downloadUrl
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                val updates: Map<String, Any> =
+                    hashMapOf(Constants.PHOTO_URL to task.result.toString())
+
                 db.collection(Constants.USERS)
                     .document(uid)
-                    .update(
-                        hashMapOf(
-                            Constants.PHOTO_URL to task.result.toString()
-                        ) as Map<String, Any>
-                    )
+                    .update(updates)
             }
         }
     }

@@ -60,6 +60,7 @@
     <string-array name="edit_profile_choice_array">
         <item>Take Picture</item>
         <item>Select From Gallery</item>
+        <item>Remove Picture</item>
     </string-array>
 
     <string-array name="who_can_see_my_profile">

@@ -1,24 +1,25 @@
 package org.wentura.physicalapplication
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.firebase.ui.auth.AuthUI
 import org.wentura.physicalapplication.databinding.FragmentMainBinding
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentMainBinding: FragmentMainBinding? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentMainBinding.bind(view)
+        fragmentMainBinding = binding
 
         binding.apply {
             mainShowMap.setOnClickListener {
@@ -56,8 +57,6 @@ class MainFragment : Fragment() {
                     .navigate(MainFragmentDirections.toEditProfileFragment())
             }
         }
-
-        return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +66,7 @@ class MainFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentMainBinding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

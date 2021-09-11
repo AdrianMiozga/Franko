@@ -2,9 +2,7 @@ package org.wentura.physicalapplication.activities
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +12,11 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import org.wentura.physicalapplication.Constants
 import org.wentura.physicalapplication.Path
+import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.databinding.FragmentActivitiesBinding
 
-class ActivitiesFragment : Fragment() {
-   
+class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
+
     private val db = Firebase.firestore
     private val pathsArray: ArrayList<Path> = arrayListOf()
 
@@ -30,19 +29,17 @@ class ActivitiesFragment : Fragment() {
         mapHolder.clearView()
     }
 
-    private var _binding: FragmentActivitiesBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentActivitiesBinding: FragmentActivitiesBinding? = null
 
     companion object {
         val TAG = ActivitiesFragment::class.simpleName
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentActivitiesBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentActivitiesBinding.bind(view)
+        fragmentActivitiesBinding = binding
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
@@ -69,12 +66,10 @@ class ActivitiesFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
             }
-
-        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentActivitiesBinding = null
     }
 }

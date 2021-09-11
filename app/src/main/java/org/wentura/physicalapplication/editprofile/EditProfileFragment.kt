@@ -22,12 +22,11 @@ import org.wentura.physicalapplication.Util
 import org.wentura.physicalapplication.databinding.FragmentEditProfileBinding
 
 
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private val db = Firebase.firestore
 
-    private var _binding: FragmentEditProfileBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentEditProfileBinding: FragmentEditProfileBinding? = null
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
@@ -62,13 +61,11 @@ class EditProfileFragment : Fragment() {
         val TAG = EditProfileFragment::class.simpleName
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentEditProfileBinding.bind(view)
+        fragmentEditProfileBinding = binding
 
         firstNameEditText = binding.editProfileFirstName
         lastNameEditText = binding.editProfileLastName
@@ -136,12 +133,11 @@ class EditProfileFragment : Fragment() {
             }
 
         setHasOptionsMenu(true)
-        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentEditProfileBinding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

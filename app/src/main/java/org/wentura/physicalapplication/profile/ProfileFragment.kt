@@ -1,9 +1,7 @@
 package org.wentura.physicalapplication.profile
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -17,10 +15,9 @@ import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentProfileBinding: FragmentProfileBinding? = null
 
     private val args: ProfileFragmentArgs by navArgs()
 
@@ -32,13 +29,11 @@ class ProfileFragment : Fragment() {
         val TAG = ProfileFragment::class.simpleName
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentProfileBinding.bind(view)
+        fragmentProfileBinding = binding
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -123,7 +118,7 @@ class ProfileFragment : Fragment() {
                     resources.getQuantityString(R.plurals.d_following, size, size)
             }
 
-        if (uid == null) return view
+        if (uid == null) return
 
         db.collection(Constants.USERS)
             .document(uid)
@@ -136,12 +131,10 @@ class ProfileFragment : Fragment() {
                 binding.profileFollow.visibility = View.GONE
                 binding.profileUnfollow.visibility = View.VISIBLE
             }
-
-        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentProfileBinding = null
     }
 }

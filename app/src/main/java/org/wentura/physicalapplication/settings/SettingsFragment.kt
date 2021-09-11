@@ -28,7 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         preferenceManager.preferenceDataStore = DataStore()
 
         val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
-        val milesSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.MILES_KEY)
+        val unitsOfMeasure: ListPreference? = preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
         val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
         val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
         val whoCanSeeMyFollowingCount: ListPreference? =
@@ -44,8 +44,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     it.isChecked = user.darkMode ?: false
                 }
 
-                milesSwitch?.let {
-                    it.isChecked = user.miles ?: false
+                unitsOfMeasure?.let {
+                    val array = resources.getStringArray(R.array.units_of_measure_array)
+                    val index = array.indexOf(user.unitsOfMeasure)
+
+                    unitsOfMeasure.setValueIndex(if (index == -1) 0 else index)
                 }
 
                 whoCanSeeMyProfile?.let {

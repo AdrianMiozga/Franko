@@ -9,7 +9,7 @@ data class User(
     val followers: Int? = null,
     val lastActivity: String? = null,
     val darkMode: Boolean? = null,
-    val miles: Boolean? = null,
+    val unitsOfMeasure: String? = null,
     val whoCanSeeMyProfile: String? = null,
     val whoCanSeeMyLocation: String? = null,
     val whoCanSeeMyFollowingCount: String? = null

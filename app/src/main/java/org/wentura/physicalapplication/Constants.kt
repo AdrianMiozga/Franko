@@ -14,12 +14,16 @@ object Constants {
     const val CITY = "city"
     const val PHOTO_URL = "photoUrl"
 
+    // Firestore Values
+    const val IMPERIAL = "Imperial"
+    const val METRIC = "Metric"
+
     // Storage Paths
     const val IMAGES = "images"
 
     // Setting Keys
     const val DARK_MODE_KEY = "darkMode"
-    const val MILES_KEY = "miles"
+    const val UNITS_OF_MEASURE_KEY = "unitsOfMeasure"
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
     const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"

@@ -8,9 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -36,7 +34,7 @@ import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 
-class MapFragment : Fragment(),
+class MapFragment : Fragment(R.layout.fragment_map),
     OnMapReadyCallback,
     AdapterView.OnItemSelectedListener {
 
@@ -60,8 +58,7 @@ class MapFragment : Fragment(),
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
 
-    private var _binding: FragmentMapBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentMapBinding: FragmentMapBinding? = null
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
         interval = 30
@@ -119,12 +116,11 @@ class MapFragment : Fragment(),
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentMapBinding.bind(view)
+        fragmentMapBinding = binding
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermission()
@@ -176,13 +172,11 @@ class MapFragment : Fragment(),
                     spinner.setSelection(adapter.getPosition(lastActivity))
                 }
         }
-
-        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentMapBinding = null
     }
 
     override fun onResume() {

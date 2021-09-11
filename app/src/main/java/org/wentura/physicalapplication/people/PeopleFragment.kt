@@ -2,9 +2,7 @@ package org.wentura.physicalapplication.people
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +15,7 @@ import org.wentura.physicalapplication.R
 import org.wentura.physicalapplication.User
 import org.wentura.physicalapplication.databinding.FragmentPeopleBinding
 
-class PeopleFragment : Fragment(),
+class PeopleFragment : Fragment(R.layout.fragment_people),
     SearchView.OnQueryTextListener {
 
     private val db = Firebase.firestore
@@ -29,20 +27,17 @@ class PeopleFragment : Fragment(),
         holder as PeopleAdapter.ViewHolder
     }
 
-    private var _binding: FragmentPeopleBinding? = null
-    private val binding get() = _binding!!
+    private var fragmentPeopleBinding: FragmentPeopleBinding? = null
 
     companion object {
         val TAG = PeopleFragment::class.simpleName
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPeopleBinding.inflate(inflater, container, false)
-        val view = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentPeopleBinding.bind(view)
+        fragmentPeopleBinding = binding
 
         db.collection(Constants.USERS)
             .whereEqualTo(
@@ -87,13 +82,11 @@ class PeopleFragment : Fragment(),
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
             }
-
-        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        fragmentPeopleBinding = null
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

@@ -1,6 +1,5 @@
 # TODO
 
-Can't binding be done easier?  
 Add spinning bars when loading (Spotify?)  
 Recent searches  
 Clear recent searches  

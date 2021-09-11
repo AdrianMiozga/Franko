@@ -94,7 +94,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             }
 
             speed.text = getString(
-                if (speedometer.miles) {
+                if (speedometer.unitsOfMeasure == Constants.IMPERIAL) {
                     R.string.mph
                 } else {
                     R.string.kmh
@@ -190,7 +190,9 @@ class MapFragment : Fragment(R.layout.fragment_map),
             .addOnSuccessListener { result ->
                 val user: User? = result.toObject()
 
-                speedometer.miles = user?.miles ?: false
+                user?.unitsOfMeasure?.let {
+                    speedometer.unitsOfMeasure = it
+                }
             }
     }
 

@@ -31,8 +31,8 @@
     <string name="city">City</string>
     <string name="edit_profile_picture">Edit Profile Picture</string>
     <string name="dark_mode">Dark mode</string>
-    <string name="display_miles_per_hour">Display miles per hour</string>
-    <string name="general">General</string>
+    <string name="units_of_measure">Units of measure</string>
+    <string name="display">Display</string>
     <string name="privacy">Privacy</string>
     <string name="who_can_see_my_profile">Who can see my profile</string>
     <string name="everyone">Everyone</string>
@@ -61,6 +61,11 @@
         <item>Take Picture</item>
         <item>Select From Gallery</item>
         <item>Remove Picture</item>
+    </string-array>
+
+    <string-array name="units_of_measure_array">
+        <item>Metric</item>
+        <item>Imperial</item>
     </string-array>
 
     <string-array name="who_can_see_my_profile">

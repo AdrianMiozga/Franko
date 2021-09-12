@@ -8,15 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-import org.wentura.franko.Path
 import org.wentura.franko.R
+import org.wentura.franko.data.Path
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
 
-class ActivityAdapter(private val dataSet: List<Path>) :
+class ActivityAdapter(private val paths: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view),
+        OnMapReadyCallback {
 
         private lateinit var map: GoogleMap
         private var latLng: ArrayList<LatLng> = arrayListOf()
@@ -36,8 +37,8 @@ class ActivityAdapter(private val dataSet: List<Path>) :
             }
         }
 
-        fun bindView(position: Int, dataSet: List<Path>) {
-            dataSet[position].path?.forEach {
+        fun bindView(position: Int, paths: List<Path>) {
+            paths[position].path?.forEach {
                 latLng.add(LatLng(it["latitude"]!!, it["longitude"]!!))
             }
 
@@ -45,23 +46,23 @@ class ActivityAdapter(private val dataSet: List<Path>) :
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
 
-            val date = dateFormatter.format(dataSet[position].startTime?.times(1000))
+            val date = dateFormatter.format(paths[position].startTime?.times(1000))
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss")
 
             timeSpan.text = context.getString(
                 R.string.time_span,
                 timeFormatter.format(
-                    dataSet[position].startTime?.times(1000)
+                    paths[position].startTime?.times(1000)
                 ),
                 timeFormatter.format(
-                    dataSet[position].endTime?.times(1000)
+                    paths[position].endTime?.times(1000)
                 )
             )
 
             title.text = context.getString(
                 R.string.activity_title,
-                dataSet[position].activity,
+                paths[position].activity,
                 (position + 1),
                 date
             )
@@ -86,8 +87,11 @@ class ActivityAdapter(private val dataSet: List<Path>) :
             if (!::map.isInitialized) return
 
             with(map) {
-                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                addPolyline(PolylineOptions().addAll(latLng))
+                if (latLng.size > 0) {
+                    moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
+                    addPolyline(PolylineOptions().addAll(latLng))
+                }
+              
                 mapType = GoogleMap.MAP_TYPE_NORMAL
             }
         }
@@ -101,8 +105,8 @@ class ActivityAdapter(private val dataSet: List<Path>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, dataSet)
+        viewHolder.bindView(position, paths)
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = paths.size
 }

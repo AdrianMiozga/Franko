@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.franko.Path
 import org.wentura.franko.R
-import org.wentura.franko.databinding.AcitvityItemBinding
+import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
 
 class ActivityAdapter(private val dataSet: List<Path>) :
@@ -20,7 +20,7 @@ class ActivityAdapter(private val dataSet: List<Path>) :
 
         private lateinit var map: GoogleMap
         private var latLng: ArrayList<LatLng> = arrayListOf()
-        private val binding = AcitvityItemBinding.bind(view)
+        private val binding = ListItemActivityBinding.bind(view)
 
         private val title: TextView = binding.activityTitle
         private val mapView: MapView = binding.activityMap
@@ -95,7 +95,7 @@ class ActivityAdapter(private val dataSet: List<Path>) :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.acitvity_item, viewGroup, false)
+            .inflate(R.layout.list_item_activity, viewGroup, false)
 
         return ViewHolder(view)
     }

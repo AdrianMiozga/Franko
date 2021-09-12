@@ -59,10 +59,9 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private var fragmentMapBinding: FragmentMapBinding? = null
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
-        interval = 30
-        fastestInterval = 10
-        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        maxWaitTime = 60
+        interval = 10000
+        fastestInterval = 5000
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
     companion object {

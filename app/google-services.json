@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:287787433902:android:82c95ddfa4074fd4d7123f",
+        "mobilesdk_app_id": "1:287787433902:android:e56fe3ca0fa02de0d7123f",
         "android_client_info": {
-          "package_name": "org.wentura.physicalapplication"
+          "package_name": "org.wentura.franko"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "287787433902-lpo2rlglolfdq1u3agljfntigq7fjilv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.wentura.franko",
+            "certificate_hash": "0e7c994f9c8b8c94beeec844833a574eba6b977a"
+          }
+        },
         {
           "client_id": "287787433902-9uiu6ispcvalb6cgbktc87u5qtpgqddc.apps.googleusercontent.com",
           "client_type": 3

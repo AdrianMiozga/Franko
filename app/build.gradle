@@ -11,7 +11,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "org.wentura.physicalapplication"
+        applicationId "org.wentura.franko"
         minSdk 21
         targetSdk 30
         versionCode 1

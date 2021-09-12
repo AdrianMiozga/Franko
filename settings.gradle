@@ -5,5 +5,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Physical Application"
+rootProject.name = "Franko"
 include ':app'

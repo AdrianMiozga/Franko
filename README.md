@@ -1,7 +1,5 @@
 # TODO
 
-Update app name to Franek
-
 Add android:description to location service in AndroidManifest  
 https://developer.android.com/guide/components/services#Foreground
 

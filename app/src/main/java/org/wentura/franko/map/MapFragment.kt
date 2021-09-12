@@ -175,7 +175,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun checkLocationServicesState() {
-        LocationServices.getSettingsClient(requireContext())
+        LocationServices
+            .getSettingsClient(requireContext())
             .checkLocationSettings(LocationSettingsRequest.Builder().build())
             .addOnSuccessListener { response ->
                 val locationSettingsStates = response.locationSettingsStates ?: return@addOnSuccessListener
@@ -230,11 +231,12 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        val accessFineLocation = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (shouldShowRequestPermissionRationale(
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -299,9 +301,12 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     @SuppressLint("MissingPermission")
     private fun startTrackingLocation() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
+        val accessFineLocation = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) {
             context?.startService(Intent(context, LocationUpdatesService::class.java))
 
             polylinePoints.clear()
@@ -318,12 +323,12 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun stopTrackingLocation() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
+        val accessFineLocation = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) {
             context?.stopService(Intent(context, LocationUpdatesService::class.java))
 
             val array: MutableList<HashMap<String, Double>> = ArrayList()
@@ -369,7 +374,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         db.collection(Constants.USERS)
             .document(uid)
-            .update("lastActivity", parent.getItemAtPosition(pos))
+            .update(Constants.LAST_ACTIVITY, parent.getItemAtPosition(pos))
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) = Unit

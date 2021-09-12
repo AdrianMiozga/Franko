@@ -20,4 +20,10 @@ Compress profile pic to lower bandwidth
 
 ## UI
 
-Apply dark mode setting  
+Apply dark mode setting
+
+## Best Practices
+
+Guide to app architecture  
+https://developer.android.com/jetpack/guide
+

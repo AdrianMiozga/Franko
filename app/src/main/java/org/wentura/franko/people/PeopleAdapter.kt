@@ -11,7 +11,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import org.wentura.franko.R
 import org.wentura.franko.User
-import org.wentura.franko.databinding.UserItemBinding
+import org.wentura.franko.databinding.ListItemUserBinding
 
 class PeopleAdapter(private val people: List<User>) :
     RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
@@ -21,7 +21,7 @@ class PeopleAdapter(private val people: List<User>) :
     }
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = UserItemBinding.bind(view)
+        private val binding = ListItemUserBinding.bind(view)
 
         private val fullName: TextView = binding.recyclerViewFullName
         private val profilePicture: ImageView = binding.recyclerViewProfilePicture
@@ -58,7 +58,7 @@ class PeopleAdapter(private val people: List<User>) :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.user_item, viewGroup, false)
+            .inflate(R.layout.list_item_user, viewGroup, false)
 
         return ViewHolder(view)
     }

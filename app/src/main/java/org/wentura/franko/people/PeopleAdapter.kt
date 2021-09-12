@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import org.wentura.franko.R
-import org.wentura.franko.User
+import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
 class PeopleAdapter(private val people: List<User>) :

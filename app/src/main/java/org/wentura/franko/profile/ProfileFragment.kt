@@ -12,7 +12,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.wentura.franko.Constants
 import org.wentura.franko.R
-import org.wentura.franko.User
+import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {

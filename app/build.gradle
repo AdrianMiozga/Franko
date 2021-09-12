@@ -4,6 +4,8 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
+
+    // JUnit 5
     id 'de.mannodermaus.android-junit5'
 }
 

@@ -213,7 +213,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d(TAG, "onMapReady: ")
         myMap = googleMap
         myMap.isMyLocationEnabled = true
 
@@ -270,9 +269,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 )
             )
-        } else {
-            requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
         }
+
+        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onRequestPermissionsResult(

@@ -4,7 +4,8 @@ Notification during activity recording
 Add spinning bars when loading (Spotify?)  
 Recent searches  
 Clear recent searches  
-Ability to display profile pic on full screen
+Ability to display profile pic on full screen  
+Display user followings
 
 Optional notification when somebody follows you  
 Apply dark mode setting  

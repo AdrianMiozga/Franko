@@ -28,6 +28,10 @@ object Constants {
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
     const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"
 
+    // Notification
+    const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1
+    const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID = "activity_recording_notification_channel"
+
     // Providers
     const val PROVIDER_GOOGLE = "google.com"
 

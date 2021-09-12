@@ -1,6 +1,10 @@
 package org.wentura.physicalapplication
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        createNotificationChannel()
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
 
@@ -40,7 +46,9 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        createSignInIntent()
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            createSignInIntent()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -74,15 +82,15 @@ class MainActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document.exists()) return@addOnSuccessListener
 
+                    val set = hashMapOf(
+                        Constants.UID to user.uid,
+                        Constants.FIRST_NAME to user.displayName,
+                        Constants.PHOTO_URL to photoUrl
+                    )
+
                     db.collection(Constants.USERS)
                         .document(user.uid)
-                        .set(
-                            hashMapOf(
-                                Constants.UID to user.uid,
-                                Constants.FIRST_NAME to user.displayName,
-                                Constants.PHOTO_URL to photoUrl
-                            )
-                        )
+                        .set(set)
                 }
         }
     }
@@ -93,5 +101,21 @@ class MainActivity : AppCompatActivity() {
         for (fragment in supportFragmentManager.fragments) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        val name = getString(R.string.activity_recording_channel_name)
+        val descriptionText = getString(R.string.recording_channel_description)
+        val importance = NotificationManager.IMPORTANCE_LOW
+        val channel =
+            NotificationChannel(Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 }

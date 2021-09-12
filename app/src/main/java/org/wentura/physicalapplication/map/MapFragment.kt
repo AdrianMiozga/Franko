@@ -2,6 +2,7 @@ package org.wentura.physicalapplication.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -301,6 +302,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
+            context?.startService(Intent(context, LocationUpdatesService::class.java))
+
             polylinePoints.clear()
             startTime = System.currentTimeMillis() / 1000
 
@@ -321,6 +324,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
             )
             == PackageManager.PERMISSION_GRANTED
         ) {
+            context?.stopService(Intent(context, LocationUpdatesService::class.java))
+
             val array: MutableList<HashMap<String, Double>> = ArrayList()
 
             for (point in polylinePoints) {

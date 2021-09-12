@@ -47,6 +47,9 @@
     <string name="unfollow">Unfollow</string>
     <string name="OK">OK</string>
     <string name="enable_location_dialog_message">Location services are disabled. Would you like to enabled them?</string>
+    <string name="activity_recording_channel_name">Activity Recording</string>
+    <string name="recording_channel_description">Notification displayed when recording activity</string>
+    <string name="activity_recording_notification_title">Recording</string>
 
     <plurals name="d_following">
         <item quantity="one">%d Follow</item>

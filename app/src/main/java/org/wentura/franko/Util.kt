@@ -14,7 +14,7 @@ class Util {
         /**
          * Extract Google profile picture in original quality.
          *
-         * @param url to extract
+         * @param [url] to extract
          * @return extracted url
          */
         fun extractGoogleProfilePicture(url: String): String {

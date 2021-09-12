@@ -115,7 +115,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 val size = collection.size()
 
                 binding.profileFollowing.text =
-                    resources.getQuantityString(R.plurals.d_following, size, size)
+                    resources.getQuantityString(R.plurals.number_following, size, size)
             }
 
         if (uid == null) return

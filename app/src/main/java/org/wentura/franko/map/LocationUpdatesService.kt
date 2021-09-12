@@ -11,6 +11,10 @@ import org.wentura.franko.R
 
 class LocationUpdatesService : Service() {
 
+    companion object {
+        val TAG = LocationUpdatesService::class.simpleName
+    }
+   
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->

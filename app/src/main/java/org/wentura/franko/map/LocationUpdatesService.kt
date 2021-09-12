@@ -1,10 +1,15 @@
 package org.wentura.franko.map
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import org.wentura.franko.Constants
 import org.wentura.franko.MainActivity
 import org.wentura.franko.R
@@ -14,7 +19,20 @@ class LocationUpdatesService : Service() {
     companion object {
         val TAG = LocationUpdatesService::class.simpleName
     }
-   
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val locationRequest: LocationRequest = LocationRequest.create().apply {
+        interval = 10000
+        fastestInterval = 5000
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    }
+
+    override fun onCreate() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
@@ -30,6 +48,12 @@ class LocationUpdatesService : Service() {
             .build()
 
         startForeground(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification)
+
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            LocationViewModel().locationCallback,
+            Looper.getMainLooper()
+        )
 
         return START_STICKY
     }

@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentPeopleBinding
 
+@AndroidEntryPoint
 class PeopleFragment : Fragment(R.layout.fragment_people),
     SearchView.OnQueryTextListener {
 

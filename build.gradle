@@ -13,6 +13,9 @@ buildscript {
 
         // JUnit 5
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
+
+        // Hilt
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
     }
 }
 

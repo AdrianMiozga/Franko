@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -39,7 +40,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     AdapterView.OnItemSelectedListener {
 
     private lateinit var myMap: GoogleMap
-    private lateinit var currentLocation: LatLng
     private lateinit var spinner: Spinner
     private lateinit var speed: TextView
     private lateinit var polyline: Polyline
@@ -61,6 +61,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     private var fragmentMapBinding: FragmentMapBinding? = null
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     companion object {
         private val TAG = MapFragment::class.simpleName
 
@@ -69,60 +71,43 @@ class MapFragment : Fragment(R.layout.fragment_map),
         private const val LINE_COLOR = Color.BLUE
     }
 
-//    private var locationCallback: LocationCallback = object : LocationCallback() {
-//        override fun onLocationResult(locationResult: LocationResult) {
-//            val locationList = locationResult.locations
-//
-//            if (locationList.isEmpty()) return
-//
-//            // The last location in the list is the newest
-//            val location = locationList.last()
-//
-//            val latitude = location.latitude
-//            val longitude = location.longitude
-//
-//            speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                location.speedAccuracyMetersPerSecond.toDouble()
-//            } else {
-//                location.speed.toDouble()
-//            }
-//
-//            speed.text = getString(
-//                if (speedometer.unitsOfMeasure == Constants.IMPERIAL) {
-//                    R.string.mph
-//                } else {
-//                    R.string.kmh
-//                },
-//                speedometer.speed.toInt()
-//            )
-//
-//            currentLocation = LatLng(latitude, longitude)
-//
-//            myMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-//            myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
-//
-//            if (trackPosition) {
-//                polylinePoints.add(currentLocation)
-//                polyline.points = polylinePoints
-//            } else {
-//                stopTrackingLocation()
-//            }
-//        }
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentMapBinding.bind(view)
         fragmentMapBinding = binding
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         checkLocationPermission()
 
         model.currentLocation.observe(viewLifecycleOwner) { location ->
-            Log.d(TAG, "onViewCreated: $location")
-//            Log.d(TAG, "${location.latitude}, ${location.longitude}")
-//            binding.mapSpeed.visibility = View.VISIBLE
-//            binding.mapSpeed.text = location.latitude.toString()
+            speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                location.speedAccuracyMetersPerSecond.toDouble()
+            } else {
+                location.speed.toDouble()
+            }
+
+            speed.text = getString(
+                if (speedometer.unitsOfMeasure == Constants.IMPERIAL) {
+                    R.string.mph
+                } else {
+                    R.string.kmh
+                },
+                speedometer.speed.toInt()
+            )
+
+            val latLng = LatLng(location.latitude, location.longitude)
+
+            myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+
+            if (trackPosition) {
+                polylinePoints.add(latLng)
+                polyline.points = polylinePoints
+            } else {
+                stopTrackingLocation()
+            }
         }
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
@@ -219,15 +204,15 @@ class MapFragment : Fragment(R.layout.fragment_map),
         myMap = googleMap
         myMap.isMyLocationEnabled = true
 
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location ->
-//                if (location == null) return@addOnSuccessListener
-//
-//                val latLng = LatLng(location.latitude, location.longitude)
-//
-//                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-//                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
-//            }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location == null) return@addOnSuccessListener
+
+                val latLng = LatLng(location.latitude, location.longitude)
+
+                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+            }
 
         polyline = myMap.addPolyline(PolylineOptions().width(LINE_WIDTH).color(LINE_COLOR))
     }

@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
 import org.wentura.franko.data.Path
 import org.wentura.franko.databinding.FragmentActivitiesBinding
 
+@AndroidEntryPoint
 class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
 
     private var pathsArray: ArrayList<Path> = arrayListOf()

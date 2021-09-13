@@ -23,7 +23,6 @@ import org.wentura.franko.Util
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentEditProfileBinding
 
-
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private val db = Firebase.firestore

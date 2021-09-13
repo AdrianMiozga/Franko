@@ -22,7 +22,7 @@ class LocationUpdatesService : Service() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private val locationRequest: LocationRequest = LocationRequest.create().apply {
+    private val locationRequest = LocationRequest.create().apply {
         interval = 10000
         fastestInterval = 5000
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -51,14 +51,18 @@ class LocationUpdatesService : Service() {
 
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
-            LocationViewModel().locationCallback,
+            LocationRepository,
             Looper.getMainLooper()
         )
 
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+    override fun onDestroy() {
+        super.onDestroy()
+
+        fusedLocationClient.removeLocationUpdates(LocationRepository)
     }
+
+    override fun onBind(intent: Intent?): IBinder? = null
 }

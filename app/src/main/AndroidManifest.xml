@@ -38,12 +38,12 @@
             android:value="@integer/google_play_services_version" />
 
         <service
-            android:name="org.wentura.franko.map.LocationUpdatesService"
+            android:name=".map.LocationUpdatesService"
             android:exported="false"
             android:foregroundServiceType="location" />
 
         <activity
-            android:name="org.wentura.franko.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>

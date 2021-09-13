@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.data.Path
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
+import java.util.*
 
 class ActivityAdapter(private val paths: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
@@ -39,16 +41,16 @@ class ActivityAdapter(private val paths: List<Path>) :
 
         fun bindView(position: Int, paths: List<Path>) {
             paths[position].path?.forEach {
-                latLng.add(LatLng(it["latitude"]!!, it["longitude"]!!))
+                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
             mapView.tag = this
 
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
             val date = dateFormatter.format(paths[position].startTime?.times(1000))
 
-            val timeFormatter = SimpleDateFormat("HH:mm:ss")
+            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
 
             timeSpan.text = context.getString(
                 R.string.time_span,
@@ -91,7 +93,7 @@ class ActivityAdapter(private val paths: List<Path>) :
                     moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
                     addPolyline(PolylineOptions().addAll(latLng))
                 }
-              
+
                 mapType = GoogleMap.MAP_TYPE_NORMAL
             }
         }

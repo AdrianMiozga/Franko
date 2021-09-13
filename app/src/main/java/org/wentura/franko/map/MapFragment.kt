@@ -32,7 +32,6 @@ import org.wentura.franko.R
 import org.wentura.franko.data.Path
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentMapBinding
-import kotlin.properties.Delegates
 
 class MapFragment : Fragment(R.layout.fragment_map),
     OnMapReadyCallback,
@@ -44,11 +43,12 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private var trackPosition: Boolean = false
-    private var startTime by Delegates.notNull<Long>()
+    private var startTime = 0L
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
 
-    private val model: LocationViewModel by viewModels()
+    private val locationViewModel: LocationViewModel by viewModels()
+    private val timerViewModel: TimerViewModel by viewModels()
 
     private val db = Firebase.firestore
 
@@ -76,7 +76,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         checkLocationPermission()
 
-        model.currentLocation.observe(viewLifecycleOwner) { location ->
+        locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 location.speedAccuracyMetersPerSecond.toDouble()
             } else {
@@ -94,14 +94,23 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
             val latLng = LatLng(location.latitude, location.longitude)
 
-            myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+            if (this::myMap.isInitialized) {
+                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+            }
 
             if (trackPosition) {
                 polylinePoints.add(latLng)
                 polyline.points = polylinePoints
             } else {
                 stopTrackingLocation()
+            }
+        }
+
+        timerViewModel.secondsElapsed.observe(viewLifecycleOwner) { time ->
+            binding.mapTimer.apply {
+                visibility = if (time.isEmpty()) View.INVISIBLE else View.VISIBLE
+                text = time
             }
         }
 
@@ -209,7 +218,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
                 myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
-        polyline = myMap.addPolyline(PolylineOptions().width(Constants.LINE_WIDTH).color(Constants.LINE_COLOR))
+        val color = PolylineOptions()
+            .width(Constants.LINE_WIDTH)
+            .color(Constants.LINE_COLOR)
+
+        polyline = myMap.addPolyline(color)
     }
 
     private fun checkLocationPermission() {
@@ -218,41 +231,33 @@ class MapFragment : Fragment(R.layout.fragment_map),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
-        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Location Permission Needed")
-                    .setMessage("This app needs the Location permission, please accept to use location functionality")
-                    .setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        //Prompt the user once explanation has been shown
-                        requestLocationPermission()
-                    }
-                    .create()
-                    .show()
-            } else {
-                // No explanation needed, we can request the permission.
-                requestLocationPermission()
-            }
+        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) return
+
+        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Show an explanation to the user *asynchronously* -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+            AlertDialog.Builder(requireContext())
+                .setTitle("Location Permission Needed")
+                .setMessage("This app needs the Location permission, please accept to use location functionality")
+                .setPositiveButton(R.string.OK) { _, _ ->
+                    requestLocationPermission()
+                }
+                .create()
+                .show()
+        } else {
+            requestLocationPermission()
         }
     }
 
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            requestMultiplePermissions.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
+            val permissions = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
+
+            requestMultiplePermissions.launch(permissions)
             return
         }
 
@@ -288,14 +293,15 @@ class MapFragment : Fragment(R.layout.fragment_map),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
-        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) {
-            context?.startService(Intent(context, LocationUpdatesService::class.java))
+        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) return
 
-            polylinePoints.clear()
-            startTime = System.currentTimeMillis() / 1000
+        context?.startService(Intent(context, LocationUpdatesService::class.java))
+        timerViewModel.startTimer()
 
-            speed.visibility = View.VISIBLE
-        }
+        polylinePoints.clear()
+        startTime = System.currentTimeMillis() / 1000
+
+        speed.visibility = View.VISIBLE
     }
 
     private fun stopTrackingLocation() {
@@ -304,38 +310,43 @@ class MapFragment : Fragment(R.layout.fragment_map),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
-        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) {
-            context?.stopService(Intent(context, LocationUpdatesService::class.java))
+        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) return
 
-            val array: MutableList<HashMap<String, Double>> = ArrayList()
+        context?.stopService(Intent(context, LocationUpdatesService::class.java))
 
-            for (point in polylinePoints) {
-                array.add(
-                    hashMapOf(
-                        "latitude" to point.latitude,
-                        "longitude" to point.longitude
-                    )
-                )
-            }
+        timerViewModel.stopTimer()
 
-            val path = Path(
-                startTime,
-                (System.currentTimeMillis() / 1000),
-                array,
-                spinner.selectedItem.toString()
+        val array: MutableList<HashMap<String, Double>> = ArrayList()
+
+        for (point in polylinePoints) {
+            val element = hashMapOf(
+                Constants.LATITUDE to point.latitude,
+                Constants.LONGITUDE to point.longitude
             )
 
-            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
-            db.collection(Constants.USERS)
-                .document(uid)
-                .collection(Constants.PATHS).add(path)
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-
-            speed.visibility = View.INVISIBLE
+            array.add(element)
         }
+
+        if (startTime == 0L) return
+
+        val path = Path(
+            startTime,
+            (System.currentTimeMillis() / 1000),
+            array,
+            spinner.selectedItem.toString()
+        )
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        db.collection(Constants.USERS)
+            .document(uid)
+            .collection(Constants.PATHS)
+            .add(path)
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error adding document", exception)
+            }
+
+        speed.visibility = View.INVISIBLE
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {

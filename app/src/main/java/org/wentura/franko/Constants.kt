@@ -1,5 +1,7 @@
 package org.wentura.franko
 
+import android.graphics.Color
+
 object Constants {
 
     // Firestore Paths
@@ -28,6 +30,11 @@ object Constants {
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
     const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"
+
+    // Map Settings
+    const val DEFAULT_ZOOM = 17F
+    const val LINE_WIDTH = 50F
+    const val LINE_COLOR = Color.BLUE
 
     // Notification
     const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1

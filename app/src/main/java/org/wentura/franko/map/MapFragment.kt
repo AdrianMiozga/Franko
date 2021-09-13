@@ -29,6 +29,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.wentura.franko.*
 import org.wentura.franko.R
+import org.wentura.franko.data.Path
+import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentMapBinding
 import kotlin.properties.Delegates
 

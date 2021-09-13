@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -65,10 +64,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     companion object {
         private val TAG = MapFragment::class.simpleName
-
-        private const val DEFAULT_ZOOM = 17F
-        private const val LINE_WIDTH = 50F
-        private const val LINE_COLOR = Color.BLUE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,7 +95,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             val latLng = LatLng(location.latitude, location.longitude)
 
             myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+            myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
 
             if (trackPosition) {
                 polylinePoints.add(latLng)
@@ -211,10 +206,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
                 val latLng = LatLng(location.latitude, location.longitude)
 
                 myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM))
+                myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
-        polyline = myMap.addPolyline(PolylineOptions().width(LINE_WIDTH).color(LINE_COLOR))
+        polyline = myMap.addPolyline(PolylineOptions().width(Constants.LINE_WIDTH).color(Constants.LINE_COLOR))
     }
 
     private fun checkLocationPermission() {

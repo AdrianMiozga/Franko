@@ -1,4 +1,4 @@
-package org.wentura.franko
+package org.wentura.franko.data
 
 data class User(
     val uid: String? = null,

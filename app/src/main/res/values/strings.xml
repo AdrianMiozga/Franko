@@ -1,13 +1,20 @@
 <resources>
 
+    <!-- Resources that do not require translation -->
     <string name="app_name" translatable="false">Franko</string>
+    <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
+
+    <string name="time_span" translatable="false">%s - %s</string>
+    <string name="activity_title" translatable="false">%s: %d (%s)</string>
+
+    <string name="sample_user_name" translatable="false">Pascal Winters</string>
+    <string name="sample_city" translatable="false">New York</string>
+
+    <!-- Translatable resources -->
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
-    <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
     <string name="sign_out">Sign Out</string>
-    <string name="time_span" translatable="false">%s - %s</string>
-    <string name="activity_title" translatable="false">%s: %d (%s)</string>
     <string name="show_map">Map</string>
     <string name="show_activities">Activities</string>
     <string name="show_statistics">Statistics</string>
@@ -20,8 +27,6 @@
     <string name="account_deleted">Account deleted</string>
     <string name="profile_picture">Profile picture</string>
     <string name="search_people">Search people</string>
-    <string name="sample_user_name" translatable="false">Pascal Winters</string>
-    <string name="sample_city" translatable="false">New York</string>
     <string name="show_achievements">Achievements</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="first_name">First Name</string>
@@ -51,11 +56,13 @@
     <string name="recording_channel_description">Notification displayed when recording activity</string>
     <string name="activity_recording_notification_title">Recording</string>
 
-    <plurals name="d_following">
+    <!-- String plurals -->
+    <plurals name="number_following">
         <item quantity="one">%d Follow</item>
         <item quantity="other">%d Following</item>
     </plurals>
 
+    <!-- String arrays -->
     <string-array name="activities_array">
         <item>Bike</item>
         <item>Walking</item>

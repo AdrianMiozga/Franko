@@ -19,8 +19,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import org.wentura.franko.Constants
 import org.wentura.franko.R
-import org.wentura.franko.User
 import org.wentura.franko.Util
+import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentEditProfileBinding
 
 

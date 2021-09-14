@@ -58,6 +58,8 @@
     <string name="activity_recording_notification_title">Recording (%s)</string>
     <string name="location_updates_service_description">Service that tracks user activities.</string>
     <string name="bio">Bio</string>
+    <string name="delete_activity">Delete Activity</string>
+    <string name="delete_activity_dialog_message">This action is not reversible.</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

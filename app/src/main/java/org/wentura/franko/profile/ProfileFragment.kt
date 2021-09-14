@@ -37,7 +37,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        binding.profileFollow.setOnClickListener {
+        val profileFollow = binding.profileFollow
+        val profileUnfollow = binding.profileUnfollow
+
+        profileFollow.setOnClickListener {
             if (uid == null) return@setOnClickListener
 
             db.collection(Constants.USERS)
@@ -46,12 +49,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .document(args.uid)
                 .set(hashMapOf(Constants.UID to args.uid))
                 .addOnSuccessListener {
-                    binding.profileFollow.visibility = View.GONE
-                    binding.profileUnfollow.visibility = View.VISIBLE
+                    profileFollow.visibility = View.GONE
+                    profileUnfollow.visibility = View.VISIBLE
                 }
         }
 
-        binding.profileUnfollow.setOnClickListener {
+        profileUnfollow.setOnClickListener {
             if (uid == null) return@setOnClickListener
 
             db.collection(Constants.USERS)
@@ -60,8 +63,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .document(args.uid)
                 .delete()
                 .addOnSuccessListener {
-                    binding.profileUnfollow.visibility = View.GONE
-                    binding.profileFollow.visibility = View.VISIBLE
+                    profileUnfollow.visibility = View.GONE
+                    profileFollow.visibility = View.VISIBLE
                 }
         }
 
@@ -71,12 +74,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             .addOnSuccessListener { document ->
                 user = document.toObject() ?: return@addOnSuccessListener
 
+                val profileProfilePicture = binding.profileProfilePicture
+
                 if (user.photoUrl == null) {
-                    binding.profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                    profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
                         transformations(CircleCropTransformation())
                     }
                 } else {
-                    binding.profileProfilePicture.load(user.photoUrl) {
+                    profileProfilePicture.load(user.photoUrl) {
                         transformations(CircleCropTransformation())
                     }
                 }
@@ -87,6 +92,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     user.lastName
                 )
 
+                if (user.bio.isNotEmpty()) {
+                    binding.profileBio.visibility = View.VISIBLE
+                    binding.profileBio.text = user.bio
+                }
+
                 val everyone = resources.getStringArray(R.array.who_can_see_my_location)[0]
 
                 if (user.whoCanSeeMyLocation == everyone) {
@@ -96,7 +106,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
 
                 if (user.uid == FirebaseAuth.getInstance().currentUser?.uid) {
-                    binding.profileFollow.visibility = View.GONE
+                    profileFollow.visibility = View.GONE
                 }
             }
 
@@ -128,8 +138,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) return@addOnSuccessListener
 
-                binding.profileFollow.visibility = View.GONE
-                binding.profileUnfollow.visibility = View.VISIBLE
+                profileFollow.visibility = View.GONE
+                profileUnfollow.visibility = View.VISIBLE
             }
     }
 

@@ -13,6 +13,7 @@ object Constants {
     const val UID = "uid"
     const val FIRST_NAME = "firstName"
     const val LAST_NAME = "lastName"
+    const val BIO = "bio"
     const val LAST_ACTIVITY = "lastActivity"
     const val CITY = "city"
     const val PHOTO_URL = "photoUrl"

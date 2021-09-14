@@ -12,7 +12,6 @@
         android:layout_height="0dp"
         android:layout_margin="8dp"
         android:contentDescription="@string/profile_picture"
-        app:layout_constraintBottom_toTopOf="@id/profile_full_name"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,11 +24,22 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/profile_city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_profile_picture"
         tools:text="@string/sample_user_name" />
+
+    <TextView
+        android:id="@+id/profile_bio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_full_name"
+        tools:text="@string/user_bio"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/profile_city"
@@ -38,7 +48,7 @@
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_full_name"
+        app:layout_constraintTop_toBottomOf="@id/profile_bio"
         tools:text="@string/sample_city" />
 
     <Button
@@ -47,7 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="@string/follow"
-        app:layout_constraintBottom_toTopOf="@id/profile_following"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_city" />
@@ -71,7 +80,7 @@
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_unfollow"
+        app:layout_constraintTop_toBottomOf="@id/profile_follow"
         tools:text="34 Following" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

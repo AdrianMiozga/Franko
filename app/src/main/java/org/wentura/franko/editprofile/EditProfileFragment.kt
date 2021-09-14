@@ -31,6 +31,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
+    private lateinit var bioEditText: EditText
     private lateinit var cityEditText: EditText
     private lateinit var editProfileProfilePicture: ImageView
 
@@ -70,6 +71,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         firstNameEditText = binding.editProfileFirstName
         lastNameEditText = binding.editProfileLastName
+        bioEditText = binding.editProfileBio
         cityEditText = binding.editProfileCity
         editProfileProfilePicture = binding.editProfileProfilePicture
 
@@ -93,13 +95,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     editProfileFirstName.setText(user.firstName)
                     editProfileLastName.setText(user.lastName)
                     editProfileCity.setText(user.city)
+                    editProfileBio.setText(user.bio)
                 }
             }
 
         editProfileProfilePicture.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-
-            builder.setTitle(R.string.edit_profile_picture)
+            AlertDialog
+                .Builder(requireContext())
+                .setTitle(R.string.edit_profile_picture)
                 .setItems(R.array.edit_profile_choice_array) { _, which ->
                     when (which) {
                         0 -> {
@@ -123,9 +126,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         }
                     }
                 }
-
-            builder.create()
-            builder.show()
+                .create()
+                .show()
         }
 
         requireActivity()
@@ -135,18 +137,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.lastName != lastNameEditText.text.toString() ||
                     user.city != cityEditText.text.toString()
                 ) {
-                    val builder = AlertDialog.Builder(requireContext())
-
-                    builder.setTitle(getString(R.string.unsaved_changes))
+                    AlertDialog
+                        .Builder(requireContext())
+                        .setTitle(getString(R.string.unsaved_changes))
                         .setMessage(getString(R.string.you_have_unsaved_changes))
                         .setPositiveButton(getString(R.string.save)) { _, _ ->
                             Util.closeKeyboard(view)
                             saveChanges()
                         }
                         .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
-
-                    builder.create()
-                    builder.show()
+                        .create()
+                        .show()
 
                     return@addCallback
                 }
@@ -180,6 +181,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         val updates = hashMapOf(
             Constants.FIRST_NAME to firstNameEditText.text.toString(),
             Constants.LAST_NAME to lastNameEditText.text.toString(),
+            Constants.BIO to bioEditText.text.toString(),
             Constants.CITY to cityEditText.text.toString()
         )
 

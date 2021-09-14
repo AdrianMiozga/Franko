@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.wentura.franko.Constants
 import org.wentura.franko.data.User
 import javax.inject.Inject
 
@@ -20,7 +21,13 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _profile.value = profileRepository.getProfile(uid).toObject<User>()
+            val user = profileRepository.getProfile(uid).toObject<User>()
+
+            profileRepository.getFollowing()?.forEach { document ->
+                user?.following?.add(document[Constants.UID].toString())
+            }
+
+            _profile.value = user
         }
     }
 }

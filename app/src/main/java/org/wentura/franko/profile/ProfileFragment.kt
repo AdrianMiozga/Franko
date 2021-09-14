@@ -13,7 +13,6 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
-import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentProfileBinding
 
 @AndroidEntryPoint
@@ -22,12 +21,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private var fragmentProfileBinding: FragmentProfileBinding? = null
 
     private val args: ProfileFragmentArgs by navArgs()
-
-    private val db = Firebase.firestore
-
     private val profileViewModel: ProfileViewModel by viewModels()
 
-    private lateinit var user: User
+    private val db = Firebase.firestore
 
     companion object {
         val TAG = ProfileFragment::class.simpleName
@@ -43,13 +39,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         val profileFollow = binding.profileFollow
         val profileUnfollow = binding.profileUnfollow
+        val profileProfilePicture = binding.profileProfilePicture
+        val profileFullName = binding.profileFullName
+        val profileBio = binding.profileBio
+        val profileCity = binding.profileCity
+        val profileFollowing = binding.profileFollowing
 
         profileFollow.setOnClickListener {
             if (uid == null) return@setOnClickListener
 
             db.collection(Constants.USERS)
                 .document(uid)
-                .collection(Constants.FOLLOWERS)
+                .collection(Constants.FOLLOWING)
                 .document(args.uid)
                 .set(hashMapOf(Constants.UID to args.uid))
                 .addOnSuccessListener {
@@ -63,7 +64,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             db.collection(Constants.USERS)
                 .document(uid)
-                .collection(Constants.FOLLOWERS)
+                .collection(Constants.FOLLOWING)
                 .document(args.uid)
                 .delete()
                 .addOnSuccessListener {
@@ -73,10 +74,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
-            user = profile
-
-            val profileProfilePicture = binding.profileProfilePicture
-
             if (profile.photoUrl.isNullOrBlank()) {
                 profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
                     transformations(CircleCropTransformation())
@@ -87,61 +84,45 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
             }
 
-            binding.profileFullName.text = getString(
+            profileFullName.text = getString(
                 R.string.full_name,
                 profile.firstName,
                 profile.lastName
             )
 
-            if (profile.bio.isNotEmpty()) {
-                binding.profileBio.visibility = View.VISIBLE
-                binding.profileBio.text = profile.bio
+            if (profile.bio.isNotBlank()) {
+                profileBio.visibility = View.VISIBLE
+                profileBio.text = profile.bio
             }
 
-            val everyone = resources.getStringArray(R.array.who_can_see_my_location)[0]
+            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location)[0]
 
-            if (profile.whoCanSeeMyLocation == everyone) {
-                binding.profileCity.text = profile.city
+            if (profile.whoCanSeeMyLocation == locationEveryone) {
+                profileCity.text = profile.city
             } else {
-                binding.profileCity.visibility = View.GONE
+                profileCity.visibility = View.GONE
             }
 
             if (profile.uid == FirebaseAuth.getInstance().currentUser?.uid) {
                 profileFollow.visibility = View.GONE
             }
-        }
 
-        db.collection(Constants.USERS)
-            .document(args.uid)
-            .collection(Constants.FOLLOWERS)
-            .get()
-            .addOnSuccessListener { collection ->
-                val everyone = resources.getStringArray(R.array.who_can_see_my_following_count)[0]
-
-                if (user.whoCanSeeMyFollowingCount != everyone) {
-                    binding.profileFollowing.visibility = View.GONE
-                    return@addOnSuccessListener
-                }
-
-                val size = collection.size()
-
-                binding.profileFollowing.text =
-                    resources.getQuantityString(R.plurals.number_following, size, size)
-            }
-
-        if (uid == null) return
-
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.FOLLOWERS)
-            .whereEqualTo(Constants.UID, args.uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) return@addOnSuccessListener
-
+            if (profile.following.contains(args.uid)) {
                 profileFollow.visibility = View.GONE
                 profileUnfollow.visibility = View.VISIBLE
             }
+
+            val followingEveryone = resources.getStringArray(R.array.who_can_see_my_following_count)[0]
+
+            if (profile.whoCanSeeMyFollowingCount != followingEveryone) {
+                profileFollowing.visibility = View.GONE
+            } else {
+                val size = profile.following.size
+
+                profileFollowing.text =
+                    resources.getQuantityString(R.plurals.number_following, size, size)
+            }
+        }
     }
 
     override fun onDestroyView() {

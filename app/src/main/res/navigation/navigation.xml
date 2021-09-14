@@ -133,7 +133,7 @@
         android:label="Activity">
 
         <argument
-            android:name="uid"
+            android:name="id"
             app:argType="string" />
 
     </fragment>

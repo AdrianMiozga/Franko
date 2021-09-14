@@ -1,7 +1,8 @@
 package org.wentura.franko.data
 
+import com.google.firebase.firestore.DocumentId
+
 data class User(
-    val uid: String? = null,
     val firstName: String = "",
     val lastName: String = "",
     val bio: String = "",
@@ -14,4 +15,7 @@ data class User(
     val whoCanSeeMyProfile: String? = null,
     val whoCanSeeMyLocation: String? = null,
     val whoCanSeeMyFollowingCount: String? = null
-)
+) {
+    @DocumentId
+    lateinit var uid: String
+}

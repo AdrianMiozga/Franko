@@ -31,8 +31,7 @@ class PeopleAdapter(private val people: List<User>) :
         fun bindView(position: Int, people: List<User>) {
             view.setOnClickListener {
                 Navigation.findNavController(view).navigate(
-                    PeopleFragmentDirections.toProfileFragment
-                        (people[position].uid ?: "")
+                    PeopleFragmentDirections.toProfileFragment(people[position].uid)
                 )
             }
 

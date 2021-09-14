@@ -1,6 +1,7 @@
 package org.wentura.franko
 
 import android.graphics.Color
+import java.util.concurrent.TimeUnit
 
 object Constants {
 
@@ -52,7 +53,7 @@ object Constants {
 
     // Other
     /** Min activity time to save in milliseconds **/
-    const val MIN_ACTIVITY_TIME = 60_000
+    val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
 
     /** Meters per second to miles per hour **/
     const val MPH = 2.23694

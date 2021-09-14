@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -18,7 +19,7 @@ import java.util.*
 class ActivityAdapter(private val paths: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view),
+    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
         private lateinit var map: GoogleMap
@@ -40,6 +41,12 @@ class ActivityAdapter(private val paths: List<Path>) :
         }
 
         fun bindView(position: Int, paths: List<Path>) {
+            view.setOnClickListener {
+                Navigation.findNavController(view).navigate(
+                    ActivitiesFragmentDirections.toActivityFragment(paths[position].documentId)
+                )
+            }
+
             paths[position].path?.forEach {
                 latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }

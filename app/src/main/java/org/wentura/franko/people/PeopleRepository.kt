@@ -15,7 +15,7 @@ class PeopleRepository @Inject constructor() {
         return db.collection(Constants.USERS)
             .whereEqualTo(
                 Constants.WHO_CAN_SEE_MY_PROFILE,
-                "Everyone"
+                Constants.EVERYONE
             )
             .get()
             .await()

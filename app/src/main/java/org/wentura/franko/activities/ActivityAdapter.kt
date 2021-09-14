@@ -86,7 +86,7 @@ class ActivityAdapter(private val paths: List<Path>) :
         }
 
         private fun setupMap() {
-            if (!::map.isInitialized) return
+            if (!this::map.isInitialized) return
 
             with(map) {
                 if (latLng.size > 0) {

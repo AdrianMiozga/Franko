@@ -82,7 +82,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 user = document.toObject() ?: return@addOnSuccessListener
 
                 binding.apply {
-                    if (user.photoUrl == null) {
+                    if (user.photoUrl.isNullOrBlank()) {
                         editProfileProfilePicture.load(R.drawable.profile_picture_placeholder) {
                             transformations(CircleCropTransformation())
                         }

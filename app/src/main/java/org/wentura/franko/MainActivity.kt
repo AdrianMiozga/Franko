@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                     if (document.exists()) return@addOnSuccessListener
 
                     val set = hashMapOf(
-                        Constants.UID to user.uid,
                         Constants.FIRST_NAME to user.displayName,
                         Constants.PHOTO_URL to photoUrl
                     )

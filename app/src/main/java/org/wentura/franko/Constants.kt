@@ -23,6 +23,7 @@ object Constants {
     // Firestore Values
     const val IMPERIAL = "Imperial"
     const val METRIC = "Metric"
+    const val EVERYONE = "Everyone"
 
     // Storage Paths
     const val IMAGES = "images"

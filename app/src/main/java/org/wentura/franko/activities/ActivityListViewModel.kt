@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.Path
 import javax.inject.Inject
 

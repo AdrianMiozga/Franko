@@ -41,6 +41,9 @@ class TimerViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        timer.cancel()
+
+        if (this::timer.isInitialized) {
+            timer.cancel()
+        }
     }
 }

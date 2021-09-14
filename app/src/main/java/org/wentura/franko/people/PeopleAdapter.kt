@@ -38,7 +38,7 @@ class PeopleAdapter(private val people: List<User>) :
 
             val uri = people[position].photoUrl
 
-            if (uri == null) {
+            if (uri.isNullOrBlank()) {
                 profilePicture.load(R.drawable.profile_picture_placeholder) {
                     transformations(CircleCropTransformation())
                 }

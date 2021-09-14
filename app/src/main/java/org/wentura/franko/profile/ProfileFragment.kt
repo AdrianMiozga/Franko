@@ -3,18 +3,20 @@ package org.wentura.franko.profile
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentProfileBinding
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var fragmentProfileBinding: FragmentProfileBinding? = null
@@ -22,6 +24,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val args: ProfileFragmentArgs by navArgs()
 
     private val db = Firebase.firestore
+
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     private lateinit var user: User
 
@@ -68,47 +72,44 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
         }
 
-        db.collection(Constants.USERS)
-            .document(args.uid)
-            .get()
-            .addOnSuccessListener { document ->
-                user = document.toObject() ?: return@addOnSuccessListener
+        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            user = profile
 
-                val profileProfilePicture = binding.profileProfilePicture
+            val profileProfilePicture = binding.profileProfilePicture
 
-                if (user.photoUrl == null) {
-                    profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
-                        transformations(CircleCropTransformation())
-                    }
-                } else {
-                    profileProfilePicture.load(user.photoUrl) {
-                        transformations(CircleCropTransformation())
-                    }
+            if (profile.photoUrl.isNullOrBlank()) {
+                profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                    transformations(CircleCropTransformation())
                 }
-
-                binding.profileFullName.text = getString(
-                    R.string.full_name,
-                    user.firstName,
-                    user.lastName
-                )
-
-                if (user.bio.isNotEmpty()) {
-                    binding.profileBio.visibility = View.VISIBLE
-                    binding.profileBio.text = user.bio
-                }
-
-                val everyone = resources.getStringArray(R.array.who_can_see_my_location)[0]
-
-                if (user.whoCanSeeMyLocation == everyone) {
-                    binding.profileCity.text = user.city
-                } else {
-                    binding.profileCity.visibility = View.GONE
-                }
-
-                if (user.uid == FirebaseAuth.getInstance().currentUser?.uid) {
-                    profileFollow.visibility = View.GONE
+            } else {
+                profileProfilePicture.load(profile.photoUrl) {
+                    transformations(CircleCropTransformation())
                 }
             }
+
+            binding.profileFullName.text = getString(
+                R.string.full_name,
+                profile.firstName,
+                profile.lastName
+            )
+
+            if (profile.bio.isNotEmpty()) {
+                binding.profileBio.visibility = View.VISIBLE
+                binding.profileBio.text = profile.bio
+            }
+
+            val everyone = resources.getStringArray(R.array.who_can_see_my_location)[0]
+
+            if (profile.whoCanSeeMyLocation == everyone) {
+                binding.profileCity.text = profile.city
+            } else {
+                binding.profileCity.visibility = View.GONE
+            }
+
+            if (profile.uid == FirebaseAuth.getInstance().currentUser?.uid) {
+                profileFollow.visibility = View.GONE
+            }
+        }
 
         db.collection(Constants.USERS)
             .document(args.uid)

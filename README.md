@@ -1,8 +1,5 @@
 # TODO
 
-Add android:description to location service in AndroidManifest  
-https://developer.android.com/guide/components/services#Foreground
-
 Add spinning bars when loading (Spotify?)  
 Recent searches  
 Clear recent searches  
@@ -20,7 +17,7 @@ Compress profile pic to lower bandwidth
 
 ## UI
 
-Apply dark mode setting
+Dark mode
 
 ## Best Practices
 

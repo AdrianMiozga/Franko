@@ -42,10 +42,10 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
             people.clear()
             filteredPeople.clear()
 
-            people = result
-            filteredPeople = result
+            people = ArrayList(result)
+            filteredPeople = ArrayList(result)
 
-            if (result.size == 0) {
+            if (result.isEmpty()) {
                 binding.apply {
                     peopleNothingToShow.visibility = View.VISIBLE
                     peopleRecyclerView.visibility = View.GONE

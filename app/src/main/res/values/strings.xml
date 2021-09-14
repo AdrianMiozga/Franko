@@ -9,6 +9,7 @@
 
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
     <string name="sample_city" translatable="false">New York</string>
+    <string name="user_bio" translatable="false">User description…</string>
 
     <!-- Translatable resources -->
     <string name="start">Start</string>
@@ -56,6 +57,7 @@
     <string name="recording_channel_description">Notification displayed when recording activity</string>
     <string name="activity_recording_notification_title">Recording (%s)</string>
     <string name="location_updates_service_description">Service that tracks user activities.</string>
+    <string name="bio">Bio</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

@@ -81,17 +81,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             .addOnSuccessListener { document ->
                 user = document.toObject() ?: return@addOnSuccessListener
 
-                binding.apply {
-                    if (user.photoUrl.isNullOrBlank()) {
-                        editProfileProfilePicture.load(R.drawable.profile_picture_placeholder) {
-                            transformations(CircleCropTransformation())
-                        }
-                    } else {
-                        editProfileProfilePicture.load(user.photoUrl) {
-                            transformations(CircleCropTransformation())
-                        }
+                if (user.photoUrl.isNullOrBlank()) {
+                    editProfileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                        transformations(CircleCropTransformation())
                     }
+                } else {
+                    editProfileProfilePicture.load(user.photoUrl) {
+                        transformations(CircleCropTransformation())
+                    }
+                }
 
+                binding.apply {
                     editProfileFirstName.setText(user.firstName)
                     editProfileLastName.setText(user.lastName)
                     editProfileCity.setText(user.city)
@@ -133,9 +133,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
-                if (user.firstName != firstNameEditText.text.toString() ||
-                    user.lastName != lastNameEditText.text.toString() ||
-                    user.city != cityEditText.text.toString()
+                if (user.firstName != firstNameEditText.text.toString().trim() ||
+                    user.lastName != lastNameEditText.text.toString().trim() ||
+                    user.bio != bioEditText.text.toString().trim() ||
+                    user.city != cityEditText.text.toString().trim()
                 ) {
                     AlertDialog
                         .Builder(requireContext())
@@ -179,10 +180,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private fun saveChanges() {
         val updates = hashMapOf(
-            Constants.FIRST_NAME to firstNameEditText.text.toString(),
-            Constants.LAST_NAME to lastNameEditText.text.toString(),
-            Constants.BIO to bioEditText.text.toString(),
-            Constants.CITY to cityEditText.text.toString()
+            Constants.FIRST_NAME to firstNameEditText.text.toString().trim(),
+            Constants.LAST_NAME to lastNameEditText.text.toString().trim(),
+            Constants.BIO to bioEditText.text.toString().trim(),
+            Constants.CITY to cityEditText.text.toString().trim()
         )
 
         db.collection(Constants.USERS)

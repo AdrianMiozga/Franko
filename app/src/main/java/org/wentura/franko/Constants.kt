@@ -7,7 +7,7 @@ object Constants {
     // Firestore Paths
     const val USERS = "users"
     const val PATHS = "paths"
-    const val FOLLOWERS = "followers"
+    const val FOLLOWING = "following"
 
     // Firestore Fields
     const val UID = "uid"

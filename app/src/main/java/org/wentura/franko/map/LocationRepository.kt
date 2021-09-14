@@ -4,10 +4,15 @@ import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object LocationRepository : LocationCallback() {
+@Singleton
+class LocationRepository @Inject constructor() : LocationCallback() {
 
-    val TAG = LocationRepository::class.simpleName
+    companion object {
+        val TAG = LocationRepository::class.simpleName
+    }
 
     val currentLocation = MutableLiveData<Location>()
 

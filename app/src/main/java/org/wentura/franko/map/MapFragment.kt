@@ -26,12 +26,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.Path
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentMapBinding
 
+@AndroidEntryPoint
 class MapFragment : Fragment(R.layout.fragment_map),
     OnMapReadyCallback,
     AdapterView.OnItemSelectedListener {

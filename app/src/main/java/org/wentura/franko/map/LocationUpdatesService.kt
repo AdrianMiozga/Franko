@@ -12,18 +12,24 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.MainActivity
 import org.wentura.franko.R
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
+@AndroidEntryPoint
 class LocationUpdatesService : Service() {
 
     companion object {
         val TAG = LocationUpdatesService::class.simpleName
     }
+
+    @Inject
+    lateinit var locationRepository: LocationRepository
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -39,6 +45,8 @@ class LocationUpdatesService : Service() {
     }
 
     override fun onCreate() {
+        super.onCreate()
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -63,7 +71,7 @@ class LocationUpdatesService : Service() {
 
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
-            LocationRepository,
+            locationRepository,
             Looper.getMainLooper()
         )
 
@@ -74,7 +82,7 @@ class LocationUpdatesService : Service() {
         super.onDestroy()
 
         timer.cancel()
-        fusedLocationClient.removeLocationUpdates(LocationRepository)
+        fusedLocationClient.removeLocationUpdates(locationRepository)
     }
 
     private fun startTimer() {

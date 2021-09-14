@@ -1,5 +1,6 @@
 # TODO
 
+Option to delete activities  
 Add spinning bars when loading (Spotify?)  
 Recent searches  
 Clear recent searches  

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -299,7 +298,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         timerViewModel.startTimer()
 
         polylinePoints.clear()
-        startTime = System.currentTimeMillis() / 1000
+        startTime = System.currentTimeMillis()
 
         speed.visibility = View.VISIBLE
     }
@@ -327,11 +326,22 @@ class MapFragment : Fragment(R.layout.fragment_map),
             array.add(element)
         }
 
+        speed.visibility = View.INVISIBLE
+
         if (startTime == 0L) return
 
+        if (System.currentTimeMillis() - startTime < Constants.MIN_ACTIVITY_TIME) {
+            Toast.makeText(
+                requireContext(),
+                "Activities shorter than one minute aren’t recorded",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
         val path = Path(
-            startTime,
-            (System.currentTimeMillis() / 1000),
+            startTime / 1000,
+            System.currentTimeMillis() / 1000,
             array,
             spinner.selectedItem.toString()
         )
@@ -342,11 +352,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
             .document(uid)
             .collection(Constants.PATHS)
             .add(path)
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error adding document", exception)
-            }
-
-        speed.visibility = View.INVISIBLE
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {

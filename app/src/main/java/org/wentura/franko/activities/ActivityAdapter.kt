@@ -80,6 +80,8 @@ class ActivityAdapter(private val paths: List<Path>) :
         }
 
         fun clearView() {
+            if (!this::map.isInitialized) return
+
             with(map) {
                 clear()
                 mapType = GoogleMap.MAP_TYPE_NONE

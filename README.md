@@ -14,7 +14,6 @@ Notification about follower new activity
 ## Activities
 
 Option to filter activities by type  
-Make activities clickable and show interactive map  
 Option to name activities  
 Option to change activity type  
 Show activity length in km  

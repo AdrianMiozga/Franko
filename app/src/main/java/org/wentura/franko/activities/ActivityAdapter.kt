@@ -26,9 +26,9 @@ class ActivityAdapter(private val paths: List<Path>) :
         private var latLng: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
 
-        private val title: TextView = binding.activityTitle
-        private val mapView: MapView = binding.activityMap
-        private val timeSpan: TextView = binding.activityTimeSpan
+        private val title: TextView = binding.itemActivityTitle
+        private val mapView: MapView = binding.itemActivityMap
+        private val timeSpan: TextView = binding.itemActivityTimeSpan
 
         private val context = view.context
 
@@ -70,7 +70,7 @@ class ActivityAdapter(private val paths: List<Path>) :
             )
 
             title.text = context.getString(
-                R.string.activity_title,
+                R.string.activities_activity_title,
                 paths[position].activity,
                 (position + 1),
                 date
@@ -100,7 +100,12 @@ class ActivityAdapter(private val paths: List<Path>) :
             with(map) {
                 if (latLng.size > 0) {
                     moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                    addPolyline(PolylineOptions().addAll(latLng))
+                    addPolyline(
+                        PolylineOptions()
+                            .addAll(latLng)
+                            .width(Constants.LINE_WIDTH)
+                            .color(Constants.LINE_COLOR)
+                    )
                 }
 
                 mapType = GoogleMap.MAP_TYPE_NORMAL

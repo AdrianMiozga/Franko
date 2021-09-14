@@ -5,7 +5,8 @@
     <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
 
     <string name="time_span" translatable="false">%s - %s</string>
-    <string name="activity_title" translatable="false">%s: %d (%s)</string>
+    <string name="activities_activity_title" translatable="false">%s: %d (%s)</string>
+    <string name="activity_title" translatable="false">%s (%s)</string>
 
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
     <string name="sample_city" translatable="false">New York</string>
@@ -60,6 +61,7 @@
     <string name="bio">Bio</string>
     <string name="delete_activity">Delete Activity</string>
     <string name="delete_activity_dialog_message">This action is not reversible.</string>
+    <string name="delete">Delete</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

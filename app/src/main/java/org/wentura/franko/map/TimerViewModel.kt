@@ -36,14 +36,15 @@ class TimerViewModel : ViewModel() {
 
     fun stopTimer() {
         _secondsElapsed.postValue("")
-        timer.cancel()
+
+        if (this::timer.isInitialized) {
+            timer.cancel()
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
 
-        if (this::timer.isInitialized) {
-            timer.cancel()
-        }
+        stopTimer()
     }
 }

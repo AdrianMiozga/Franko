@@ -4,6 +4,7 @@ Log in with Facebook, Twitter
 
 ## People
 
+Ability to leave edit profile without saving changes  
 Recent searches  
 Clear recent searches  
 Ability to display profile pic on full screen  

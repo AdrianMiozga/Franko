@@ -111,7 +111,11 @@ class MainActivity : AppCompatActivity() {
         val descriptionText = getString(R.string.recording_channel_description)
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel =
-            NotificationChannel(Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID, name, importance).apply {
+            NotificationChannel(
+                Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID,
+                name,
+                importance
+            ).apply {
                 description = descriptionText
             }
 

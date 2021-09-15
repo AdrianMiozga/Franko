@@ -1,8 +1,10 @@
 package org.wentura.franko.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -13,9 +15,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
@@ -32,7 +31,6 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     private var activityFragmentBinding: FragmentActivityBinding? = null
     private val activityViewModel: ActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
-    private val db = Firebase.firestore
 
     companion object {
         val TAG = ActivityFragment::class.simpleName
@@ -46,12 +44,9 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
         val activityTitle = binding.activityTitle
         val activityTimeSpan = binding.activityTimeSpan
-        val activityDelete = binding.activityDelete
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         activityViewModel.path.observe(viewLifecycleOwner) { path ->
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -88,29 +83,29 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
             }
         }
 
-        activityDelete.setOnClickListener {
-            AlertDialog
-                .Builder(requireContext())
-                .setMessage(getString(R.string.delete_activity_dialog_message))
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    db.collection(Constants.USERS)
-                        .document(uid)
-                        .collection(Constants.PATHS)
-                        .document(args.id)
-                        .delete()
-                        .addOnSuccessListener {
-                            Navigation.findNavController(view).navigateUp()
-                        }
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-                .create()
-                .show()
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         activityFragmentBinding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_edit, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.edit -> {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ActivityFragmentDirections.toActivityEditFragment(args.id))
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

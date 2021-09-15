@@ -1,4 +1,4 @@
-package org.wentura.franko.editprofile
+package org.wentura.franko.profileedit
 
 import android.os.Bundle
 import android.view.*
@@ -21,13 +21,13 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Util
 import org.wentura.franko.data.User
-import org.wentura.franko.databinding.FragmentEditProfileBinding
+import org.wentura.franko.databinding.FragmentProfileEditBinding
 
-class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
+class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
     private val db = Firebase.firestore
 
-    private var fragmentEditProfileBinding: FragmentEditProfileBinding? = null
+    private var fragmentEditProfileBinding: FragmentProfileEditBinding? = null
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
@@ -60,20 +60,20 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     companion object {
-        val TAG = EditProfileFragment::class.simpleName
+        val TAG = ProfileEditFragment::class.simpleName
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentEditProfileBinding.bind(view)
+        val binding = FragmentProfileEditBinding.bind(view)
         fragmentEditProfileBinding = binding
 
-        firstNameEditText = binding.editProfileFirstName
-        lastNameEditText = binding.editProfileLastName
-        bioEditText = binding.editProfileBio
-        cityEditText = binding.editProfileCity
-        editProfileProfilePicture = binding.editProfileProfilePicture
+        firstNameEditText = binding.profileEditFirstName
+        lastNameEditText = binding.profileEditLastName
+        bioEditText = binding.profileEditBio
+        cityEditText = binding.profileEditCity
+        editProfileProfilePicture = binding.profileEditProfilePicture
 
         db.collection(Constants.USERS)
             .document(uid)
@@ -82,7 +82,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 user = document.toObject() ?: return@addOnSuccessListener
 
                 if (user.photoUrl.isNullOrBlank()) {
-                    editProfileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                    editProfileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
                         transformations(CircleCropTransformation())
                     }
                 } else {
@@ -92,10 +92,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
 
                 binding.apply {
-                    editProfileFirstName.setText(user.firstName)
-                    editProfileLastName.setText(user.lastName)
-                    editProfileCity.setText(user.city)
-                    editProfileBio.setText(user.bio)
+                    profileEditFirstName.setText(user.firstName)
+                    profileEditLastName.setText(user.lastName)
+                    profileEditCity.setText(user.city)
+                    profileEditBio.setText(user.bio)
                 }
             }
 
@@ -103,7 +103,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             AlertDialog
                 .Builder(requireContext())
                 .setTitle(R.string.edit_profile_picture)
-                .setItems(R.array.edit_profile_choice_array) { _, which ->
+                .setItems(R.array.profile_edit_choice_array) { _, which ->
                     when (which) {
                         0 -> {
                             takePicture.launch(null)
@@ -165,7 +165,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.save_menu, menu)
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

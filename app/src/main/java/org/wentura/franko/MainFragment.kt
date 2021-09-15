@@ -54,7 +54,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             mainEditProfile.setOnClickListener {
                 Navigation.findNavController(view)
-                    .navigate(MainFragmentDirections.toEditProfileFragment())
+                    .navigate(MainFragmentDirections.toProfileEditFragment())
             }
         }
     }
@@ -70,7 +70,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.menu_main, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

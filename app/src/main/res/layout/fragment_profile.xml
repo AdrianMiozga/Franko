@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/profile_picture_placeholder" />
+        tools:src="@drawable/ic_profile_picture_placeholder" />
 
     <TextView
         android:id="@+id/profile_full_name"

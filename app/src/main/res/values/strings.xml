@@ -62,6 +62,7 @@
     <string name="delete_activity">Delete Activity</string>
     <string name="delete_activity_dialog_message">This action is not reversible.</string>
     <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
@@ -76,7 +77,7 @@
         <item>Running</item>
     </string-array>
 
-    <string-array name="edit_profile_choice_array">
+    <string-array name="profile_edit_choice_array">
         <item>Take Picture</item>
         <item>Select From Gallery</item>
         <item>Remove Picture</item>

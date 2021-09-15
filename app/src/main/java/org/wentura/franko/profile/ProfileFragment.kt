@@ -75,7 +75,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
             if (profile.photoUrl.isNullOrBlank()) {
-                profileProfilePicture.load(R.drawable.profile_picture_placeholder) {
+                profileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
                     transformations(CircleCropTransformation())
                 }
             } else {

@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="@id/recycler_view_full_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/profile_picture_placeholder" />
+        tools:src="@drawable/ic_profile_picture_placeholder" />
 
     <TextView
         android:id="@+id/recycler_view_full_name"

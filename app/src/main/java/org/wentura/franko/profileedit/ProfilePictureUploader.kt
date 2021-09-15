@@ -1,4 +1,4 @@
-package org.wentura.franko.editprofile
+package org.wentura.franko.profileedit
 
 import android.graphics.Bitmap
 import android.net.Uri

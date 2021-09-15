@@ -77,7 +77,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_margin="8dp"
-        android:autofillHints="TODO"
+        android:autofillHints="addressLocality"
         android:inputType="textCapWords"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

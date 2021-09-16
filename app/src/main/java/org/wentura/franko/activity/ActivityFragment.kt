@@ -49,7 +49,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         val mapFragment = childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        activityViewModel.activity.observe(viewLifecycleOwner) { path ->
+        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { path ->
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = dateFormatter.format(path.startTime?.times(1000))
 

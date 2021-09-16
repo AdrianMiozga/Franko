@@ -35,7 +35,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         val binding = FragmentActivitiesBinding.bind(view)
         fragmentActivitiesBinding = binding
 
-        viewModel.getCurrentPaths().observe(viewLifecycleOwner) { paths ->
+        viewModel.getCurrentActivities().observe(viewLifecycleOwner) { paths ->
             pathsArray = paths
 
             binding.activitesRecyclerView.apply {

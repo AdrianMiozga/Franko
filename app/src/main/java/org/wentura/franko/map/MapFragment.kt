@@ -146,6 +146,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
+        // TODO: 16.09.2021 Clean this up like in ActivityEditFragment
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.activities_array,

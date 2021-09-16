@@ -3,10 +3,9 @@ package org.wentura.franko.data
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,13 +26,11 @@ class ActivityRepository @Inject constructor() {
             .collection(Constants.PATHS)
     }
 
-    suspend fun getActivity(activityId: String): DocumentSnapshot {
+    fun getActivity(activityId: String): DocumentReference {
         return db.collection(Constants.USERS)
             .document(uid)
             .collection(Constants.PATHS)
             .document(activityId)
-            .get()
-            .await()
     }
 
     fun deleteActivity(activityId: String): Task<Void> {

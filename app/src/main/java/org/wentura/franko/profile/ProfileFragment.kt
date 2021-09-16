@@ -14,11 +14,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.databinding.FragmentProfileBinding
+import org.wentura.franko.viewmodels.ProfileViewModel
+import org.wentura.franko.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val args: ProfileFragmentArgs by navArgs()
+    private val userViewModel: UserViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
 
     private val db = Firebase.firestore
@@ -51,7 +54,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .document(args.uid)
                 .set(hashMapOf(Constants.UID to args.uid))
                 .addOnSuccessListener {
-                    profileFollow.visibility = View.GONE
+                    profileFollow.visibility = View.INVISIBLE
                     profileUnfollow.visibility = View.VISIBLE
                 }
         }
@@ -65,12 +68,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .document(args.uid)
                 .delete()
                 .addOnSuccessListener {
-                    profileUnfollow.visibility = View.GONE
+                    profileUnfollow.visibility = View.INVISIBLE
                     profileFollow.visibility = View.VISIBLE
                 }
         }
 
-        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+        profileViewModel.getUserAndFollowing(args.uid).observe(viewLifecycleOwner) { profile ->
             if (profile.photoUrl.isNullOrBlank()) {
                 profileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
                     transformations(CircleCropTransformation())
@@ -100,15 +103,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileCity.visibility = View.GONE
             }
 
-            if (profile.uid == FirebaseAuth.getInstance().currentUser?.uid) {
-                profileFollow.visibility = View.GONE
-            }
-
-            if (profile.following.contains(args.uid)) {
-                profileFollow.visibility = View.GONE
-                profileUnfollow.visibility = View.VISIBLE
-            }
-
             val followingEveryone = resources.getStringArray(R.array.who_can_see_my_following_count)[0]
 
             if (profile.whoCanSeeMyFollowingCount != followingEveryone) {
@@ -118,6 +112,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
                 profileFollowing.text =
                     resources.getQuantityString(R.plurals.number_following, size, size)
+            }
+
+            if (uid == null) return@observe
+
+            if (args.uid == uid) {
+                profileFollow.visibility = View.GONE
+            }
+
+            userViewModel.getFollowing(uid).observe(viewLifecycleOwner) { user ->
+                if (user.following.contains(args.uid)) {
+                    profileFollow.visibility = View.INVISIBLE
+                    profileUnfollow.visibility = View.VISIBLE
+                }
             }
         }
     }

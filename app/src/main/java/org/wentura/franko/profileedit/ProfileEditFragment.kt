@@ -146,6 +146,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                             Util.closeKeyboard(view)
                             saveChanges()
                         }
+                        .setNeutralButton(getString(R.string.discard)) { _, _ ->
+                            Util.closeKeyboard(view)
+                            Navigation.findNavController(view).navigateUp()
+                        }
                         .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
                         .create()
                         .show()

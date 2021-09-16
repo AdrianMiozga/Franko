@@ -4,12 +4,12 @@ Log in with Facebook, Twitter
 
 ## People
 
-Ability to leave edit profile without saving changes (discard)  
 Recent searches  
 Clear recent searches  
-Ability to display profile pic on full screen  
 Display user followings  
-Show people activities  
+Show people activities
+
+Ability to display profile pic on full screen  
 Notification about follower new activity
 
 ## Activities

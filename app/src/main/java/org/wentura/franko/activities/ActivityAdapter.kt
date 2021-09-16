@@ -74,6 +74,7 @@ class ActivityAdapter(private val paths: List<Path>) :
 
             title.text = context.getString(
                 R.string.activity_title,
+                paths[position].activityName,
                 paths[position].activity,
                 date
             )

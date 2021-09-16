@@ -40,7 +40,7 @@ class DataStoreActivity(
             .document(uid)
             .collection(Constants.PATHS)
             .document(activityId)
-            .update(key, value)
+            .update(key, value?.trim())
     }
 
     override fun getString(key: String?, defValue: String?): String? {

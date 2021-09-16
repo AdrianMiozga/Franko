@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,7 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         val whoCanSeeThisActivity: ListPreference? = preferenceManager.findPreference(
             Constants.WHO_CAN_SEE_THIS_ACTIVITY
         )
+        val activityName: EditTextPreference? = preferenceManager.findPreference(Constants.ACTIVITY_NAME)
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
             if (activity == null) return@observe
@@ -85,6 +87,10 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
                 val index = array.indexOf(activity.whoCanSeeThisActivity)
 
                 whoCanSeeThisActivity.setValueIndex(if (index == -1) 0 else index)
+            }
+
+            activityName?.let {
+                activityName.text = activity.activityName
             }
         }
 

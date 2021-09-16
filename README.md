@@ -4,7 +4,7 @@ Log in with Facebook, Twitter
 
 ## People
 
-Ability to leave edit profile without saving changes  
+Ability to leave edit profile without saving changes (discard)  
 Recent searches  
 Clear recent searches  
 Ability to display profile pic on full screen  
@@ -19,7 +19,7 @@ Option to name activities
 Show activity length in km  
 Show average speed  
 Show max speed  
-Activity should privacy settings
+Activities should have privacy settings
 
 ## Statistics
 
@@ -32,13 +32,8 @@ Compress profile pic to lower bandwidth
 
 ## UI
 
-Dark mode  
-Add spinning bars when loading (Spotify?)
-Optional notification when somebody follows you  
+Add spinning bars when loading (Spotify?)  
 Dialog in case user disabled location during activity recording  
-Dialog in case of disabled network
-
-## Best Practices
-
-Guide to app architecture  
-https://developer.android.com/jetpack/guide
+Dialog in case of disabled network  
+Dark mode  
+Optional notification when somebody follows you

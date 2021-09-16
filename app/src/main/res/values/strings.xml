@@ -63,6 +63,7 @@
     <string name="delete_activity_dialog_message">This action is not reversible.</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="discard">Discard</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

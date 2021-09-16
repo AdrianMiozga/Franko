@@ -9,6 +9,7 @@ import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import javax.inject.Inject
 
+// TODO: 16.09.2021 Use UserRepository instead?
 class ProfileRepository @Inject constructor() {
 
     private val myUid = FirebaseAuth.getInstance().currentUser?.uid

@@ -22,6 +22,7 @@ import org.wentura.franko.databinding.FragmentActivityBinding
 import org.wentura.franko.viewmodels.ActivityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class ActivityFragment : Fragment(R.layout.fragment_activity),
@@ -50,8 +51,11 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         mapFragment.getMapAsync(this)
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { path ->
+            val startTime = path?.startTime ?: 0L
+            val endTime = path?.endTime ?: 0L
+
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val date = dateFormatter.format(path.startTime?.times(1000))
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             activityTitle.text = requireContext()
                 .getString(R.string.activity_title, path.activity, date)
@@ -62,10 +66,10 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
                 .getString(
                     R.string.time_span,
                     timeFormatter.format(
-                        path.startTime?.times(1000)
+                        TimeUnit.SECONDS.toMillis(startTime)
                     ),
                     timeFormatter.format(
-                        path.endTime?.times(1000)
+                        TimeUnit.SECONDS.toMillis(endTime)
                     )
                 )
 

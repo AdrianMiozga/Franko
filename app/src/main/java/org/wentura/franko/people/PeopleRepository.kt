@@ -7,6 +7,7 @@ import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import javax.inject.Inject
 
+// TODO: 16.09.2021 User UserRepository?
 class PeopleRepository @Inject constructor() {
 
     private val db = Firebase.firestore

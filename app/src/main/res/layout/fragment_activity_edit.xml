@@ -5,13 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Spinner
+        android:id="@+id/activity_edit_activity_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:entries="@array/activities_array"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/activity_edit_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="@string/delete_activity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/activity_edit_activity_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

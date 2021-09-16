@@ -1,4 +1,4 @@
-package org.wentura.franko.activity
+package org.wentura.franko.viewmodels
 
 import androidx.lifecycle.*
 import com.google.firebase.firestore.ktx.toObject
@@ -18,14 +18,14 @@ class ActivityViewModel @Inject constructor(
         val TAG = ActivityViewModel::class.simpleName
     }
 
-    private val pathId: String = savedStateHandle["id"] ?: throw IllegalArgumentException("Missing uid")
+    private val activityId: String = savedStateHandle["id"] ?: throw IllegalArgumentException("Missing uid")
 
-    private val _path = MutableLiveData<Path>()
-    val path: LiveData<Path> = _path
+    private val _activity = MutableLiveData<Path>()
+    val activity: LiveData<Path> = _activity
 
     init {
         viewModelScope.launch {
-            _path.value = activityRepository.getActivity(pathId).toObject()
+            _activity.value = activityRepository.getActivity(activityId).toObject()
         }
     }
 }

@@ -356,7 +356,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             .add(path)
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+    override fun onItemSelected(adapterView: AdapterView<*>, view: View?, pos: Int, id: Long) {
         if (initialOnItemSelected) {
             initialOnItemSelected = false
             return
@@ -366,7 +366,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         db.collection(Constants.USERS)
             .document(uid)
-            .update(Constants.LAST_ACTIVITY, parent.getItemAtPosition(pos))
+            .update(Constants.LAST_ACTIVITY, adapterView.getItemAtPosition(pos))
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) = Unit

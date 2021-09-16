@@ -16,7 +16,6 @@ Notification about follower new activity
 
 Option to filter activities by type  
 Option to name activities  
-Option to change activity type  
 Show activity length in km  
 Show average speed  
 Show max speed  

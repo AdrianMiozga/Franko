@@ -12,34 +12,39 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
     companion object {
-        val TAG = UserViewModel::class.simpleName
+        val TAG = ProfileViewModel::class.simpleName
     }
 
     private val user = MutableLiveData<User>()
 
-    fun getUser(): LiveData<User> {
+    fun getUserAndFollowing(uid: String): LiveData<User> {
         userRepository
-            .getUser()
+            .getUser(uid)
             .addSnapshotListener { documentSnapshot, exception ->
                 if (exception != null) {
                     Log.w(TAG, "Listen failed.", exception)
                     return@addSnapshotListener
                 }
 
-                if (documentSnapshot == null) return@addSnapshotListener
+                val newUser: User = documentSnapshot?.toObject() ?: return@addSnapshotListener
 
-                user.value = documentSnapshot.toObject()
+                userRepository
+                    .getFollowing(uid)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        querySnapshot.forEach { document ->
+                            newUser.following.add(document[Constants.UID].toString())
+                        }
+
+                        user.value = newUser
+                    }
             }
 
-        return user
-    }
-
-    fun getFollowing(uid: String): LiveData<User> {
         userRepository
             .getFollowing(uid)
             .addSnapshotListener { querySnapshot, exception ->
@@ -50,7 +55,9 @@ class UserViewModel @Inject constructor(
 
                 if (querySnapshot == null || querySnapshot.isEmpty) return@addSnapshotListener
 
-                val newUser = User()
+                val newUser = user.value ?: return@addSnapshotListener
+
+                newUser.following.clear()
 
                 querySnapshot.forEach { document ->
                     newUser.following.add(document[Constants.UID].toString())

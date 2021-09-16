@@ -37,7 +37,7 @@ Compress profile pic to lower bandwidth
 ## UI
 
 Proper login screen  
-Startup screen  
+Startup screen (black screen + app logo?)  
 App logo  
 Add spinning bars when loading (Spotify?)  
 Dialog in case user disabled location during activity recording  

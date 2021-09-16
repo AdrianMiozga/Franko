@@ -19,8 +19,7 @@ Option to filter activities by type
 Option to name activities  
 Show activity length in km  
 Show average speed  
-Show max speed  
-Activities should have privacy settings
+Show max speed
 
 ## Statistics
 

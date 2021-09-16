@@ -53,6 +53,10 @@ object Constants {
     // Intent Request Codes
     const val PERMISSIONS_REQUEST_LOCATION = 1
 
+    // Result Registry Keys
+    const val SELECT_IMAGE_KEY = "selectImageKey"
+    const val TAKE_PICTURE_KEY = "takePictureKey"
+
     // Other
     /** Min activity time to save in milliseconds **/
     val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)

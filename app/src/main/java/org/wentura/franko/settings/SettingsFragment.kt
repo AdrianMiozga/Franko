@@ -35,6 +35,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
         val whoCanSeeMyFollowingCount: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_FOLLOWING_COUNT)
+        val whoCanSeeActivityDefault: ListPreference? = preferenceManager.findPreference(
+            Constants
+                .WHO_CAN_SEE_ACTIVITY_DEFAULT
+        )
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             darkModeSwitch?.let {
@@ -67,6 +71,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 val index = array.indexOf(user.whoCanSeeMyFollowingCount)
 
                 whoCanSeeMyFollowingCount.setValueIndex(if (index == -1) 0 else index)
+            }
+
+            whoCanSeeActivityDefault?.let {
+                val array = resources.getStringArray(R.array.who_can_see_activity)
+                val index = array.indexOf(user.whoCanSeeActivityDefault)
+
+                whoCanSeeActivityDefault.setValueIndex(if (index == -1) 0 else index)
             }
         }
 

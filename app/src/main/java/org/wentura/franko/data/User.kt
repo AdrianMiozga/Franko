@@ -14,7 +14,8 @@ data class User(
     val unitsOfMeasure: String? = null,
     val whoCanSeeMyProfile: String? = null,
     val whoCanSeeMyLocation: String? = null,
-    val whoCanSeeMyFollowingCount: String? = null
+    val whoCanSeeMyFollowingCount: String? = null,
+    val whoCanSeeActivityDefault: String? = null
 ) {
     @DocumentId
     lateinit var uid: String

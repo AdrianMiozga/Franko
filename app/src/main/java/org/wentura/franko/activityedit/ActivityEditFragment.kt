@@ -83,7 +83,7 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
             }
 
             whoCanSeeThisActivity?.let {
-                val array = resources.getStringArray(R.array.who_can_see_this_activity)
+                val array = resources.getStringArray(R.array.who_can_see_activity)
                 val index = array.indexOf(activity.whoCanSeeThisActivity)
 
                 whoCanSeeThisActivity.setValueIndex(if (index == -1) 0 else index)

@@ -16,7 +16,6 @@ Notification about follower new activity
 
 Pagination  
 Keep screen on during activity setting  
-Default activity visibility setting  
 Option to filter activities by type  
 Save activity window after recording  
 Show activity length in km  
@@ -38,6 +37,9 @@ Compress profile pic to lower bandwidth
 
 ## UI
 
+Proper login screen  
+Startup screen  
+App logo  
 Add spinning bars when loading (Spotify?)  
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  

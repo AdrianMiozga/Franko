@@ -15,7 +15,6 @@ Notification about follower new activity
 ## Activities
 
 Pagination  
-Keep screen on during activity setting  
 Option to filter activities by type  
 Save activity window after recording  
 Show activity length in km  

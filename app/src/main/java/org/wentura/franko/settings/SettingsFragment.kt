@@ -30,19 +30,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
+        val keepScreenOnInMapSwitch: SwitchPreferenceCompat? =
+            preferenceManager.findPreference(Constants.KEEP_SCREEN_ON_IN_MAP)
         val unitsOfMeasure: ListPreference? = preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
         val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
         val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
         val whoCanSeeMyFollowingCount: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_FOLLOWING_COUNT)
-        val whoCanSeeActivityDefault: ListPreference? = preferenceManager.findPreference(
-            Constants
-                .WHO_CAN_SEE_ACTIVITY_DEFAULT
-        )
+        val whoCanSeeActivityDefault: ListPreference? =
+            preferenceManager.findPreference(Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT)
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             darkModeSwitch?.let {
-                it.isChecked = user.darkMode ?: false
+                it.isChecked = user.darkMode
+            }
+
+            keepScreenOnInMapSwitch?.let {
+                it.isChecked = user.keepScreenOnInMap
             }
 
             unitsOfMeasure?.let {

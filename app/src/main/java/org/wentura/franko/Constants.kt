@@ -21,6 +21,7 @@ object Constants {
     const val LATITUDE = "latitude"
     const val LONGITUDE = "longitude"
     const val ACTIVITY = "activity"
+    const val END_TIME = "endTime"
 
     // Firestore Values
     const val IMPERIAL = "Imperial"

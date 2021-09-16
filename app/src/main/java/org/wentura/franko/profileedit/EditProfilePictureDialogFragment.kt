@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @AndroidEntryPoint

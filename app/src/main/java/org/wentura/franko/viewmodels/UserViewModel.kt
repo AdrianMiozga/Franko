@@ -1,4 +1,4 @@
-package org.wentura.franko.profileedit
+package org.wentura.franko.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wentura.franko.activities.ActivityListViewModel
 import org.wentura.franko.data.User
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel

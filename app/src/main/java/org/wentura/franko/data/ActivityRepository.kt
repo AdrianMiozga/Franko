@@ -20,6 +20,13 @@ class ActivityRepository @Inject constructor() {
         val TAG = ActivityRepository::class.simpleName
     }
 
+    fun addActivity(activity: Path) {
+        db.collection(Constants.USERS)
+            .document(uid)
+            .collection(Constants.PATHS)
+            .add(activity)
+    }
+
     fun getActivities(): CollectionReference {
         return db.collection(Constants.USERS)
             .document(uid)

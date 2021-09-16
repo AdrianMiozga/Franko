@@ -22,23 +22,28 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
+import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.Path
-import org.wentura.franko.data.User
+import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentMapBinding
+import org.wentura.franko.viewmodels.UserViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MapFragment : Fragment(R.layout.fragment_map),
     OnMapReadyCallback,
     AdapterView.OnItemSelectedListener {
 
-    private lateinit var myMap: GoogleMap
+    @Inject
+    lateinit var activityRepository: ActivityRepository
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    private lateinit var map: GoogleMap
     private lateinit var spinner: Spinner
     private lateinit var speed: TextView
     private lateinit var polyline: Polyline
@@ -48,10 +53,9 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
 
+    private val userViewModel: UserViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
     private val timerViewModel: TimerViewModel by viewModels()
-
-    private val db = Firebase.firestore
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
@@ -95,9 +99,9 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
             val latLng = LatLng(location.latitude, location.longitude)
 
-            if (this::myMap.isInitialized) {
-                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+            if (this::map.isInitialized) {
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                map.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
             if (trackPosition) {
@@ -146,24 +150,15 @@ class MapFragment : Fragment(R.layout.fragment_map),
         spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
-        // TODO: 16.09.2021 Clean this up like in ActivityEditFragment
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.activities_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+        userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+            val lastActivity = user.lastActivity
+            val id = resources.getStringArray(R.array.activities_array).indexOf(lastActivity)
 
-            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            spinner.setSelection(id)
 
-            db.collection(Constants.USERS)
-                .document(uid)
-                .get()
-                .addOnSuccessListener { result ->
-                    val lastActivity = result.toObject<User>()?.lastActivity
-                    spinner.setSelection(adapter.getPosition(lastActivity))
-                }
+            user.unitsOfMeasure?.let {
+                speedometer.unitsOfMeasure = it
+            }
         }
     }
 
@@ -188,43 +183,27 @@ class MapFragment : Fragment(R.layout.fragment_map),
         fragmentMapBinding = null
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
-        db.collection(Constants.USERS)
-            .document(uid)
-            .get()
-            .addOnSuccessListener { result ->
-                val user: User? = result.toObject()
-
-                user?.unitsOfMeasure?.let {
-                    speedometer.unitsOfMeasure = it
-                }
-            }
-    }
-
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-        myMap = googleMap
-        myMap.isMyLocationEnabled = true
+        map = googleMap
+        map.isMyLocationEnabled = true
 
-        fusedLocationClient.lastLocation
+        fusedLocationClient
+            .lastLocation
             .addOnSuccessListener { location ->
                 if (location == null) return@addOnSuccessListener
 
                 val latLng = LatLng(location.latitude, location.longitude)
 
-                myMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                myMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                map.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
-        val color = PolylineOptions()
+        val polylineOptions = PolylineOptions()
             .width(Constants.LINE_WIDTH)
             .color(Constants.LINE_COLOR)
 
-        polyline = myMap.addPolyline(color)
+        polyline = map.addPolyline(polylineOptions)
     }
 
     private fun checkLocationPermission() {
@@ -236,10 +215,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         if (accessFineLocation == PackageManager.PERMISSION_GRANTED) return
 
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // Show an explanation to the user *asynchronously* -- don't block
-            // this thread waiting for the user's response! After the user
-            // sees the explanation, try again to request the permission.
-            AlertDialog.Builder(requireContext())
+            AlertDialog
+                .Builder(requireContext())
                 .setTitle("Location Permission Needed")
                 .setMessage("This app needs the Location permission, please accept to use location functionality")
                 .setPositiveButton(R.string.OK) { _, _ ->
@@ -342,19 +319,14 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
-        val path = Path(
+        val activity = Path(
             startTime / 1000,
             System.currentTimeMillis() / 1000,
             array,
             spinner.selectedItem.toString()
         )
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
-            .add(path)
+        activityRepository.addActivity(activity)
     }
 
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, pos: Int, id: Long) {
@@ -363,11 +335,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val updates: HashMap<String, Any> =
+            hashMapOf(Constants.LAST_ACTIVITY to adapterView.getItemAtPosition(pos))
 
-        db.collection(Constants.USERS)
-            .document(uid)
-            .update(Constants.LAST_ACTIVITY, adapterView.getItemAtPosition(pos))
+        userRepository.updateUser(updates)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) = Unit

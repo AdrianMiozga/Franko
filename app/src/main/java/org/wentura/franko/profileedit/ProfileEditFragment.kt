@@ -16,7 +16,9 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Util
 import org.wentura.franko.data.User
+import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentProfileEditBinding
+import org.wentura.franko.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

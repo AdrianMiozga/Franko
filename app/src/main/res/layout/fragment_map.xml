@@ -32,8 +32,9 @@
     <Spinner
         android:id="@+id/map_activity_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="8dp"
+        android:entries="@array/activities_array"
         app:layout_constraintBottom_toTopOf="@id/map_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

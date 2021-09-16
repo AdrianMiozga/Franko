@@ -12,7 +12,6 @@ class DataStoreActivity(
 ) : PreferenceDataStore() {
 
     private val db = Firebase.firestore
-
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     companion object {

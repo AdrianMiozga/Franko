@@ -18,8 +18,6 @@ import org.wentura.franko.databinding.FragmentProfileBinding
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    private var fragmentProfileBinding: FragmentProfileBinding? = null
-
     private val args: ProfileFragmentArgs by navArgs()
     private val profileViewModel: ProfileViewModel by viewModels()
 
@@ -33,7 +31,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentProfileBinding.bind(view)
-        fragmentProfileBinding = binding
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -123,10 +120,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     resources.getQuantityString(R.plurals.number_following, size, size)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentProfileBinding = null
     }
 }

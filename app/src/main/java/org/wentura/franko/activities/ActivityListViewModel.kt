@@ -8,8 +8,8 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wentura.franko.Constants
+import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
-import org.wentura.franko.data.Path
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,9 +21,9 @@ class ActivityListViewModel @Inject constructor(
         val TAG = ActivityListViewModel::class.simpleName
     }
 
-    private val activities = MutableLiveData<ArrayList<Path>>()
+    private val activities = MutableLiveData<ArrayList<Activity>>()
 
-    fun getCurrentActivities(): LiveData<ArrayList<Path>> {
+    fun getCurrentActivities(): LiveData<ArrayList<Activity>> {
         activityRepository
             .getActivities()
             .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)

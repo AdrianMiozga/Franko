@@ -11,13 +11,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.franko.Constants
 import org.wentura.franko.R
-import org.wentura.franko.data.Path
+import org.wentura.franko.data.Activity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class ActivityAdapter(private val paths: List<Path>) :
+class ActivityAdapter(private val activities: List<Activity>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
@@ -41,14 +41,14 @@ class ActivityAdapter(private val paths: List<Path>) :
             }
         }
 
-        fun bindView(position: Int, paths: List<Path>) {
+        fun bindView(position: Int, activities: List<Activity>) {
             view.setOnClickListener {
                 Navigation.findNavController(view).navigate(
-                    ActivitiesFragmentDirections.toActivityFragment(paths[position].documentId)
+                    ActivitiesFragmentDirections.toActivityFragment(activities[position].documentId)
                 )
             }
 
-            paths[position].path?.forEach {
+            activities[position].path?.forEach {
                 latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
@@ -56,8 +56,8 @@ class ActivityAdapter(private val paths: List<Path>) :
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-            val startTime = paths[position].startTime ?: 0L
-            val endTime = paths[position].endTime ?: 0L
+            val startTime = activities[position].startTime ?: 0L
+            val endTime = activities[position].endTime ?: 0L
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
@@ -74,8 +74,8 @@ class ActivityAdapter(private val paths: List<Path>) :
 
             title.text = context.getString(
                 R.string.activity_title,
-                paths[position].activityName,
-                paths[position].activity,
+                activities[position].activityName,
+                activities[position].activity,
                 date
             )
 
@@ -124,8 +124,8 @@ class ActivityAdapter(private val paths: List<Path>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, paths)
+        viewHolder.bindView(position, activities)
     }
 
-    override fun getItemCount() = paths.size
+    override fun getItemCount() = activities.size
 }

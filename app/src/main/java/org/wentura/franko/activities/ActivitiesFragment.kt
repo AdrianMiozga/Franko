@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
-import org.wentura.franko.data.Path
 import org.wentura.franko.databinding.FragmentActivitiesBinding
 
 @AndroidEntryPoint
 class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
-
-    private var pathsArray: ArrayList<Path> = arrayListOf()
 
     private val viewModel: ActivityListViewModel by viewModels()
 
@@ -22,8 +19,6 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         val mapHolder = holder as ActivityAdapter.ViewHolder
         mapHolder.clearView()
     }
-
-    private var fragmentActivitiesBinding: FragmentActivitiesBinding? = null
 
     companion object {
         val TAG = ActivitiesFragment::class.simpleName
@@ -33,22 +28,14 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentActivitiesBinding.bind(view)
-        fragmentActivitiesBinding = binding
 
-        viewModel.getCurrentActivities().observe(viewLifecycleOwner) { paths ->
-            pathsArray = paths
-
+        viewModel.getCurrentActivities().observe(viewLifecycleOwner) { activities ->
             binding.activitesRecyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = ActivityAdapter(pathsArray)
+                adapter = ActivityAdapter(activities)
                 setRecyclerListener(recyclerListener)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentActivitiesBinding = null
     }
 }

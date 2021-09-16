@@ -15,12 +15,14 @@ Notification about follower new activity
 ## Activities
 
 Pagination  
+Keep screen on during activity setting  
 Default activity visibility setting  
 Option to filter activities by type  
 Save activity window after recording  
 Show activity length in km  
 Show average speed  
-Show max speed
+Show max speed  
+Auto pause
 
 ## Statistics
 

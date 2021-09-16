@@ -2,26 +2,33 @@
 <PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/display">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/display">
 
         <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             app:key="darkMode"
             app:title="@string/dark_mode" />
 
         <ListPreference
-            app:key="unitsOfMeasure"
-            app:useSimpleSummaryProvider="true"
             app:entries="@array/units_of_measure_array"
             app:entryValues="@array/units_of_measure_array"
-            app:title="@string/units_of_measure" />
+            app:iconSpaceReserved="false"
+            app:key="unitsOfMeasure"
+            app:title="@string/units_of_measure"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/privacy">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/privacy">
 
         <ListPreference
             app:entries="@array/who_can_see_my_profile"
             app:entryValues="@array/who_can_see_my_profile"
+            app:iconSpaceReserved="false"
             app:key="whoCanSeeMyProfile"
             app:title="@string/who_can_see_my_profile"
             app:useSimpleSummaryProvider="true" />
@@ -29,6 +36,7 @@
         <ListPreference
             app:entries="@array/who_can_see_my_location"
             app:entryValues="@array/who_can_see_my_location"
+            app:iconSpaceReserved="false"
             app:key="whoCanSeeMyLocation"
             app:title="@string/who_can_see_my_location"
             app:useSimpleSummaryProvider="true" />
@@ -36,6 +44,7 @@
         <ListPreference
             app:entries="@array/who_can_see_my_following_count"
             app:entryValues="@array/who_can_see_my_following_count"
+            app:iconSpaceReserved="false"
             app:key="whoCanSeeMyFollowingCount"
             app:title="@string/who_can_see_my_following_count"
             app:useSimpleSummaryProvider="true" />

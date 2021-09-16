@@ -68,6 +68,7 @@
     <string name="activity_type">Activity type</string>
     <string name="who_can_see_this_activity">Who can see this activity</string>
     <string name="activity_name">Activity name</string>
+    <string name="map">Map</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

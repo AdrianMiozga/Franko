@@ -22,7 +22,10 @@ Save activity window after recording
 Show activity length in km  
 Show average speed  
 Show max speed  
-Auto pause
+Search by title  
+Hide start and end of activity  
+Auto pause  
+Add photos to activities
 
 ## Statistics
 

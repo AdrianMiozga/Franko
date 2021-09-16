@@ -15,6 +15,7 @@ import org.wentura.franko.data.Path
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class ActivityAdapter(private val paths: List<Path>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
@@ -55,17 +56,19 @@ class ActivityAdapter(private val paths: List<Path>) :
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-            val date = dateFormatter.format(paths[position].startTime?.times(1000))
+            val startTime = paths[position].startTime ?: 0L
+            val endTime = paths[position].endTime ?: 0L
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
 
             timeSpan.text = context.getString(
                 R.string.time_span,
                 timeFormatter.format(
-                    paths[position].startTime?.times(1000)
+                    TimeUnit.SECONDS.toMillis(startTime)
                 ),
                 timeFormatter.format(
-                    paths[position].endTime?.times(1000)
+                    TimeUnit.SECONDS.toMillis(endTime)
                 )
             )
 

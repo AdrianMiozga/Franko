@@ -1,4 +1,4 @@
-package org.wentura.franko.profileedit
+package org.wentura.franko.data
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference

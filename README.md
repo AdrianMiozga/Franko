@@ -16,7 +16,7 @@ Notification about follower new activity
 
 Pagination  
 Option to filter activities by type  
-Option to name activities  
+Save activity window after recording  
 Show activity length in km  
 Show average speed  
 Show max speed

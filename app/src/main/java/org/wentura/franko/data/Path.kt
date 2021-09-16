@@ -7,6 +7,7 @@ data class Path(
     val endTime: Long? = null,
     val path: List<HashMap<String, Double>>? = null,
     val activity: String? = null,
+    val activityName: String? = "",
     val whoCanSeeThisActivity: String? = null
 ) {
     @DocumentId

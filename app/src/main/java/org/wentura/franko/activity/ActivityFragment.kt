@@ -58,7 +58,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             activityTitle.text = requireContext()
-                .getString(R.string.activity_title, path.activity, date)
+                .getString(R.string.activity_title, path.activityName, path.activity, date)
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
 

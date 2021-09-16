@@ -33,7 +33,7 @@ class DataStore : PreferenceDataStore() {
 
         db.collection(Constants.USERS)
             .document(uid)
-            .update(key, value)
+            .update(key, value?.trim())
     }
 
     override fun getString(key: String?, defValue: String?): String? {

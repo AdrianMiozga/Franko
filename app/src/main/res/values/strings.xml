@@ -69,6 +69,7 @@
     <string name="who_can_see_this_activity">Who can see this activity</string>
     <string name="activity_name">Activity name</string>
     <string name="map">Map</string>
+    <string name="who_can_see_activity_default">Who can see newly created activities</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
@@ -109,7 +110,7 @@
         <item>No one</item>
     </string-array>
 
-    <string-array name="who_can_see_this_activity">
+    <string-array name="who_can_see_activity">
         <item>Everyone</item>
         <item>No one</item>
     </string-array>

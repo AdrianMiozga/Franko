@@ -25,6 +25,7 @@ import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
+import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
@@ -51,6 +52,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private var startTime = 0L
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
+    private lateinit var user: User
 
     private val userViewModel: UserViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
@@ -147,6 +149,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         spinner.onItemSelectedListener = this
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+            this.user = user
+
             val lastActivity = user.lastActivity
             val id = resources.getStringArray(R.array.activities_array).indexOf(lastActivity)
 
@@ -300,20 +304,22 @@ class MapFragment : Fragment(R.layout.fragment_map),
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
             array,
-            spinner.selectedItem.toString()
+            spinner.selectedItem.toString(),
+            "",
+            user.whoCanSeeActivityDefault
         )
 
         activityRepository.addActivity(activity)
     }
 
-    override fun onItemSelected(adapterView: AdapterView<*>, view: View?, pos: Int, id: Long) {
+    override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {
         if (initialOnItemSelected) {
             initialOnItemSelected = false
             return
         }
 
         val updates: HashMap<String, Any> =
-            hashMapOf(Constants.LAST_ACTIVITY to adapterView.getItemAtPosition(pos))
+            hashMapOf(Constants.LAST_ACTIVITY to adapterView.getItemAtPosition(position))
 
         userRepository.updateUser(updates)
     }

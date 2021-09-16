@@ -40,6 +40,7 @@ object Constants {
     const val ACTIVITY_TYPE_KEY = ACTIVITY
     const val WHO_CAN_SEE_THIS_ACTIVITY = "whoCanSeeThisActivity"
     const val ACTIVITY_NAME = "activityName"
+    const val WHO_CAN_SEE_ACTIVITY_DEFAULT = "whoCanSeeActivityDefault"
 
     // Map Settings
     const val DEFAULT_ZOOM = 17F

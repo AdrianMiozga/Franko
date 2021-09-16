@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.wentura.franko.Constants
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.Path
 import javax.inject.Inject
@@ -24,6 +26,7 @@ class ActivityListViewModel @Inject constructor(
     fun getCurrentActivities(): LiveData<ArrayList<Path>> {
         activityRepository
             .getActivities()
+            .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, exception ->
                 if (exception != null) {
                     Log.w(TAG, "Listen failed.", exception)

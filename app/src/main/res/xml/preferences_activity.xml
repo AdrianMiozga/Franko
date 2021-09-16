@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditTextPreference
+        app:iconSpaceReserved="false"
         app:key="activityName"
         app:title="@string/activity_name"
         app:useSimpleSummaryProvider="true" />
@@ -10,6 +11,7 @@
     <ListPreference
         app:entries="@array/activities_array"
         app:entryValues="@array/activities_array"
+        app:iconSpaceReserved="false"
         app:key="activity"
         app:title="@string/activity_type"
         app:useSimpleSummaryProvider="true" />
@@ -17,6 +19,7 @@
     <ListPreference
         app:entries="@array/who_can_see_this_activity"
         app:entryValues="@array/who_can_see_this_activity"
+        app:iconSpaceReserved="false"
         app:key="whoCanSeeThisActivity"
         app:title="@string/who_can_see_this_activity"
         app:useSimpleSummaryProvider="true" />

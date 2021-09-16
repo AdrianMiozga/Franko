@@ -59,6 +59,8 @@ class ActivityEditFragment : Fragment(R.layout.fragment_activity_edit),
         spinner.onItemSelectedListener = this
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+            if (activity == null) return@observe
+           
             val activityType = activity.activity
             val id = resources.getStringArray(R.array.activities_array).indexOf(activityType)
 

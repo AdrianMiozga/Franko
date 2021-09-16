@@ -1,51 +1,60 @@
 package org.wentura.franko
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseUser
 import java.io.ByteArrayOutputStream
 
+object Util {
+    /**
+     * Extract Google profile picture in original quality.
+     *
+     * @param [url] to extract
+     * @return extracted url
+     */
+    fun extractGoogleProfilePicture(url: String): String {
+        return url.removeSuffix("=s96-c")
+    }
 
-class Util {
+    fun extractPhotoUrl(user: FirebaseUser): String {
+        var photoUrl = user.photoUrl.toString()
 
-    companion object {
-        /**
-         * Extract Google profile picture in original quality.
-         *
-         * @param [url] to extract
-         * @return extracted url
-         */
-        fun extractGoogleProfilePicture(url: String): String {
-            return url.removeSuffix("=s96-c")
-        }
-
-        fun extractPhotoUrl(user: FirebaseUser): String {
-            var photoUrl = user.photoUrl.toString()
-
-            for (profile in user.providerData) {
-                if (profile.providerId == Constants.PROVIDER_GOOGLE) {
-                    photoUrl = extractGoogleProfilePicture(photoUrl)
-                }
+        for (profile in user.providerData) {
+            if (profile.providerId == Constants.PROVIDER_GOOGLE) {
+                photoUrl = extractGoogleProfilePicture(photoUrl)
             }
-
-            return photoUrl
         }
 
-        fun Bitmap.convertToByteArray(): ByteArray {
-            val stream = ByteArrayOutputStream()
-            this.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray: ByteArray = stream.toByteArray()
-            this.recycle()
-            return byteArray
-        }
+        return photoUrl
+    }
 
-        fun closeKeyboard(view: View) {
-            val inputMethodManager = view.context
-                .getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    fun Bitmap.convertToByteArray(): ByteArray {
+        val stream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byteArray: ByteArray = stream.toByteArray()
+        this.recycle()
+        return byteArray
+    }
 
-            inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
-        }
+    fun closeKeyboard(view: View) {
+        val inputMethodManager = view.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+
+        inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun isLocationPermissionGranted(context: Context?): Boolean {
+        return if (context == null) {
+            return false
+        } else
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
     }
 }

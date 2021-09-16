@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import org.wentura.franko.Constants
-import org.wentura.franko.Util.Companion.convertToByteArray
+import org.wentura.franko.Util.convertToByteArray
 
 class ProfilePictureObserver(
     private val registry: ActivityResultRegistry

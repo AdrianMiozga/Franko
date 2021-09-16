@@ -10,8 +10,6 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.location.*
@@ -30,6 +28,7 @@ import org.wentura.franko.data.Path
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -79,7 +78,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        checkLocationPermission()
+        askForLocationPermission()
 
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -185,6 +184,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
+        if (!Util.isLocationPermissionGranted(context)) return
+
         map = googleMap
         map.isMyLocationEnabled = true
 
@@ -206,19 +207,14 @@ class MapFragment : Fragment(R.layout.fragment_map),
         polyline = map.addPolyline(polylineOptions)
     }
 
-    private fun checkLocationPermission() {
-        val accessFineLocation = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        if (accessFineLocation == PackageManager.PERMISSION_GRANTED) return
+    private fun askForLocationPermission() {
+        if (Util.isLocationPermissionGranted(context)) return
 
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
             AlertDialog
                 .Builder(requireContext())
-                .setTitle("Location Permission Needed")
-                .setMessage("This app needs the Location permission, please accept to use location functionality")
+                .setTitle(getString(R.string.location_permissions_needed_dialog_title))
+                .setMessage(getString(R.string.location_permissions_needed_dialog_message))
                 .setPositiveButton(R.string.OK) { _, _ ->
                     requestLocationPermission()
                 }
@@ -265,14 +261,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun startTrackingLocation() {
-        val accessFineLocation = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) return
+        if (!Util.isLocationPermissionGranted(context)) return
 
         context?.startService(Intent(context, LocationUpdatesService::class.java))
         timerViewModel.startTimer()
@@ -284,12 +274,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun stopTrackingLocation() {
-        val accessFineLocation = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) return
+        if (!Util.isLocationPermissionGranted(context)) return
 
         context?.stopService(Intent(context, LocationUpdatesService::class.java))
 
@@ -320,8 +305,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         }
 
         val activity = Path(
-            startTime / 1000,
-            System.currentTimeMillis() / 1000,
+            TimeUnit.MILLISECONDS.toSeconds(startTime),
+            TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
             array,
             spinner.selectedItem.toString()
         )

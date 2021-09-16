@@ -103,4 +103,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_edit_bio_text" />
 
+    <Button
+        android:id="@+id/profile_edit_delete_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/delete_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_edit_bio" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

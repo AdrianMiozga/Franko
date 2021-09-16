@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.firebase.ui.auth.AuthUI
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
@@ -77,6 +79,21 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 profileEditCity.setText(user.city)
                 profileEditBio.setText(user.bio)
             }
+        }
+
+        binding.profileEditDeleteAccount.setOnClickListener {
+            AuthUI
+                .getInstance()
+                .delete(requireContext())
+                .addOnSuccessListener {
+                    Navigation.findNavController(view).navigateUp()
+
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.account_deleted),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
         }
 
         editProfileProfilePicture.setOnClickListener {

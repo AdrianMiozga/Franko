@@ -6,7 +6,8 @@ data class Path(
     val startTime: Long? = null,
     val endTime: Long? = null,
     val path: List<HashMap<String, Double>>? = null,
-    val activity: String? = null
+    val activity: String? = null,
+    val whoCanSeeThisActivity: String? = null
 ) {
     @DocumentId
     lateinit var documentId: String

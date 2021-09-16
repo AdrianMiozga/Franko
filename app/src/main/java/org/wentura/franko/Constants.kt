@@ -37,6 +37,8 @@ object Constants {
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
     const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"
+    const val ACTIVITY_TYPE_KEY = ACTIVITY
+    const val WHO_CAN_SEE_THIS_ACTIVITY = "whoCanSeeThisActivity"
 
     // Map Settings
     const val DEFAULT_ZOOM = 17F

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        app:entries="@array/activities_array"
+        app:entryValues="@array/activities_array"
+        app:key="activity"
+        app:title="@string/activity_type"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:entries="@array/who_can_see_this_activity"
+        app:entryValues="@array/who_can_see_this_activity"
+        app:key="whoCanSeeThisActivity"
+        app:title="@string/who_can_see_this_activity"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

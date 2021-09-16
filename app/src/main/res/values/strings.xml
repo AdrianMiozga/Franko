@@ -5,7 +5,6 @@
     <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
 
     <string name="time_span" translatable="false">%s - %s</string>
-    <string name="activities_activity_title" translatable="false">%s: %d (%s)</string>
     <string name="activity_title" translatable="false">%s (%s)</string>
 
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
@@ -67,6 +66,7 @@
     <string name="location_permissions_needed_dialog_title">Location Permission Needed</string>
     <string name="location_permissions_needed_dialog_message">This app needs the Location permission, please accept to use location functionality</string>
     <string name="activity_type">Activity type</string>
+    <string name="who_can_see_this_activity">Who can see this activity</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
@@ -103,6 +103,11 @@
     </string-array>
 
     <string-array name="who_can_see_my_following_count">
+        <item>Everyone</item>
+        <item>No one</item>
+    </string-array>
+
+    <string-array name="who_can_see_this_activity">
         <item>Everyone</item>
         <item>No one</item>
     </string-array>

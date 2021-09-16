@@ -19,9 +19,9 @@ class ActivityListViewModel @Inject constructor(
         val TAG = ActivityListViewModel::class.simpleName
     }
 
-    private val paths = MutableLiveData<ArrayList<Path>>()
+    private val activities = MutableLiveData<ArrayList<Path>>()
 
-    fun getCurrentPaths(): LiveData<ArrayList<Path>> {
+    fun getCurrentActivities(): LiveData<ArrayList<Path>> {
         activityRepository
             .getActivities()
             .addSnapshotListener { querySnapshot, exception ->
@@ -32,9 +32,9 @@ class ActivityListViewModel @Inject constructor(
 
                 if (querySnapshot == null || querySnapshot.isEmpty) return@addSnapshotListener
 
-                paths.value = ArrayList(querySnapshot.toObjects())
+                activities.value = ArrayList(querySnapshot.toObjects())
             }
 
-        return paths
+        return activities
     }
 }

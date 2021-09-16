@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -159,7 +160,17 @@ class MapFragment : Fragment(R.layout.fragment_map),
             user.unitsOfMeasure?.let {
                 speedometer.unitsOfMeasure = it
             }
+
+            if (user.keepScreenOnInMap) {
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun checkLocationServicesState() {

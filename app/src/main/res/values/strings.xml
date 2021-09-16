@@ -70,6 +70,8 @@
     <string name="activity_name">Activity name</string>
     <string name="map">Map</string>
     <string name="who_can_see_activity_default">Who can see newly created activities</string>
+    <string name="keep_screen_on_in_map_title">Keep screen on</string>
+    <string name="keep_screen_on_in_map_summary">Keeps screen on in map</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

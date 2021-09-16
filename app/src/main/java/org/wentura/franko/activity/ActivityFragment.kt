@@ -30,7 +30,6 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
     private lateinit var map: GoogleMap
     private var latLng: ArrayList<LatLng> = arrayListOf()
-    private var activityFragmentBinding: FragmentActivityBinding? = null
     private val activityViewModel: ActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
 
@@ -42,7 +41,6 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentActivityBinding.bind(view)
-        activityFragmentBinding = binding
 
         val activityTitle = binding.activityTitle
         val activityTimeSpan = binding.activityTimeSpan
@@ -50,15 +48,15 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         val mapFragment = childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { path ->
-            val startTime = path?.startTime ?: 0L
-            val endTime = path?.endTime ?: 0L
+        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+            val startTime = activity?.startTime ?: 0L
+            val endTime = activity?.endTime ?: 0L
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             activityTitle.text = requireContext()
-                .getString(R.string.activity_title, path.activityName, path.activity, date)
+                .getString(R.string.activity_title, activity.activityName, activity.activity, date)
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
 
@@ -73,7 +71,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
                     )
                 )
 
-            path.path?.forEach {
+            activity.path?.forEach {
                 latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
@@ -89,11 +87,6 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         }
 
         setHasOptionsMenu(true)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activityFragmentBinding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

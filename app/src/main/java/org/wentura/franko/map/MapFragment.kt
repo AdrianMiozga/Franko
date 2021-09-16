@@ -23,8 +23,8 @@ import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
+import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
-import org.wentura.franko.data.Path
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
@@ -62,8 +62,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
 
-    private var fragmentMapBinding: FragmentMapBinding? = null
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
@@ -74,7 +72,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentMapBinding.bind(view)
-        fragmentMapBinding = binding
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -175,11 +172,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
                     EnableLocationDialogFragment::class.simpleName
                 )
             }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentMapBinding = null
     }
 
     @SuppressLint("MissingPermission")
@@ -304,7 +296,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
-        val activity = Path(
+        val activity = Activity(
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
             array,

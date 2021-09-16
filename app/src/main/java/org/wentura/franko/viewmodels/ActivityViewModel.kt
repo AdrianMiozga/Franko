@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
-import org.wentura.franko.data.Path
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +20,9 @@ class ActivityViewModel @Inject constructor(
 
     private val activityId: String = savedStateHandle["id"] ?: throw IllegalArgumentException("Missing uid")
 
-    private val _activity = MutableLiveData<Path>()
+    private val activity = MutableLiveData<Activity>()
 
-    fun getCurrentActivity(): LiveData<Path> {
+    fun getCurrentActivity(): LiveData<Activity> {
         activityRepository
             .getActivity(activityId)
             .addSnapshotListener { documentSnapshot, exception ->
@@ -33,9 +33,9 @@ class ActivityViewModel @Inject constructor(
 
                 if (documentSnapshot == null) return@addSnapshotListener
 
-                _activity.value = documentSnapshot.toObject()
+                activity.value = documentSnapshot.toObject()
             }
 
-        return _activity
+        return activity
     }
 }

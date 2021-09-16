@@ -2,7 +2,7 @@ package org.wentura.franko.data
 
 import com.google.firebase.firestore.DocumentId
 
-data class Path(
+data class Activity(
     val startTime: Long? = null,
     val endTime: Long? = null,
     val path: List<HashMap<String, Double>>? = null,

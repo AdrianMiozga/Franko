@@ -26,8 +26,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
         holder as PeopleAdapter.ViewHolder
     }
 
-    private var fragmentPeopleBinding: FragmentPeopleBinding? = null
-
     companion object {
         val TAG = PeopleFragment::class.simpleName
     }
@@ -36,7 +34,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentPeopleBinding.bind(view)
-        fragmentPeopleBinding = binding
 
         viewModel.users.observe(viewLifecycleOwner) { result ->
             people.clear()
@@ -67,11 +64,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
                 setOnQueryTextListener(this@PeopleFragment)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentPeopleBinding = null
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean = false

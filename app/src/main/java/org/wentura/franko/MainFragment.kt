@@ -13,13 +13,10 @@ import org.wentura.franko.databinding.FragmentMainBinding
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private var fragmentMainBinding: FragmentMainBinding? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentMainBinding.bind(view)
-        fragmentMainBinding = binding
 
         binding.apply {
             mainShowMap.setOnClickListener {
@@ -62,11 +59,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentMainBinding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

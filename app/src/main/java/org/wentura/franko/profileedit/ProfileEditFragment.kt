@@ -29,8 +29,6 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     @Inject
     lateinit var userRepository: UserRepository
 
-    private var fragmentEditProfileBinding: FragmentProfileEditBinding? = null
-
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
     private lateinit var bioEditText: EditText
@@ -49,7 +47,6 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentProfileEditBinding.bind(view)
-        fragmentEditProfileBinding = binding
 
         firstNameEditText = binding.profileEditFirstName
         lastNameEditText = binding.profileEditLastName
@@ -135,11 +132,6 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             }
 
         setHasOptionsMenu(true)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentEditProfileBinding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

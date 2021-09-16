@@ -9,7 +9,6 @@ import org.wentura.franko.Constants
 class DataStore : PreferenceDataStore() {
 
     private val db = Firebase.firestore
-
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     companion object {

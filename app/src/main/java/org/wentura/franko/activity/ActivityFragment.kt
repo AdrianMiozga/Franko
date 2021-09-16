@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.databinding.FragmentActivityBinding
+import org.wentura.franko.viewmodels.ActivityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,7 +49,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         val mapFragment = childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        activityViewModel.path.observe(viewLifecycleOwner) { path ->
+        activityViewModel.activity.observe(viewLifecycleOwner) { path ->
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = dateFormatter.format(path.startTime?.times(1000))
 

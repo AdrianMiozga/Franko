@@ -43,4 +43,12 @@ class ActivityRepository @Inject constructor() {
             .document(activityId)
             .delete()
     }
+
+    fun updateActivityType(activityId: String, activityType: String) {
+        db.collection(Constants.USERS)
+            .document(uid)
+            .collection(Constants.PATHS)
+            .document(activityId)
+            .update(Constants.ACTIVITY, activityType)
+    }
 }

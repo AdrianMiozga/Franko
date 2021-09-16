@@ -20,6 +20,7 @@ object Constants {
     const val PHOTO_URL = "photoUrl"
     const val LATITUDE = "latitude"
     const val LONGITUDE = "longitude"
+    const val ACTIVITY = "activity"
 
     // Firestore Values
     const val IMPERIAL = "Imperial"

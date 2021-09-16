@@ -1,5 +1,6 @@
 package org.wentura.franko.data
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -20,18 +21,26 @@ class ActivityRepository @Inject constructor() {
         val TAG = ActivityRepository::class.simpleName
     }
 
-    fun getPaths(): CollectionReference {
+    fun getActivities(): CollectionReference {
         return db.collection(Constants.USERS)
             .document(uid)
             .collection(Constants.PATHS)
     }
 
-    suspend fun getPath(pathId: String): DocumentSnapshot {
+    suspend fun getActivity(activityId: String): DocumentSnapshot {
         return db.collection(Constants.USERS)
             .document(uid)
             .collection(Constants.PATHS)
-            .document(pathId)
+            .document(activityId)
             .get()
             .await()
+    }
+
+    fun deleteActivity(activityId: String): Task<Void> {
+        return db.collection(Constants.USERS)
+            .document(uid)
+            .collection(Constants.PATHS)
+            .document(activityId)
+            .delete()
     }
 }

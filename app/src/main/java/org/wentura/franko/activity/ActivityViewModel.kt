@@ -25,7 +25,7 @@ class ActivityViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _path.value = activityRepository.getPath(pathId).toObject()
+            _path.value = activityRepository.getActivity(pathId).toObject()
         }
     }
 }

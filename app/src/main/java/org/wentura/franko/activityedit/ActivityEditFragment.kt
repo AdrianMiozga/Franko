@@ -6,25 +6,26 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import org.wentura.franko.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
 import org.wentura.franko.activity.ActivityFragmentArgs
+import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.databinding.FragmentActivityEditBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ActivityEditFragment : Fragment(R.layout.fragment_activity_edit) {
 
+    @Inject
+    lateinit var activityRepository: ActivityRepository
+
     private var fragmentActivityEditBinding: FragmentActivityEditBinding? = null
-    private val db = Firebase.firestore
     private val args: ActivityFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentActivityEditBinding.bind(view)
         fragmentActivityEditBinding = binding
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val activityDelete = binding.activityEditDelete
 
         activityDelete.setOnClickListener {
@@ -32,11 +33,8 @@ class ActivityEditFragment : Fragment(R.layout.fragment_activity_edit) {
                 .Builder(requireContext())
                 .setMessage(getString(R.string.delete_activity_dialog_message))
                 .setPositiveButton(R.string.delete) { _, _ ->
-                    db.collection(Constants.USERS)
-                        .document(uid)
-                        .collection(Constants.PATHS)
-                        .document(args.id)
-                        .delete()
+                    activityRepository
+                        .deleteActivity(args.id)
                         .addOnSuccessListener {
                             Navigation.findNavController(view).navigateUp()
                             Navigation.findNavController(view).navigateUp()

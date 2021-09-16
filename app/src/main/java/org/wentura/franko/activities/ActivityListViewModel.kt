@@ -23,7 +23,7 @@ class ActivityListViewModel @Inject constructor(
 
     fun getCurrentPaths(): LiveData<ArrayList<Path>> {
         activityRepository
-            .getPaths()
+            .getActivities()
             .addSnapshotListener { querySnapshot, exception ->
                 if (exception != null) {
                     Log.w(TAG, "Listen failed.", exception)

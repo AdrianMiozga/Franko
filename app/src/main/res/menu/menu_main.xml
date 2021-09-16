@@ -6,8 +6,4 @@
         android:id="@+id/sign_out"
         android:title="@string/sign_out" />
 
-    <item
-        android:id="@+id/delete_account"
-        android:title="@string/delete_account" />
-
 </menu>

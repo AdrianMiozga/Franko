@@ -76,24 +76,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sign_out -> {
-                AuthUI.getInstance()
+                AuthUI
+                    .getInstance()
                     .signOut(requireContext())
                     .addOnSuccessListener {
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.logged_out),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                true
-            }
-            R.id.delete_account -> {
-                AuthUI.getInstance()
-                    .delete(requireContext())
-                    .addOnSuccessListener {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.account_deleted),
                             Toast.LENGTH_LONG
                         ).show()
                     }

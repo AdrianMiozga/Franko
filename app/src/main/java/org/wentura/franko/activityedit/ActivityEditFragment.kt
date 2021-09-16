@@ -1,6 +1,9 @@
 package org.wentura.franko.activityedit
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
@@ -36,35 +39,47 @@ class ActivityEditFragment : Fragment(R.layout.fragment_activity_edit),
         val binding = FragmentActivityEditBinding.bind(view)
         fragmentActivityEditBinding = binding
 
-        val activityDelete = binding.activityEditDelete
-
-        activityDelete.setOnClickListener {
-            AlertDialog
-                .Builder(requireContext())
-                .setMessage(getString(R.string.delete_activity_dialog_message))
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    activityRepository
-                        .deleteActivity(args.id)
-                        .addOnSuccessListener {
-                            Navigation.findNavController(view).navigateUp()
-                            Navigation.findNavController(view).navigateUp()
-                        }
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-                .create()
-                .show()
-        }
-
         val spinner = binding.activityEditActivitySpinner
         spinner.onItemSelectedListener = this
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
             if (activity == null) return@observe
-           
+
             val activityType = activity.activity
             val id = resources.getStringArray(R.array.activities_array).indexOf(activityType)
 
             spinner.setSelection(id)
+        }
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_delete, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete -> {
+                AlertDialog
+                    .Builder(requireContext())
+                    .setMessage(getString(R.string.delete_activity_dialog_message))
+                    .setPositiveButton(R.string.delete) { _, _ ->
+                        activityRepository
+                            .deleteActivity(args.id)
+                            .addOnSuccessListener {
+                                view?.let { view ->
+                                    Navigation.findNavController(view).navigateUp()
+                                    Navigation.findNavController(view).navigateUp()
+                                }
+                            }
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .create()
+                    .show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

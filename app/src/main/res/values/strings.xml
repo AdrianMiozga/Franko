@@ -66,6 +66,7 @@
     <string name="discard">Discard</string>
     <string name="location_permissions_needed_dialog_title">Location Permission Needed</string>
     <string name="location_permissions_needed_dialog_message">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="activity_type">Activity type</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

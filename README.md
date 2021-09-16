@@ -14,6 +14,7 @@ Notification about follower new activity
 
 ## Activities
 
+Pagination  
 Option to filter activities by type  
 Option to name activities  
 Show activity length in km  

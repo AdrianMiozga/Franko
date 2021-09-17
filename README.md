@@ -14,19 +14,15 @@ Notification about follower new activity
 ## Activities
 
 Pagination  
-Option to filter activities by type  
 Save activity window after recording  
 Show activity length in km  
 Show average speed  
 Show max speed  
 Search by title  
 Hide start and end of activity  
-Auto pause  
+Auto pause
+
 Add photos to activities
-
-## Statistics
-
-## Achievements
 
 ## Performance
 
@@ -41,5 +37,6 @@ App logo
 Add spinning bars when loading (Spotify?)  
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  
-Dark mode  
+Dark mode
+
 Optional notification when somebody follows you

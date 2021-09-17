@@ -72,6 +72,10 @@
     <string name="who_can_see_activity_default">Who can see newly created activities</string>
     <string name="keep_screen_on_in_map_title">Keep screen on</string>
     <string name="keep_screen_on_in_map_summary">Keeps screen on in map</string>
+    <string name="all">All</string>
+    <string name="bike">Bike</string>
+    <string name="walking">Walking</string>
+    <string name="running">Running</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

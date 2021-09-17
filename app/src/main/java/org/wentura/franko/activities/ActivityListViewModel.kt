@@ -1,6 +1,5 @@
 package org.wentura.franko.activities
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,18 +22,18 @@ class ActivityListViewModel @Inject constructor(
 
     private val activities = MutableLiveData<ArrayList<Activity>>()
 
-    fun getCurrentActivities(): LiveData<ArrayList<Activity>> {
+    fun getCurrentActivities(activityTypes: ArrayList<String>): LiveData<ArrayList<Activity>> {
+        if (activityTypes.isEmpty()) {
+            activities.value = ArrayList()
+            return activities
+        }
+
         activityRepository
             .getActivities()
+            .whereIn(Constants.ACTIVITY, activityTypes)
             .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
-            .addSnapshotListener { querySnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
-
-                if (querySnapshot == null || querySnapshot.isEmpty) return@addSnapshotListener
-
+            .get()
+            .addOnSuccessListener { querySnapshot ->
                 activities.value = ArrayList(querySnapshot.toObjects())
             }
 

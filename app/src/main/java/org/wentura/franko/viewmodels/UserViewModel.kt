@@ -21,6 +21,8 @@ class UserViewModel @Inject constructor(
     }
 
     private val user = MutableLiveData<User>()
+    private val following = MutableLiveData<ArrayList<String>>()
+    private val followers = MutableLiveData<ArrayList<String>>()
 
     fun getUser(): LiveData<User> {
         userRepository
@@ -39,7 +41,24 @@ class UserViewModel @Inject constructor(
         return user
     }
 
-    fun getFollowing(uid: String): LiveData<User> {
+    fun getUser(uid: String): LiveData<User> {
+        userRepository
+            .getUser(uid)
+            .addSnapshotListener { documentSnapshot, exception ->
+                if (exception != null) {
+                    Log.w(TAG, "Listen failed.", exception)
+                    return@addSnapshotListener
+                }
+
+                val newUser: User = documentSnapshot?.toObject() ?: return@addSnapshotListener
+
+                user.value = newUser
+            }
+
+        return user
+    }
+
+    fun getFollowing(uid: String): LiveData<ArrayList<String>> {
         userRepository
             .getFollowing(uid)
             .addSnapshotListener { querySnapshot, exception ->
@@ -48,17 +67,36 @@ class UserViewModel @Inject constructor(
                     return@addSnapshotListener
                 }
 
-                if (querySnapshot == null || querySnapshot.isEmpty) return@addSnapshotListener
+                val newFollowing = ArrayList<String>()
 
-                val newUser = User()
-
-                querySnapshot.forEach { document ->
-                    newUser.following.add(document[Constants.UID].toString())
+                querySnapshot?.forEach { document ->
+                    newFollowing.add(document[Constants.UID].toString())
                 }
 
-                user.value = newUser
+                following.value = newFollowing
             }
 
-        return user
+        return following
+    }
+
+    fun getFollowers(uid: String): LiveData<ArrayList<String>> {
+        userRepository
+            .getFollowers(uid)
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    Log.w(TAG, "Listen failed.", exception)
+                    return@addSnapshotListener
+                }
+
+                val newFollowers = ArrayList<String>()
+
+                querySnapshot?.forEach { document ->
+                    newFollowers.add(document[Constants.UID].toString())
+                }
+
+                followers.value = newFollowers
+            }
+
+        return followers
     }
 }

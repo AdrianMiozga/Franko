@@ -33,6 +33,12 @@ class UserRepository @Inject constructor() {
             .collection(Constants.FOLLOWING)
     }
 
+    fun getFollowers(uid: String): CollectionReference {
+        return db.collection(Constants.USERS)
+            .document(uid)
+            .collection(Constants.FOLLOWERS)
+    }
+
     fun updateUser(updates: HashMap<String, Any>) {
         db.collection(Constants.USERS)
             .document(myUid)

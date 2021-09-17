@@ -6,9 +6,9 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
+import org.wentura.franko.adapters.PeopleAdapter
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentPeopleBinding
 
@@ -21,10 +21,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
     private lateinit var peopleAdapter: PeopleAdapter
 
     private val viewModel: PeopleListViewModel by viewModels()
-
-    private val recyclerListener = RecyclerView.RecyclerListener { holder ->
-        holder as PeopleAdapter.ViewHolder
-    }
 
     companion object {
         val TAG = PeopleFragment::class.simpleName
@@ -56,7 +52,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = peopleAdapter
-                setRecyclerListener(recyclerListener)
             }
 
             binding.peopleSearchView.apply {

@@ -115,7 +115,11 @@
 
         <action
             android:id="@+id/to_following_fragment"
-            app:destination="@id/following" />
+            app:destination="@id/following_fragment" />
+
+        <action
+            android:id="@+id/to_followers_fragment"
+            app:destination="@id/followers_fragment" />
 
     </fragment>
 
@@ -160,10 +164,26 @@
     </fragment>
 
     <fragment
-        android:id="@+id/following"
+        android:id="@+id/following_fragment"
         android:name="org.wentura.franko.following.FollowingFragment"
         android:label="Following"
-        tools:layout="@layout/fragment_following">
+        tools:layout="@layout/fragment_simplified_people">
+
+        <action
+            android:id="@+id/to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+
+        <argument
+            android:name="uid"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/followers_fragment"
+        android:name="org.wentura.franko.following.FollowersFragment"
+        android:label="Followers"
+        tools:layout="@layout/fragment_simplified_people">
 
         <action
             android:id="@+id/to_profile_fragment"

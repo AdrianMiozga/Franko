@@ -148,6 +148,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileFollow.visibility = View.INVISIBLE
                 profileUnfollow.visibility = View.VISIBLE
             }
+
+            if (followers.size <= 0) return@observe
+
+            profileFollowers.setOnClickListener {
+                Navigation.findNavController(view).navigate(
+                    ProfileFragmentDirections.toFollowersFragment(args.uid)
+                )
+            }
         }
     }
 }

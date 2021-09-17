@@ -10,7 +10,7 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EditProfilePictureDialogFragment : DialogFragment() {
+class ProfileEditPictureDialogFragment : DialogFragment() {
 
     @Inject
     lateinit var userRepository: UserRepository

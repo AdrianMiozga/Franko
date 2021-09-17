@@ -28,6 +28,9 @@ object Constants {
     const val IMPERIAL = "Imperial"
     const val METRIC = "Metric"
     const val EVERYONE = "Everyone"
+    const val WALKING = "Walking"
+    const val RUNNING = "Running"
+    const val BIKE = "Bike"
 
     // Storage Paths
     const val IMAGES = "images"

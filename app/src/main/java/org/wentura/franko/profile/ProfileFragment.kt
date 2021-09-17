@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.databinding.FragmentProfileBinding
-import org.wentura.franko.viewmodels.ProfileViewModel
 import org.wentura.franko.viewmodels.UserViewModel
 
 @AndroidEntryPoint
@@ -22,7 +21,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val args: ProfileFragmentArgs by navArgs()
     private val userViewModel: UserViewModel by viewModels()
-    private val profileViewModel: ProfileViewModel by viewModels()
 
     private val db = Firebase.firestore
 
@@ -44,10 +42,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val profileBio = binding.profileBio
         val profileCity = binding.profileCity
         val profileFollowing = binding.profileFollowing
+        val profileFollowers = binding.profileFollowers
 
         profileFollow.setOnClickListener {
             if (uid == null) return@setOnClickListener
 
+            // TODO: 17.09.2021 Queries should act like transactions
             db.collection(Constants.USERS)
                 .document(uid)
                 .collection(Constants.FOLLOWING)
@@ -57,6 +57,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     profileFollow.visibility = View.INVISIBLE
                     profileUnfollow.visibility = View.VISIBLE
                 }
+
+            db.collection(Constants.USERS)
+                .document(args.uid)
+                .collection(Constants.FOLLOWERS)
+                .document(uid)
+                .set(hashMapOf(Constants.UID to uid))
         }
 
         profileUnfollow.setOnClickListener {
@@ -71,9 +77,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     profileUnfollow.visibility = View.INVISIBLE
                     profileFollow.visibility = View.VISIBLE
                 }
+
+            db.collection(Constants.USERS)
+                .document(args.uid)
+                .collection(Constants.FOLLOWERS)
+                .document(uid)
+                .delete()
         }
 
-        profileViewModel.getUserAndFollowing(args.uid).observe(viewLifecycleOwner) { profile ->
+        userViewModel.getUser(args.uid).observe(viewLifecycleOwner) { profile ->
             if (profile.photoUrl.isNullOrBlank()) {
                 profileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
                     transformations(CircleCropTransformation())
@@ -103,28 +115,29 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileCity.visibility = View.GONE
             }
 
-            val followingEveryone = resources.getStringArray(R.array.who_can_see_my_following_count)[0]
-
-            if (profile.whoCanSeeMyFollowingCount != followingEveryone) {
-                profileFollowing.visibility = View.GONE
-            } else {
-                val size = profile.following.size
-
-                profileFollowing.text =
-                    resources.getQuantityString(R.plurals.number_following, size, size)
-            }
-
             if (uid == null) return@observe
 
             if (args.uid == uid) {
                 profileFollow.visibility = View.GONE
             }
+        }
 
-            userViewModel.getFollowing(uid).observe(viewLifecycleOwner) { user ->
-                if (user.following.contains(args.uid)) {
-                    profileFollow.visibility = View.INVISIBLE
-                    profileUnfollow.visibility = View.VISIBLE
-                }
+        userViewModel.getFollowing(args.uid).observe(viewLifecycleOwner) { following ->
+            val size = following.size
+
+            profileFollowing.text =
+                resources.getQuantityString(R.plurals.number_following, size, size)
+        }
+
+        userViewModel.getFollowers(args.uid).observe(viewLifecycleOwner) { followers ->
+            val size = followers.size
+
+            profileFollowers.text =
+                resources.getQuantityString(R.plurals.number_followers, size, size)
+
+            if (followers.contains(uid)) {
+                profileFollow.visibility = View.INVISIBLE
+                profileUnfollow.visibility = View.VISIBLE
             }
         }
     }

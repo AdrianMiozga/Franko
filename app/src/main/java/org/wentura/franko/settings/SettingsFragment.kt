@@ -35,8 +35,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val unitsOfMeasure: ListPreference? = preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
         val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
         val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
-        val whoCanSeeMyFollowingCount: ListPreference? =
-            preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_FOLLOWING_COUNT)
         val whoCanSeeActivityDefault: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT)
 
@@ -68,13 +66,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 val index = array.indexOf(user.whoCanSeeMyLocation)
 
                 whoCanSeeMyLocation.setValueIndex(if (index == -1) 0 else index)
-            }
-
-            whoCanSeeMyFollowingCount?.let {
-                val array = resources.getStringArray(R.array.who_can_see_my_following_count)
-                val index = array.indexOf(user.whoCanSeeMyFollowingCount)
-
-                whoCanSeeMyFollowingCount.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeActivityDefault?.let {

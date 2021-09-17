@@ -9,6 +9,7 @@ object Constants {
     const val USERS = "users"
     const val PATHS = "paths"
     const val FOLLOWING = "following"
+    const val FOLLOWERS = "followers"
 
     // Firestore Fields
     const val UID = "uid"

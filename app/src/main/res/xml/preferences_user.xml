@@ -48,14 +48,6 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:entries="@array/who_can_see_my_following_count"
-            app:entryValues="@array/who_can_see_my_following_count"
-            app:iconSpaceReserved="false"
-            app:key="whoCanSeeMyFollowingCount"
-            app:title="@string/who_can_see_my_following_count"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
             app:entries="@array/who_can_see_activity"
             app:entryValues="@array/who_can_see_activity"
             app:iconSpaceReserved="false"

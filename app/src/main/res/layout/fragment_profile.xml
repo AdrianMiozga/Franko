@@ -77,9 +77,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/profile_followers"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_follow"
         tools:text="34 Following" />
+
+    <TextView
+        android:id="@+id/profile_followers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profile_following"
+        app:layout_constraintTop_toBottomOf="@id/profile_follow"
+        tools:text="12 Followers" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

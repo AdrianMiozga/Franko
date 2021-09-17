@@ -34,6 +34,11 @@ class PeopleListViewModel @Inject constructor(
                 followingIds.add(user[Constants.UID].toString())
             }
 
+            if (followingIds.isEmpty()) {
+                _following.value = ArrayList()
+                return@launch
+            }
+
             val users = userRepository
                 .getUsers(followingIds)
                 .await()
@@ -55,6 +60,11 @@ class PeopleListViewModel @Inject constructor(
 
             following?.forEach { user ->
                 followersIds.add(user[Constants.UID].toString())
+            }
+
+            if (followersIds.isEmpty()) {
+                _followers.value = ArrayList()
+                return@launch
             }
 
             val users = userRepository

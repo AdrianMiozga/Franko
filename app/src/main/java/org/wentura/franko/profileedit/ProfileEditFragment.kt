@@ -94,10 +94,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         }
 
         editProfileProfilePicture.setOnClickListener {
-            EditProfilePictureDialogFragment()
+            ProfileEditPictureDialogFragment()
                 .show(
                     parentFragmentManager,
-                    EditProfilePictureDialogFragment::class.simpleName
+                    ProfileEditPictureDialogFragment::class.simpleName
                 )
         }
 

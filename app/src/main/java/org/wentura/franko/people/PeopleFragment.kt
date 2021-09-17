@@ -1,8 +1,10 @@
 package org.wentura.franko.people
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +44,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
                 binding.apply {
                     peopleNothingToShow.visibility = View.VISIBLE
                     peopleRecyclerView.visibility = View.GONE
-                    peopleSearchView.visibility = View.GONE
                 }
             }
 
@@ -53,12 +54,19 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
                 layoutManager = LinearLayoutManager(context)
                 adapter = peopleAdapter
             }
-
-            binding.peopleSearchView.apply {
-                queryHint = getString(R.string.search_people)
-                setOnQueryTextListener(this@PeopleFragment)
-            }
         }
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+
+        val search = menu.findItem(R.id.search)
+        val searchView = search.actionView as SearchView
+
+        searchView.queryHint = getString(R.string.search_people)
+        searchView.setOnQueryTextListener(this@PeopleFragment)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean = false

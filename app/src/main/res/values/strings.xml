@@ -76,6 +76,7 @@
     <string name="bike">Bike</string>
     <string name="walking">Walking</string>
     <string name="running">Running</string>
+    <string name="search">Search</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

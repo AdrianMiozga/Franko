@@ -113,6 +113,10 @@
             android:name="uid"
             app:argType="string" />
 
+        <action
+            android:id="@+id/to_following_fragment"
+            app:destination="@id/following" />
+
     </fragment>
 
     <fragment
@@ -151,6 +155,22 @@
 
         <argument
             android:name="id"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/following"
+        android:name="org.wentura.franko.following.FollowingFragment"
+        android:label="Following"
+        tools:layout="@layout/fragment_following">
+
+        <action
+            android:id="@+id/to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+
+        <argument
+            android:name="uid"
             app:argType="string" />
 
     </fragment>

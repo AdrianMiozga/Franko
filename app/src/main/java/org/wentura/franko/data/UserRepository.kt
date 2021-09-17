@@ -1,9 +1,8 @@
 package org.wentura.franko.data
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -25,6 +24,12 @@ class UserRepository @Inject constructor() {
     fun getUser(uid: String): DocumentReference {
         return db.collection(Constants.USERS)
             .document(uid)
+    }
+
+    fun getUsers(uids: ArrayList<String>): Task<QuerySnapshot> {
+        return db.collection(Constants.USERS)
+            .whereIn(FieldPath.documentId(), uids)
+            .get()
     }
 
     fun getFollowing(uid: String): CollectionReference {

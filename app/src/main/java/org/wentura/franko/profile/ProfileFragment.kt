@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -127,6 +128,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             profileFollowing.text =
                 resources.getQuantityString(R.plurals.number_following, size, size)
+
+            if (following.size <= 0) return@observe
+
+            profileFollowing.setOnClickListener {
+                Navigation.findNavController(view).navigate(
+                    ProfileFragmentDirections.toFollowingFragment(args.uid)
+                )
+            }
         }
 
         userViewModel.getFollowers(args.uid).observe(viewLifecycleOwner) { followers ->

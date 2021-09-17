@@ -1,10 +1,11 @@
-package org.wentura.franko.following
+package org.wentura.franko.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -13,12 +14,11 @@ import org.wentura.franko.R
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
-// TODO: 17.09.2021 Use PeopleAdapter?
-class FollowingAdapter(private val people: List<User>) :
-    RecyclerView.Adapter<FollowingAdapter.ViewHolder>() {
+class PeopleAdapter(private val people: List<User>) :
+    RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
     companion object {
-        val TAG = FollowingAdapter::class.simpleName
+        val TAG = PeopleAdapter::class.simpleName
     }
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -32,7 +32,8 @@ class FollowingAdapter(private val people: List<User>) :
         fun bindView(position: Int, people: List<User>) {
             view.setOnClickListener {
                 Navigation.findNavController(view).navigate(
-                    FollowingFragmentDirections.toProfileFragment(people[position].uid)
+                    R.id.to_profile_fragment,
+                    bundleOf("uid" to people[position].uid)
                 )
             }
 

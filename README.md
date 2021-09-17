@@ -6,7 +6,6 @@ Log in with Facebook, Twitter
 
 Recent searches  
 Clear recent searches  
-Display user followers  
 Show people activities
 
 Ability to display profile pic on full screen  

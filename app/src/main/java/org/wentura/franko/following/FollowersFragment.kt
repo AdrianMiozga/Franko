@@ -12,13 +12,13 @@ import org.wentura.franko.databinding.FragmentSimplifiedPeopleBinding
 
 @AndroidEntryPoint
 
-class FollowingFragment : Fragment(R.layout.fragment_simplified_people) {
+class FollowersFragment : Fragment(R.layout.fragment_simplified_people) {
     private val viewModel: PeopleListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentSimplifiedPeopleBinding.bind(view)
 
-        viewModel.getFollowing().observe(viewLifecycleOwner) { result ->
+        viewModel.getFollowers().observe(viewLifecycleOwner) { result ->
             binding.simplifiedPeopleRecyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)

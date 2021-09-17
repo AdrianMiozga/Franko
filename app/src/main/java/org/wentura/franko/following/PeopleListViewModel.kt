@@ -11,17 +11,17 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class FollowingListViewModel @Inject constructor(
+class PeopleListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val uid: String = savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing uid")
 
-    private val _users = MutableLiveData<ArrayList<User>>()
-    val users: LiveData<ArrayList<User>> = _users
+    private val _following = MutableLiveData<ArrayList<User>>()
+    private val _followers = MutableLiveData<ArrayList<User>>()
 
-    init {
+    fun getFollowing(): LiveData<ArrayList<User>> {
         viewModelScope.launch {
             val following = userRepository
                 .getFollowing(uid)
@@ -38,7 +38,32 @@ class FollowingListViewModel @Inject constructor(
                 .getUsers(followingIds)
                 .await()
 
-            _users.value = ArrayList(users.toObjects())
+            _following.value = ArrayList(users.toObjects())
         }
+
+        return _following
+    }
+
+    fun getFollowers(): LiveData<ArrayList<User>> {
+        viewModelScope.launch {
+            val following = userRepository
+                .getFollowers(uid)
+                .get()
+                .await()
+
+            val followersIds = ArrayList<String>()
+
+            following?.forEach { user ->
+                followersIds.add(user[Constants.UID].toString())
+            }
+
+            val users = userRepository
+                .getUsers(followersIds)
+                .await()
+
+            _followers.value = ArrayList(users.toObjects())
+        }
+
+        return _followers
     }
 }

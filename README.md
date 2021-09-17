@@ -4,10 +4,10 @@ Log in with Facebook, Twitter
 
 ## People
 
-Recent searches  
-Clear recent searches  
 Show people activities
 
+Recent searches  
+Clear recent searches  
 Ability to display profile pic on full screen  
 Notification about follower new activity
 

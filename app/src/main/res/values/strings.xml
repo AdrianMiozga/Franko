@@ -9,84 +9,88 @@
 
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
     <string name="sample_city" translatable="false">New York</string>
-    <string name="user_bio" translatable="false">User description…</string>
+    <string name="user_bio" translatable="false">Opis użytkownika…</string>
 
     <!-- Translatable resources -->
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="show_map">Map</string>
-    <string name="show_activities">Activities</string>
-    <string name="show_statistics">Statistics</string>
-    <string name="show_options">Settings</string>
+    <string name="sign_out">Wyloguj się</string>
+    <string name="map">Mapa</string>
+    <string name="activities">Aktywności</string>
+    <string name="statistics">Statystyki</string>
+    <string name="settings">Ustawienia</string>
     <string name="kmh">%d km/h</string>
     <string name="mph">%d mp/h</string>
-    <string name="show_people">People</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="logged_out">Logged out</string>
-    <string name="account_deleted">Account deleted</string>
-    <string name="profile_picture">Profile picture</string>
-    <string name="search_people">Search people</string>
-    <string name="show_achievements">Achievements</string>
-    <string name="edit_profile">Edit Profile</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="save">Save</string>
+    <string name="people">Ludzie</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="logged_out">Wylogowano</string>
+    <string name="account_deleted">Konto zostało usunięte</string>
+    <string name="profile_picture">Zdjęcie profilowe</string>
+    <string name="search_people">Wyszukaj ludzi</string>
+    <string name="achievements">Osiągnięcia</string>
+    <string name="edit_profile">Edytuj profil</string>
+    <string name="first_name">Imię</string>
+    <string name="last_name">Nazwisko</string>
+    <string name="save">Zapisz</string>
     <string name="full_name">%s %s</string>
-    <string name="city">City</string>
-    <string name="edit_profile_picture">Edit Profile Picture</string>
-    <string name="dark_mode">Dark mode</string>
-    <string name="units_of_measure">Units of measure</string>
-    <string name="display">Display</string>
-    <string name="privacy">Privacy</string>
-    <string name="who_can_see_my_profile">Who can see my profile</string>
-    <string name="everyone">Everyone</string>
-    <string name="only_me">Only me</string>
-    <string name="nothing_to_show">Nothing to show</string>
-    <string name="cancel">Cancel</string>
-    <string name="unsaved_changes">Unsaved changes</string>
-    <string name="you_have_unsaved_changes">You have unsaved changes</string>
-    <string name="who_can_see_my_location">Who can see my location</string>
-    <string name="follow">Follow</string>
-    <string name="who_can_see_my_following_count">Who can see who I follow</string>
-    <string name="unfollow">Unfollow</string>
+    <string name="city">Miasto</string>
+    <string name="edit_profile_picture">Edytuj Zdjęcie Profilowe</string>
+    <string name="dark_mode">Motyw ciemny</string>
+    <string name="units_of_measure">Jednostki miary</string>
+    <string name="display">Wyświetlanie</string>
+    <string name="privacy">Prywatność</string>
+    <string name="who_can_see_my_profile">Kto może zobaczyć mój profil</string>
+    <string name="everyone">Każdy</string>
+    <string name="only_me">Tylko ja</string>
+    <string name="nothing_to_show">Brak danych</string>
+    <string name="cancel">Anuluj</string>
+    <string name="unsaved_changes">Niezapisane zmiany</string>
+    <string name="you_have_unsaved_changes">Masz niezapisane zmiany</string>
+    <string name="who_can_see_my_location">Kto może zobaczyć moję lokalizację</string>
+    <string name="follow">Obserwuj</string>
+    <string name="who_can_see_my_following_count">Kto może zobaczyć kogo obserwuje</string>
+    <string name="unfollow">Przestań obserwować</string>
     <string name="OK">OK</string>
-    <string name="enable_location_dialog_message">Location services are disabled. Would you like to enabled them?</string>
-    <string name="activity_recording_channel_name">Activity Recording</string>
-    <string name="recording_channel_description">Notification displayed when recording activity</string>
-    <string name="activity_recording_notification_title">Recording (%s)</string>
-    <string name="location_updates_service_description">Service that tracks user activities.</string>
-    <string name="bio">Bio</string>
-    <string name="delete_activity">Delete Activity</string>
-    <string name="delete_activity_dialog_message">This action is not reversible.</string>
-    <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
-    <string name="discard">Discard</string>
-    <string name="location_permissions_needed_dialog_title">Location Permission Needed</string>
-    <string name="location_permissions_needed_dialog_message">This app needs the Location permission, please accept to use location functionality</string>
-    <string name="activity_type">Activity type</string>
-    <string name="who_can_see_this_activity">Who can see this activity</string>
-    <string name="activity_name">Activity name</string>
-    <string name="map">Map</string>
-    <string name="who_can_see_activity_default">Who can see newly created activities</string>
-    <string name="keep_screen_on_in_map_title">Keep screen on</string>
-    <string name="keep_screen_on_in_map_summary">Keeps screen on in map</string>
-    <string name="all">All</string>
-    <string name="bike">Bike</string>
-    <string name="walking">Walking</string>
-    <string name="running">Running</string>
-    <string name="search">Search</string>
+    <string name="enable_location_dialog_message">Usługi lokalizacji są wyłączone. Czy chcesz je włączyć?</string>
+    <string name="activity_recording_channel_name">Nagrywanie Aktywności</string>
+    <string name="recording_channel_description">Powiadomienie podczas nagrywania aktywności</string>
+    <string name="activity_recording_notification_title">Nagrywanie (%s)</string>
+    <string name="location_updates_service_description">Usługa, która monitoruje aktywność użytkownika.</string>
+    <string name="bio">Opis</string>
+    <string name="delete_activity">Usuń aktywność</string>
+    <string name="delete_activity_dialog_message">Ten proces jest nieodwracalny.</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="discard">Odrzuć</string>
+    <string name="location_permissions_needed_dialog_title">Wymagane jest pozwolenie na dostęp do lokalizacji</string>
+    <string name="location_permissions_needed_dialog_message">Ta aplikacja wymaga pozwolenia na dostęp do lokalizacji.</string>
+    <string name="activity_type">Typ aktywności</string>
+    <string name="who_can_see_this_activity">Kto może zobaczyć tą aktywność</string>
+    <string name="activity_name">Nazwa aktywności</string>
+    <string name="who_can_see_activity_default">Kto może widzieć nowo utworzone aktywności</string>
+    <string name="keep_screen_on_in_map_title">Utrzymuj włączony ekran</string>
+    <string name="keep_screen_on_in_map_summary">Utrzymuj włączony ekran przy aktywnej mapie</string>
+    <string name="all">Wszystkie</string>
+    <string name="bike">Rower</string>
+    <string name="walking">Chodzenie</string>
+    <string name="running">Bieganie</string>
+    <string name="search">Wyszukaj</string>
+    <string name="edit_activity">Edytuj Aktywność</string>
+    <string name="activity">Aktywność</string>
+    <string name="profile">Profil</string>
+    <string name="followers">Obserwujący</string>
+    <string name="following">Obserwowani</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
-        <item quantity="one">%d Follow</item>
-        <item quantity="other">%d Following</item>
+        <item quantity="one">%d Obserwowany</item>
+        <item quantity="other">%d Obserwowanych</item>
     </plurals>
 
     <plurals name="number_followers">
-        <item quantity="one">%d Follower</item>
-        <item quantity="other">%d Followers</item>
+        <item quantity="one">%d Obserwujący</item>
+        <item quantity="other">%d Obserwujących</item>
     </plurals>
 
     <!-- String arrays -->
@@ -97,9 +101,9 @@
     </string-array>
 
     <string-array name="profile_edit_choice_array">
-        <item>Take Picture</item>
-        <item>Select From Gallery</item>
-        <item>Remove Picture</item>
+        <item>Zrób zdjęcie</item>
+        <item>Wybierz z galerii</item>
+        <item>Usuń zdjęcie</item>
     </string-array>
 
     <string-array name="units_of_measure_array">

@@ -15,6 +15,10 @@ Auto pause
 Cache network requests from Firebase   
 Compress profile pic to lower bandwidth
 
+## People
+
+If you follow someone, they need to accept it
+
 ## UI
 
 Proper login screen  

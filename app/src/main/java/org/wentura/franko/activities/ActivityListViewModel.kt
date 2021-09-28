@@ -3,6 +3,7 @@ package org.wentura.franko.activities
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ class ActivityListViewModel @Inject constructor(
     }
 
     private val activities = MutableLiveData<ArrayList<Activity>>()
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     fun getCurrentActivities(activityTypes: ArrayList<String>): LiveData<ArrayList<Activity>> {
         if (activityTypes.isEmpty()) {
@@ -29,7 +31,7 @@ class ActivityListViewModel @Inject constructor(
         }
 
         activityRepository
-            .getActivities()
+            .getActivities(uid)
             .whereIn(Constants.ACTIVITY, activityTypes)
             .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
             .get()

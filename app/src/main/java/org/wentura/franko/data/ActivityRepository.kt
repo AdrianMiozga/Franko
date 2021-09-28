@@ -1,9 +1,8 @@
 package org.wentura.franko.data
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import org.wentura.franko.Constants
@@ -14,44 +13,39 @@ import javax.inject.Singleton
 class ActivityRepository @Inject constructor() {
 
     private val db = Firebase.firestore
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     companion object {
         val TAG = ActivityRepository::class.simpleName
     }
 
     fun addActivity(activity: Activity) {
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        db.collection(Constants.ACTIVITIES)
             .add(activity)
     }
 
-    fun getActivities(): CollectionReference {
-        return db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+    fun getActivities(uid: String): Query {
+        return db.collection(Constants.ACTIVITIES)
+            .whereEqualTo(Constants.UID, uid)
+    }
+
+    fun getActivities(uid: ArrayList<String>): Query {
+        return db.collection(Constants.ACTIVITIES)
+            .whereIn(Constants.UID, uid)
     }
 
     fun getActivity(activityId: String): DocumentReference {
-        return db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        return db.collection(Constants.ACTIVITIES)
             .document(activityId)
     }
 
     fun deleteActivity(activityId: String): Task<Void> {
-        return db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        return db.collection(Constants.ACTIVITIES)
             .document(activityId)
             .delete()
     }
 
     fun updateActivityType(activityId: String, activityType: String) {
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        db.collection(Constants.ACTIVITIES)
             .document(activityId)
             .update(Constants.ACTIVITY, activityType)
     }

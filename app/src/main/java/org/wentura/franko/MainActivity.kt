@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser ?: return
-            val photoUrl = Util.extractPhotoUrl(user)
+            val photoUrl = Utilities.extractPhotoUrl(user)
 
             db.collection(Constants.USERS)
                 .document(user.uid)

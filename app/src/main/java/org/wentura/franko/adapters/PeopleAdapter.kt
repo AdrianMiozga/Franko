@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
@@ -37,17 +36,9 @@ class PeopleAdapter(private val people: List<User>) :
                 )
             }
 
-            val uri = people[position].photoUrl
+            val photoUrl = people[position].photoUrl
 
-            if (uri.isNullOrBlank()) {
-                profilePicture.load(R.drawable.ic_profile_picture_placeholder) {
-                    transformations(CircleCropTransformation())
-                }
-            } else {
-                profilePicture.load(uri) {
-                    transformations(CircleCropTransformation())
-                }
-            }
+            Utilities.loadProfilePicture(photoUrl, profilePicture)
 
             fullName.text = context.getString(
                 R.string.full_name,

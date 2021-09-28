@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,5 +16,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item_user" />
+
+    <include
+        android:id="@+id/progress_bar_overlay"
+        layout="@layout/progress_bar_overlay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

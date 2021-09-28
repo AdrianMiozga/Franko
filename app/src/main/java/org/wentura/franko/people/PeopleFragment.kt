@@ -34,6 +34,8 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
         val binding = FragmentPeopleBinding.bind(view)
 
         viewModel.users.observe(viewLifecycleOwner) { result ->
+            binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
+
             people.clear()
             filteredPeople.clear()
 

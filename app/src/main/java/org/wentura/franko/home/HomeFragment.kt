@@ -30,6 +30,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val recyclerView = binding.homeRecyclerView
 
         viewModel.getCurrentActivities().observe(viewLifecycleOwner) { activities ->
+            binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
+
             recyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)

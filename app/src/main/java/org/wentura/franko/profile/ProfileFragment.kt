@@ -22,6 +22,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val args: ProfileFragmentArgs by navArgs()
     private val userViewModel: UserViewModel by viewModels()
 
+    private var followersLoaded = false
+    private var followingsLoaded = false
+    private var profileLoaded = false
+
     private val db = Firebase.firestore
 
     companion object {
@@ -43,6 +47,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val profileCity = binding.profileCity
         val profileFollowing = binding.profileFollowing
         val profileFollowers = binding.profileFollowers
+        val progressBarOverlay = binding.progressBarOverlay.progressBarOverlay
 
         profileFollow.setOnClickListener {
             if (uid == null) return@setOnClickListener
@@ -86,6 +91,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         userViewModel.getUser(args.uid).observe(viewLifecycleOwner) { profile ->
+            profileLoaded = true
+            show(progressBarOverlay)
+
             Utilities.loadProfilePicture(profile.photoUrl, profileProfilePicture)
 
             profileFullName.text = getString(
@@ -115,6 +123,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         userViewModel.getFollowing(args.uid).observe(viewLifecycleOwner) { following ->
+            followingsLoaded = true
+            show(progressBarOverlay)
+
             val size = following.size
 
             profileFollowing.text =
@@ -130,6 +141,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         userViewModel.getFollowers(args.uid).observe(viewLifecycleOwner) { followers ->
+            followersLoaded = true
+            show(progressBarOverlay)
+
             val size = followers.size
 
             profileFollowers.text =
@@ -147,6 +161,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     ProfileFragmentDirections.toFollowersFragment(args.uid)
                 )
             }
+        }
+    }
+
+    private fun show(view: View) {
+        if (profileLoaded && followersLoaded && followingsLoaded) {
+            view.visibility = View.GONE
         }
     }
 }

@@ -58,14 +58,15 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             this.user = user
 
-            Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
-
             binding.apply {
+                progressBarOverlay.progressBarOverlay.visibility = View.GONE
                 profileEditFirstName.setText(user.firstName)
                 profileEditLastName.setText(user.lastName)
                 profileEditCity.setText(user.city)
                 profileEditBio.setText(user.bio)
             }
+
+            Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
         }
 
         binding.profileEditDeleteAccount.setOnClickListener {

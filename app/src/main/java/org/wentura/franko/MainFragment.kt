@@ -19,6 +19,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val binding = FragmentMainBinding.bind(view)
 
         binding.apply {
+            mainShowHome.setOnClickListener {
+                Navigation.findNavController(view)
+                    .navigate(MainFragmentDirections.toHomeFragment())
+            }
+           
             mainShowMap.setOnClickListener {
                 Navigation.findNavController(view)
                     .navigate(MainFragmentDirections.toMapFragment())

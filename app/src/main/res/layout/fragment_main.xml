@@ -6,6 +6,17 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/main_show_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home"
+        app:layout_constraintBottom_toTopOf="@id/main_show_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
         android:id="@+id/main_show_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@id/main_show_activities"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_show_home"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button

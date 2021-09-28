@@ -6,11 +6,14 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseUser
 import java.io.ByteArrayOutputStream
 
-object Util {
+object Utilities {
     /**
      * Extract Google profile picture in original quality.
      *
@@ -36,8 +39,10 @@ object Util {
     fun Bitmap.convertToByteArray(): ByteArray {
         val stream = ByteArrayOutputStream()
         this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+
         val byteArray: ByteArray = stream.toByteArray()
         this.recycle()
+
         return byteArray
     }
 
@@ -50,11 +55,23 @@ object Util {
 
     fun isLocationPermissionGranted(context: Context?): Boolean {
         return if (context == null) {
-            return false
+            false
         } else
             ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun loadProfilePicture(photoUrl: String?, imageView: ImageView) {
+        if (photoUrl.isNullOrBlank()) {
+            imageView.load(R.drawable.ic_profile_picture_placeholder) {
+                transformations(CircleCropTransformation())
+            }
+        } else {
+            imageView.load(photoUrl) {
+                transformations(CircleCropTransformation())
+            }
+        }
     }
 }

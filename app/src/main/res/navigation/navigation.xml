@@ -54,6 +54,12 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
 
+        <action
+            android:id="@+id/to_home_fragment"
+            app:destination="@id/home_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -194,5 +200,11 @@
             app:argType="string" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="org.wentura.franko.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
 
 </navigation>

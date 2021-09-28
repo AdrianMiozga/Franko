@@ -21,9 +21,7 @@ class DataStoreActivity(
     override fun putBoolean(key: String?, value: Boolean) {
         if (key == null) return
 
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        db.collection(Constants.ACTIVITIES)
             .document(activityId)
             .update(key, value)
     }
@@ -35,9 +33,7 @@ class DataStoreActivity(
     override fun putString(key: String?, value: String?) {
         if (key == null) return
 
-        db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.PATHS)
+        db.collection(Constants.ACTIVITIES)
             .document(activityId)
             .update(key, value?.trim())
     }

@@ -10,13 +10,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.firebase.ui.auth.AuthUI
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
-import org.wentura.franko.Util
+import org.wentura.franko.Utilities
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentProfileEditBinding
@@ -60,15 +58,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             this.user = user
 
-            if (user.photoUrl.isNullOrBlank()) {
-                editProfileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
-                    transformations(CircleCropTransformation())
-                }
-            } else {
-                editProfileProfilePicture.load(user.photoUrl) {
-                    transformations(CircleCropTransformation())
-                }
-            }
+            Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
 
             binding.apply {
                 profileEditFirstName.setText(user.firstName)
@@ -114,11 +104,11 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                         .setTitle(getString(R.string.unsaved_changes))
                         .setMessage(getString(R.string.you_have_unsaved_changes))
                         .setPositiveButton(getString(R.string.save)) { _, _ ->
-                            Util.closeKeyboard(view)
+                            Utilities.closeKeyboard(view)
                             saveChanges()
                         }
                         .setNeutralButton(getString(R.string.discard)) { _, _ ->
-                            Util.closeKeyboard(view)
+                            Utilities.closeKeyboard(view)
                             Navigation.findNavController(view).navigateUp()
                         }
                         .setNegativeButton(getString(R.string.cancel)) { _, _ -> }

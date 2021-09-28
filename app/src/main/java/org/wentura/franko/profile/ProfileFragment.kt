@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.databinding.FragmentProfileBinding
 import org.wentura.franko.viewmodels.UserViewModel
 
@@ -87,15 +86,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         userViewModel.getUser(args.uid).observe(viewLifecycleOwner) { profile ->
-            if (profile.photoUrl.isNullOrBlank()) {
-                profileProfilePicture.load(R.drawable.ic_profile_picture_placeholder) {
-                    transformations(CircleCropTransformation())
-                }
-            } else {
-                profileProfilePicture.load(profile.photoUrl) {
-                    transformations(CircleCropTransformation())
-                }
-            }
+            Utilities.loadProfilePicture(profile.photoUrl, profileProfilePicture)
 
             profileFullName.text = getString(
                 R.string.full_name,

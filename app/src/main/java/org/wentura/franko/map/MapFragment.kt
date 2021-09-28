@@ -21,13 +21,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
-import org.wentura.franko.data.Activity
-import org.wentura.franko.data.ActivityRepository
-import org.wentura.franko.data.User
-import org.wentura.franko.data.UserRepository
+import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
 import java.util.concurrent.TimeUnit
@@ -191,7 +189,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-        if (!Util.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(context)) return
 
         map = googleMap
         map.isMyLocationEnabled = true
@@ -215,7 +213,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun askForLocationPermission() {
-        if (Util.isLocationPermissionGranted(context)) return
+        if (Utilities.isLocationPermissionGranted(context)) return
 
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
             AlertDialog
@@ -269,7 +267,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun startTrackingLocation() {
-        if (!Util.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(context)) return
 
         context?.startService(Intent(context, LocationUpdatesService::class.java))
         timerViewModel.startTimer()
@@ -281,7 +279,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun stopTrackingLocation() {
-        if (!Util.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(context)) return
 
         context?.stopService(Intent(context, LocationUpdatesService::class.java))
 
@@ -311,7 +309,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
         val activity = Activity(
+            uid,
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
             array,

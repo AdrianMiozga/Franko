@@ -1,7 +1,5 @@
 # TODO
 
-Show people activities/home/feed
-
 ## Activities
 
 Save activity window after recording  
@@ -21,6 +19,7 @@ If you follow someone, they need to accept it
 
 ## UI
 
+Translate all strings to polish  
 Proper login screen  
 Startup screen (black screen + app logo?)  
 App logo  

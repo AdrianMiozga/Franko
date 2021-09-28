@@ -5,7 +5,10 @@
     <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
 
     <string name="time_span" translatable="false">%s - %s</string>
+    <string name="user_activity_title" translatable="false">%s (%s)</string>
     <string name="activity_title" translatable="false">%s (%s, %s)</string>
+
+    <string name="full_name" translatable="false">%s %s</string>
 
     <string name="sample_user_name" translatable="false">Pascal Winters</string>
     <string name="sample_city" translatable="false">New York</string>
@@ -33,7 +36,6 @@
     <string name="first_name">Imię</string>
     <string name="last_name">Nazwisko</string>
     <string name="save">Zapisz</string>
-    <string name="full_name">%s %s</string>
     <string name="city">Miasto</string>
     <string name="edit_profile_picture">Edytuj Zdjęcie Profilowe</string>
     <string name="dark_mode">Motyw ciemny</string>
@@ -81,6 +83,7 @@
     <string name="profile">Profil</string>
     <string name="followers">Obserwujący</string>
     <string name="following">Obserwowani</string>
+    <string name="home">Home</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

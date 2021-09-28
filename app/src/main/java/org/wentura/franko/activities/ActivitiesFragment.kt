@@ -42,6 +42,8 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         val activitiesNothingToShow = binding.activitiesNothingToShow
 
         val observer = Observer<ArrayList<Activity>> { activities ->
+            binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
+          
             if (activities.isEmpty()) {
                 recyclerView.visibility = View.INVISIBLE
                 activitiesNothingToShow.visibility = View.VISIBLE

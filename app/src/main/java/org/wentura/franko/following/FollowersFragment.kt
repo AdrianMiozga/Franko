@@ -11,7 +11,6 @@ import org.wentura.franko.adapters.PeopleAdapter
 import org.wentura.franko.databinding.FragmentSimplifiedPeopleBinding
 
 @AndroidEntryPoint
-
 class FollowersFragment : Fragment(R.layout.fragment_simplified_people) {
     private val viewModel: PeopleListViewModel by viewModels()
 
@@ -19,6 +18,8 @@ class FollowersFragment : Fragment(R.layout.fragment_simplified_people) {
         val binding = FragmentSimplifiedPeopleBinding.bind(view)
 
         viewModel.getFollowers().observe(viewLifecycleOwner) { result ->
+            binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
+
             binding.simplifiedPeopleRecyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)

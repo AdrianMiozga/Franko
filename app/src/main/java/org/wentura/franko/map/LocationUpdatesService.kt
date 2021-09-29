@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import android.os.SystemClock
@@ -50,11 +51,25 @@ class LocationUpdatesService : Service() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.getActivity(
+                        this,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                } else {
+                    PendingIntent.getActivity(
+                        this,
+                        0,
+                        notificationIntent,
+                        0
+                    )
+                }
             }
 
         notification = NotificationCompat

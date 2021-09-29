@@ -33,16 +33,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     .navigate(MainFragmentDirections.toActivitiesFragment())
             }
 
-            mainShowStatistics.setOnClickListener {
-                Navigation.findNavController(view)
-                    .navigate(MainFragmentDirections.toStatisticsFragment())
-            }
-
-            mainShowAchievements.setOnClickListener {
-                Navigation.findNavController(view)
-                    .navigate(MainFragmentDirections.toAchievementsFragment())
-            }
-
             mainShowOptions.setOnClickListener {
                 Navigation.findNavController(view)
                     .navigate(MainFragmentDirections.toSettingsFragment())

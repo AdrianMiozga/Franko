@@ -15,7 +15,7 @@ class ProfileEditPictureDialogFragment : DialogFragment() {
     @Inject
     lateinit var userRepository: UserRepository
 
-    lateinit var profilePictureObserver: ProfilePictureObserver
+    private lateinit var profilePictureObserver: ProfilePictureObserver
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         profilePictureObserver = ProfilePictureObserver(requireActivity().activityResultRegistry)

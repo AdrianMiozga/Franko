@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
@@ -15,21 +17,27 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.data.UserRepository
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var userRepository: UserRepository
+
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val db = Firebase.firestore
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         this.onSignInResult(result)
     }
+
+    private val onPreDrawListener = ViewTreeObserver.OnPreDrawListener { false }
+
+    private lateinit var content: View
 
     companion object {
         private val TAG = MainActivity::class.simpleName
@@ -42,18 +50,23 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        content = findViewById(android.R.id.content)
+
         createNotificationChannel()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
 
         val navController = navHostFragment.navController
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         if (FirebaseAuth.getInstance().currentUser == null) {
             createSignInIntent()
+        } else {
+            content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
         }
     }
 
@@ -62,15 +75,19 @@ class MainActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun createSignInIntent() {
+    fun createSignInIntent() {
+        content.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
+
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-        val signInIntent = AuthUI.getInstance()
+        val signInIntent = AuthUI
+            .getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+            .setLogo(R.mipmap.ic_launcher_round)
 //            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
             .build()
 
@@ -78,26 +95,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        if (result.resultCode == RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser ?: return
-            val photoUrl = Utilities.extractPhotoUrl(user)
+        val response = result.idpResponse
 
-            db.collection(Constants.USERS)
-                .document(user.uid)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) return@addOnSuccessListener
+        if (result.resultCode != RESULT_OK) {
+            // User pressed back button
+            if (response == null) {
+                finish()
+            }
 
-                    val set = hashMapOf(
-                        Constants.FIRST_NAME to user.displayName,
-                        Constants.PHOTO_URL to photoUrl
-                    )
-
-                    db.collection(Constants.USERS)
-                        .document(user.uid)
-                        .set(set)
-                }
+            return
         }
+
+        content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
+
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        val photoUrl = Utilities.extractPhotoUrl(user)
+
+        val values: HashMap<String, Any> =
+            hashMapOf(
+                Constants.FIRST_NAME to (user.displayName ?: ""),
+                Constants.PHOTO_URL to photoUrl
+            )
+
+        userRepository.addNewUser(values)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,6 +145,7 @@ class MainActivity : AppCompatActivity() {
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         notificationManager.createNotificationChannel(channel)
     }
 }

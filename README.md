@@ -20,7 +20,6 @@ If you follow someone, they need to accept it
 ## UI
 
 Translate all strings to polish  
-Proper login screen  
 App logo  
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  

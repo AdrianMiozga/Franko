@@ -50,6 +50,21 @@ class UserRepository @Inject constructor() {
             .update(updates)
     }
 
+    fun addNewUser(values: HashMap<String, Any>) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        db.collection(Constants.USERS)
+            .document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) return@addOnSuccessListener
+
+                db.collection(Constants.USERS)
+                    .document(uid)
+                    .set(values)
+            }
+    }
+
     fun removeProfilePicture() {
         db.collection(Constants.USERS)
             .document(myUid)

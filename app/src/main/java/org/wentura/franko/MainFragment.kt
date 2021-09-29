@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.firebase.ui.auth.AuthUI
@@ -23,7 +22,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 Navigation.findNavController(view)
                     .navigate(MainFragmentDirections.toHomeFragment())
             }
-           
+
             mainShowMap.setOnClickListener {
                 Navigation.findNavController(view)
                     .navigate(MainFragmentDirections.toMapFragment())
@@ -77,11 +76,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     .getInstance()
                     .signOut(requireContext())
                     .addOnSuccessListener {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.logged_out),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        (activity as MainActivity).createSignInIntent()
                     }
                 true
             }

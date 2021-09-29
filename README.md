@@ -21,7 +21,6 @@ If you follow someone, they need to accept it
 
 Translate all strings to polish  
 Proper login screen  
-Startup screen (black screen + app logo?)  
 App logo  
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  

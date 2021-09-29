@@ -3,7 +3,6 @@ package org.wentura.franko.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -242,28 +241,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
         }
 
         requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            Constants.PERMISSIONS_REQUEST_LOCATION -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    startTrackingLocation()
-                } else {
-                    Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_LONG).show()
-                }
-                return
-            }
-        }
     }
 
     private fun startTrackingLocation() {

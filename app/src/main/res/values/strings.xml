@@ -2,7 +2,6 @@
 
     <!-- Resources that do not require translation -->
     <string name="app_name" translatable="false">Franko</string>
-    <string name="web_client_id" translatable="false">697835097785-clv6a0at4khvnbfloed5h1l7d988ikj4.apps.googleusercontent.com</string>
 
     <string name="time_span" translatable="false">%s - %s</string>
     <string name="user_activity_title" translatable="false">%s (%s)</string>
@@ -27,7 +26,6 @@
     <string name="mph">%d mp/h</string>
     <string name="people">Ludzie</string>
     <string name="delete_account">Usuń konto</string>
-    <string name="logged_out">Wylogowano</string>
     <string name="account_deleted">Konto zostało usunięte</string>
     <string name="profile_picture">Zdjęcie profilowe</string>
     <string name="search_people">Wyszukaj ludzi</string>
@@ -43,15 +41,12 @@
     <string name="display">Wyświetlanie</string>
     <string name="privacy">Prywatność</string>
     <string name="who_can_see_my_profile">Kto może zobaczyć mój profil</string>
-    <string name="everyone">Każdy</string>
-    <string name="only_me">Tylko ja</string>
     <string name="nothing_to_show">Brak danych</string>
     <string name="cancel">Anuluj</string>
     <string name="unsaved_changes">Niezapisane zmiany</string>
     <string name="you_have_unsaved_changes">Masz niezapisane zmiany</string>
     <string name="who_can_see_my_location">Kto może zobaczyć moję lokalizację</string>
     <string name="follow">Obserwuj</string>
-    <string name="who_can_see_my_following_count">Kto może zobaczyć kogo obserwuje</string>
     <string name="unfollow">Przestań obserwować</string>
     <string name="OK">OK</string>
     <string name="enable_location_dialog_message">Usługi lokalizacji są wyłączone. Czy chcesz je włączyć?</string>
@@ -60,7 +55,6 @@
     <string name="activity_recording_notification_title">Nagrywanie (%s)</string>
     <string name="location_updates_service_description">Usługa, która monitoruje aktywność użytkownika.</string>
     <string name="bio">Opis</string>
-    <string name="delete_activity">Usuń aktywność</string>
     <string name="delete_activity_dialog_message">Ten proces jest nieodwracalny.</string>
     <string name="delete">Usuń</string>
     <string name="edit">Edytuj</string>
@@ -73,7 +67,6 @@
     <string name="who_can_see_activity_default">Kto może widzieć nowo utworzone aktywności</string>
     <string name="keep_screen_on_in_map_title">Utrzymuj włączony ekran</string>
     <string name="keep_screen_on_in_map_summary">Utrzymuj włączony ekran przy aktywnej mapie</string>
-    <string name="all">Wszystkie</string>
     <string name="bike">Rower</string>
     <string name="walking">Chodzenie</string>
     <string name="running">Bieganie</string>

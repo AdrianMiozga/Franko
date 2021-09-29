@@ -26,12 +26,6 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
 
         <action
-            android:id="@+id/to_statistics_fragment"
-            app:destination="@id/statistics_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
             android:id="@+id/to_settings_fragment"
             app:destination="@id/settings_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -40,12 +34,6 @@
         <action
             android:id="@+id/to_people_fragment"
             app:destination="@id/people_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_achievements_fragment"
-            app:destination="@id/achievements_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
 
@@ -82,12 +70,6 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
 
     </fragment>
-
-    <fragment
-        android:id="@+id/statistics_fragment"
-        android:name="org.wentura.franko.statistics.StatisticsFragment"
-        android:label="Statistics"
-        tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/settings_fragment"
@@ -129,12 +111,6 @@
             app:destination="@id/followers_fragment" />
 
     </fragment>
-
-    <fragment
-        android:id="@+id/achievements_fragment"
-        android:name="org.wentura.franko.achievements.AchievementsFragment"
-        android:label="@string/achievements"
-        tools:layout="@layout/fragment_achievements" />
 
     <fragment
         android:id="@+id/profile_edit_fragment"

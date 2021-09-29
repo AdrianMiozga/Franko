@@ -3,7 +3,6 @@ package org.wentura.franko
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -118,14 +117,6 @@ class MainActivity : AppCompatActivity() {
             )
 
         userRepository.addNewUser(values)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        for (fragment in supportFragmentManager.fragments) {
-            fragment.onActivityResult(requestCode, resultCode, data)
-        }
     }
 
     private fun createNotificationChannel() {

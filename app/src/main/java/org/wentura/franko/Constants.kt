@@ -67,6 +67,10 @@ object Constants {
     const val TAKE_PICTURE_KEY = "takePictureKey"
 
     // Other
+    const val PROFILE_PICTURE_FORMAT_EXTENSION = "webp"
+    const val TMP_IMAGE_PREFIX = "tmp_image_file_"
+    const val TMP_IMAGE_SUFFIX = ".png"
+
     /** Min activity time to save in milliseconds **/
     val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
 

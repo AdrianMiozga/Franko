@@ -10,8 +10,7 @@ Auto pause
 
 ## Performance
 
-Cache network requests from Firebase   
-Compress profile pic to lower bandwidth
+Cache network requests from Firebase
 
 ## People
 
@@ -20,6 +19,7 @@ If you follow someone, they need to accept it
 ## UI
 
 Translate all strings to polish  
+Loading bar when changing profile picture  
 App logo  
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  

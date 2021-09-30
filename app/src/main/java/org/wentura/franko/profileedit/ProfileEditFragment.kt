@@ -51,8 +51,9 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         bioEditText = binding.profileEditBio
         cityEditText = binding.profileEditCity
         editProfileProfilePicture = binding.profileEditProfilePicture
+        val profileEditDeleteAccount = binding.profileEditDeleteAccount
 
-        profilePictureObserver = ProfilePictureObserver(requireActivity().activityResultRegistry)
+        profilePictureObserver = ProfilePictureObserver(requireContext(), requireActivity().activityResultRegistry)
         lifecycle.addObserver(profilePictureObserver)
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
@@ -69,7 +70,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
         }
 
-        binding.profileEditDeleteAccount.setOnClickListener {
+        profileEditDeleteAccount.setOnClickListener {
             AuthUI
                 .getInstance()
                 .delete(requireContext())
@@ -85,7 +86,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         }
 
         editProfileProfilePicture.setOnClickListener {
-            ProfileEditPictureDialogFragment()
+            ProfileEditPictureDialogFragment(profilePictureObserver)
                 .show(
                     parentFragmentManager,
                     ProfileEditPictureDialogFragment::class.simpleName

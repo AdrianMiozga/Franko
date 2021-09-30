@@ -1,21 +1,33 @@
 package org.wentura.franko.profileedit
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.default
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import org.wentura.franko.Constants
-import org.wentura.franko.Utilities.convertToByteArray
+import org.wentura.franko.Utilities
+import org.wentura.franko.Utilities.copyToFile
+import org.wentura.franko.Utilities.getUri
+import java.io.File
+import java.io.FileInputStream
 
 class ProfilePictureObserver(
+    private val context: Context,
     private val registry: ActivityResultRegistry
 ) : DefaultLifecycleObserver {
 
@@ -23,61 +35,98 @@ class ProfilePictureObserver(
     private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     private val imageDirectory = Firebase.storage.reference.child(Constants.IMAGES)
-    private val profilePicture = imageDirectory.child("$uid.png")
+
+    private val profilePicture = imageDirectory.child("$uid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}")
+
+    private lateinit var tmpFile: File
 
     private lateinit var selectImage: ActivityResultLauncher<String>
-    private lateinit var takeImage: ActivityResultLauncher<Void>
+    private lateinit var takeImage: ActivityResultLauncher<Uri>
+
+    private lateinit var owner: LifecycleOwner
+
+    companion object {
+        val TAG = ProfilePictureObserver::class.simpleName
+    }
 
     override fun onCreate(owner: LifecycleOwner) {
+        this.owner = owner
+
         selectImage =
             registry.register(
-                Constants.SELECT_IMAGE_KEY, owner, ActivityResultContracts.GetContent()
+                Constants.SELECT_IMAGE_KEY,
+                owner,
+                ActivityResultContracts.GetContent()
             ) { uri ->
-                updateProfilePicture(uri)
+                if (uri == null) return@register
+
+                context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                    owner.lifecycleScope.launchWhenCreated {
+                        tmpFile = Utilities.createTmpFile(
+                            Constants.TMP_IMAGE_PREFIX,
+                            Constants.TMP_IMAGE_SUFFIX,
+                            context.cacheDir
+                        )
+
+                        inputStream.copyToFile(tmpFile)
+
+                        updateProfilePicture()
+                    }
+                }
             }
 
         takeImage = registry.register(
-            Constants.TAKE_PICTURE_KEY, owner, ActivityResultContracts.TakePicturePreview()
-        ) { bitmap ->
-            updateProfilePicture(bitmap)
+            Constants.TAKE_PICTURE_KEY,
+            owner,
+            ActivityResultContracts.TakePicture()
+        ) { isSuccess ->
+            if (!isSuccess) return@register
+
+            owner.lifecycleScope.launchWhenCreated {
+                updateProfilePicture()
+            }
         }
     }
 
-    fun selectImage() {
-        selectImage.launch("image/*")
-    }
+    fun selectImage() = selectImage.launch("image/*")
 
     fun takePicture() {
-        takeImage.launch(null)
+        owner.lifecycleScope.launchWhenCreated {
+            tmpFile = Utilities.createTmpFile(
+                Constants.TMP_IMAGE_PREFIX,
+                Constants.TMP_IMAGE_SUFFIX,
+                context.cacheDir
+            )
+
+            takeImage.launch(tmpFile.getUri(context))
+        }
     }
 
-    private fun updateProfilePicture(bitmap: Bitmap) {
-        val uploadTask = profilePicture.putBytes(bitmap.convertToByteArray())
-        result(uploadTask)
-    }
-
-    private fun updateProfilePicture(uri: Uri) {
-        val uploadTask = profilePicture.putFile(uri)
-        result(uploadTask)
-    }
-
-    private fun result(uploadTask: UploadTask) {
-        uploadTask.continueWithTask { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
-                    throw it
-                }
+    private suspend fun updateProfilePicture() {
+        withContext(Dispatchers.IO) {
+            val format = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                Bitmap.CompressFormat.WEBP_LOSSLESS
+            } else {
+                @Suppress("Deprecation")
+                Bitmap.CompressFormat.WEBP
             }
-            profilePicture.downloadUrl
-        }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val updates: Map<String, Any> =
-                    hashMapOf(Constants.PHOTO_URL to task.result.toString())
 
-                db.collection(Constants.USERS)
-                    .document(uid)
-                    .update(updates)
+            val compressedImageFile = Compressor.compress(context, tmpFile) {
+                default(width = 200, height = 200, format = format, quality = 100)
             }
+
+            @Suppress("BlockingMethodInNonBlockingContext")
+            val photoUrl = profilePicture
+                .putStream(FileInputStream(compressedImageFile))
+                .continueWithTask { profilePicture.downloadUrl }
+                .await()
+
+            val updates: Map<String, Any> =
+                hashMapOf(Constants.PHOTO_URL to photoUrl.toString())
+
+            db.collection(Constants.USERS)
+                .document(uid)
+                .update(updates)
         }
     }
 }

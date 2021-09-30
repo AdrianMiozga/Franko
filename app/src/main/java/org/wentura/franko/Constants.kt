@@ -40,7 +40,6 @@ object Constants {
     const val UNITS_OF_MEASURE_KEY = "unitsOfMeasure"
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
-    const val WHO_CAN_SEE_MY_FOLLOWING_COUNT = "whoCanSeeMyFollowingCount"
     const val ACTIVITY_TYPE_KEY = ACTIVITY
     const val WHO_CAN_SEE_THIS_ACTIVITY = "whoCanSeeThisActivity"
     const val ACTIVITY_NAME = "activityName"
@@ -58,9 +57,6 @@ object Constants {
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"
-
-    // Intent Request Codes
-    const val PERMISSIONS_REQUEST_LOCATION = 1
 
     // Result Registry Keys
     const val SELECT_IMAGE_KEY = "selectImageKey"

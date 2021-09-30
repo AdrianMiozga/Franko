@@ -13,6 +13,4 @@ data class Activity(
 ) {
     @DocumentId
     lateinit var documentId: String
-
-    lateinit var username: String
 }

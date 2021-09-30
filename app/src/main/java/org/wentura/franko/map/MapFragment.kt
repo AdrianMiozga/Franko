@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.tasks.await
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.*
@@ -70,7 +72,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         askForLocationPermission()
-        checkLocationServicesState()
+
+        lifecycleScope.launchWhenCreated {
+            checkLocationServicesState()
+        }
 
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -163,25 +168,25 @@ class MapFragment : Fragment(R.layout.fragment_map),
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-    private fun checkLocationServicesState() {
-        LocationServices
+    private suspend fun checkLocationServicesState() {
+        val response = LocationServices
             .getSettingsClient(requireContext())
             .checkLocationSettings(LocationSettingsRequest.Builder().build())
-            .addOnSuccessListener { response ->
-                val locationSettingsStates = response.locationSettingsStates ?: return@addOnSuccessListener
+            .await()
 
-                if (locationSettingsStates.isLocationUsable) return@addOnSuccessListener
+        val locationSettingsStates = response.locationSettingsStates ?: return
 
-                EnableLocationDialogFragment().show(
-                    parentFragmentManager,
-                    EnableLocationDialogFragment::class.simpleName
-                )
-            }
+        if (locationSettingsStates.isLocationUsable) return
+
+        EnableLocationDialogFragment().show(
+            parentFragmentManager,
+            EnableLocationDialogFragment::class.simpleName
+        )
     }
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-        if (!Utilities.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
         map = googleMap
         map.isMyLocationEnabled = true
@@ -205,7 +210,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun askForLocationPermission() {
-        if (Utilities.isLocationPermissionGranted(context)) return
+        if (Utilities.isLocationPermissionGranted(requireContext())) return
 
         locationObserver = LocationPermissionObserver(requireActivity().activityResultRegistry)
         lifecycle.addObserver(locationObserver)
@@ -221,7 +226,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun startTrackingLocation() {
-        if (!Utilities.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
         context?.startService(Intent(context, LocationUpdatesService::class.java))
         timerViewModel.startTimer()
@@ -233,7 +238,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun stopTrackingLocation() {
-        if (!Utilities.isLocationPermissionGranted(context)) return
+        if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
         context?.stopService(Intent(context, LocationUpdatesService::class.java))
 

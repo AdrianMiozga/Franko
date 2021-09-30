@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class UserActivityAdapter(private val userActivities: List<UserActivity>) :
     RecyclerView.Adapter<UserActivityAdapter.ViewHolder>() {
 
-    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
         private lateinit var map: GoogleMap
@@ -46,12 +46,6 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         }
 
         fun bindView(position: Int, userActivities: List<UserActivity>) {
-//            view.setOnClickListener {
-//                Navigation.findNavController(view).navigate(
-//                    ActivitiesFragmentDirections.toActivityFragment(activities[position].documentId)
-//                )
-//            }
-
             userActivities[position].activity.path?.forEach {
                 latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
@@ -77,7 +71,7 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
                 userActivities[position].activity.activityName,
                 userActivities[position].activity.activity,
             )
-           
+
             dateTextView.text = date
 
             name.text = context.getString(

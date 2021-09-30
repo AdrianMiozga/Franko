@@ -71,7 +71,7 @@ class UserRepository @Inject constructor() {
             .update(Constants.PHOTO_URL, FieldValue.delete())
 
         val imageDirectory = Firebase.storage.reference.child(Constants.IMAGES)
-        val profilePicture = imageDirectory.child("$myUid.png")
+        val profilePicture = imageDirectory.child("$myUid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}")
 
         profilePicture.delete()
     }

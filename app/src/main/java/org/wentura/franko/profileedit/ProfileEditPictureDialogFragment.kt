@@ -10,18 +10,16 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProfileEditPictureDialogFragment : DialogFragment() {
+class ProfileEditPictureDialogFragment(
+    private val profilePictureObserver: ProfilePictureObserver
+) : DialogFragment() {
 
     @Inject
     lateinit var userRepository: UserRepository
 
-    private lateinit var profilePictureObserver: ProfilePictureObserver
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        profilePictureObserver = ProfilePictureObserver(requireActivity().activityResultRegistry)
-        lifecycle.addObserver(profilePictureObserver)
-
-        return AlertDialog.Builder(requireContext())
+        return AlertDialog
+            .Builder(requireContext())
             .setTitle(R.string.edit_profile_picture)
             .setItems(R.array.profile_edit_choice_array) { _, which ->
                 when (which) {

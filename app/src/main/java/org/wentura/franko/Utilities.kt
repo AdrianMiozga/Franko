@@ -3,15 +3,22 @@ package org.wentura.franko
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseUser
-import java.io.ByteArrayOutputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.wentura.franko.profileedit.ProfilePictureObserver
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 object Utilities {
     /**
@@ -36,14 +43,52 @@ object Utilities {
         return photoUrl
     }
 
-    fun Bitmap.convertToByteArray(): ByteArray {
-        val stream = ByteArrayOutputStream()
-        this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+    fun InputStream.copyToFile(outputFile: File) {
+        this.use { input ->
+            val outputStream = FileOutputStream(outputFile)
 
-        val byteArray: ByteArray = stream.toByteArray()
-        this.recycle()
+            outputStream.use { output ->
+                val bufferSize = ByteArray(4 * 1024)
 
-        return byteArray
+                while (true) {
+                    val byteCount = input.read(bufferSize)
+
+                    if (byteCount < 0) break
+
+                    output.write(bufferSize, 0, byteCount)
+                }
+
+                output.flush()
+            }
+        }
+    }
+
+    fun File.getUri(context: Context): Uri {
+        return FileProvider.getUriForFile(
+            context,
+            "${BuildConfig.APPLICATION_ID}.provider",
+            this
+        )
+    }
+
+    suspend fun createTmpFile(prefix: String, suffix: String, directory: File): File {
+        val file: File
+
+        withContext(Dispatchers.IO) {
+            Log.d(ProfilePictureObserver.TAG, "createTmpFile: ")
+
+            @Suppress("BlockingMethodInNonBlockingContext")
+            file = File.createTempFile(
+                prefix,
+                suffix,
+                directory
+            ).apply {
+                createNewFile()
+                deleteOnExit()
+            }
+        }
+
+        return file
     }
 
     fun closeKeyboard(view: View) {

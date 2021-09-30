@@ -10,7 +10,6 @@
     android:clickable="true"
     android:elevation="2dp"
     android:focusable="true"
-    tools:showIn="@layout/fragment_profile_edit"
     tools:visibility="gone">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

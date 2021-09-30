@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,14 +20,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -102,8 +101,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
             if (trackPosition) {
                 polylinePoints.add(latLng)
                 polyline.points = polylinePoints
-            } else {
-                stopTrackingLocation()
             }
         }
 
@@ -227,43 +224,46 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         timerViewModel.stopTimer()
 
-        val array: MutableList<HashMap<String, Double>> = ArrayList()
-
-        for (point in polylinePoints) {
-            val element = hashMapOf(
-                Constants.LATITUDE to point.latitude,
-                Constants.LONGITUDE to point.longitude
-            )
-
-            array.add(element)
-        }
-
         speed.visibility = View.INVISIBLE
 
-        if (startTime == 0L) return
+        Navigation.findNavController(requireView())
+            .navigate(MapFragmentDirections.toActivitySaveFragment())
 
-        if (System.currentTimeMillis() - startTime < Constants.MIN_ACTIVITY_TIME) {
-            Toast.makeText(
-                requireContext(),
-                "Activities shorter than one minute aren’t recorded",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-
-        val activity = Activity(
-            uid,
-            TimeUnit.MILLISECONDS.toSeconds(startTime),
-            TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
-            array,
-            spinner.selectedItem.toString(),
-            "",
-            user.whoCanSeeActivityDefault
-        )
-
-        activityRepository.addActivity(activity)
+//        val array: MutableList<HashMap<String, Double>> = ArrayList()
+//
+//        for (point in polylinePoints) {
+//            val element = hashMapOf(
+//                Constants.LATITUDE to point.latitude,
+//                Constants.LONGITUDE to point.longitude
+//            )
+//
+//            array.add(element)
+//        }
+//
+//        if (startTime == 0L) return
+//
+//        if (System.currentTimeMillis() - startTime < Constants.MIN_ACTIVITY_TIME) {
+//            Toast.makeText(
+//                requireContext(),
+//                "Activities shorter than one minute aren’t recorded",
+//                Toast.LENGTH_LONG
+//            ).show()
+//            return
+//        }
+//
+//        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+//
+//        val activity = Activity(
+//            uid,
+//            TimeUnit.MILLISECONDS.toSeconds(startTime),
+//            TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
+//            array,
+//            spinner.selectedItem.toString(),
+//            "",
+//            user.whoCanSeeActivityDefault
+//        )
+//
+//        activityRepository.addActivity(activity)
     }
 
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {

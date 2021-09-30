@@ -1,10 +1,7 @@
 package org.wentura.franko.map
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import android.os.SystemClock
@@ -15,7 +12,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
-import org.wentura.franko.MainActivity
 import org.wentura.franko.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,39 +47,14 @@ class LocationUpdatesService : Service() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
-    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val pendingIntent: PendingIntent =
-            Intent(this, MainActivity::class.java).let { notificationIntent ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.getActivity(
-                        this,
-                        0,
-                        notificationIntent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-                } else {
-                    PendingIntent.getActivity(
-                        this,
-                        0,
-                        notificationIntent,
-                        0
-                    )
-                }
-            }
-
-        notification = NotificationCompat
-            .Builder(this, Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(getString(R.string.activity_recording_notification_title))
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setShowWhen(false)
+        notification = RecordingNotification(this)
 
         startForeground(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification.build())
 
         startTimer()
 
+        @Suppress("MissingPermission")
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationRepository,

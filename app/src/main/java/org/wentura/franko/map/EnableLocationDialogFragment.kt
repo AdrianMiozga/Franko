@@ -11,14 +11,13 @@ import org.wentura.franko.R
 class EnableLocationDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setMessage(getString(R.string.enable_location_dialog_message))
+        return AlertDialog
+            .Builder(requireContext())
+            .setMessage(getString(R.string.enable_location_dialog_message))
             .setPositiveButton(R.string.OK) { _, _ ->
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }
-
-        return builder.create()
+            .create()
     }
 }

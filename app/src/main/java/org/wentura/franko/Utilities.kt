@@ -10,17 +10,23 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import org.wentura.franko.map.EnableLocationDialogFragment
 import org.wentura.franko.profileedit.ProfilePictureObserver
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
 object Utilities {
+
     /**
      * Extract Google profile picture in original quality.
      *
@@ -103,6 +109,22 @@ object Utilities {
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    suspend fun checkLocationEnabled(context: Context, fragmentManager: FragmentManager) {
+        val response = LocationServices
+            .getSettingsClient(context)
+            .checkLocationSettings(LocationSettingsRequest.Builder().build())
+            .await()
+
+        val locationSettingsStates = response.locationSettingsStates ?: return
+
+        if (locationSettingsStates.isLocationUsable) return
+
+        EnableLocationDialogFragment().show(
+            fragmentManager,
+            EnableLocationDialogFragment::class.simpleName
+        )
     }
 
     fun loadProfilePicture(photoUrl: String?, imageView: ImageView) {

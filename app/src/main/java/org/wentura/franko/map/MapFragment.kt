@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.tasks.await
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.*
@@ -74,7 +73,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         checkLocationPermission()
 
         lifecycleScope.launchWhenCreated {
-            checkLocationEnabled()
+            Utilities.checkLocationEnabled(requireContext(), parentFragmentManager)
         }
 
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
@@ -166,22 +165,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
         super.onDestroyView()
 
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    private suspend fun checkLocationEnabled() {
-        val response = LocationServices
-            .getSettingsClient(requireContext())
-            .checkLocationSettings(LocationSettingsRequest.Builder().build())
-            .await()
-
-        val locationSettingsStates = response.locationSettingsStates ?: return
-
-        if (locationSettingsStates.isLocationUsable) return
-
-        EnableLocationDialogFragment().show(
-            parentFragmentManager,
-            EnableLocationDialogFragment::class.simpleName
-        )
     }
 
     @SuppressLint("MissingPermission")

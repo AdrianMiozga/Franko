@@ -71,10 +71,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        askForLocationPermission()
+        checkLocationPermission()
 
         lifecycleScope.launchWhenCreated {
-            checkLocationServicesState()
+            checkLocationEnabled()
         }
 
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
@@ -168,7 +168,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-    private suspend fun checkLocationServicesState() {
+    private suspend fun checkLocationEnabled() {
         val response = LocationServices
             .getSettingsClient(requireContext())
             .checkLocationSettings(LocationSettingsRequest.Builder().build())
@@ -209,7 +209,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         polyline = map.addPolyline(polylineOptions)
     }
 
-    private fun askForLocationPermission() {
+    private fun checkLocationPermission() {
         if (Utilities.isLocationPermissionGranted(requireContext())) return
 
         locationObserver = LocationPermissionObserver(requireActivity().activityResultRegistry)

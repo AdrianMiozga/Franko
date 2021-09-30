@@ -137,8 +137,7 @@
     <fragment
         android:id="@+id/activity_edit_fragment"
         android:name="org.wentura.franko.activityedit.ActivityEditFragment"
-        android:label="@string/edit_activity"
-        tools:layout="@layout/fragment_activity_edit">
+        android:label="@string/edit_activity">
 
         <argument
             android:name="id"

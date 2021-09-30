@@ -53,9 +53,6 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         editProfileProfilePicture = binding.profileEditProfilePicture
         val profileEditDeleteAccount = binding.profileEditDeleteAccount
 
-        profilePictureObserver = ProfilePictureObserver(requireContext(), requireActivity().activityResultRegistry)
-        lifecycle.addObserver(profilePictureObserver)
-
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             this.user = user
 

@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.location.*
@@ -56,11 +54,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private val locationViewModel: LocationViewModel by viewModels()
     private val timerViewModel: TimerViewModel by viewModels()
 
-    private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
-
-    private val requestMultiplePermissions =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
+    private lateinit var locationObserver: LocationPermissionObserver
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -76,6 +70,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         askForLocationPermission()
+        checkLocationServicesState()
 
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -117,8 +112,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        checkLocationServicesState()
 
         val startStopButton: Button = binding.mapStartStop
 
@@ -214,33 +207,17 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun askForLocationPermission() {
         if (Utilities.isLocationPermissionGranted(context)) return
 
+        locationObserver = LocationPermissionObserver(requireActivity().activityResultRegistry)
+        lifecycle.addObserver(locationObserver)
+
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            AlertDialog
-                .Builder(requireContext())
-                .setTitle(getString(R.string.location_permissions_needed_dialog_title))
-                .setMessage(getString(R.string.location_permissions_needed_dialog_message))
-                .setPositiveButton(R.string.OK) { _, _ ->
-                    requestLocationPermission()
-                }
-                .create()
-                .show()
-        } else {
-            requestLocationPermission()
-        }
-    }
-
-    private fun requestLocationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val permissions = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            GrantLocationPermissionDialogFragment(locationObserver).show(
+                parentFragmentManager,
+                GrantLocationPermissionDialogFragment::class.simpleName
             )
-
-            requestMultiplePermissions.launch(permissions)
-            return
+        } else {
+            locationObserver.requestLocationPermission()
         }
-
-        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     private fun startTrackingLocation() {

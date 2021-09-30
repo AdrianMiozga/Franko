@@ -61,6 +61,8 @@ object Constants {
     // Result Registry Keys
     const val SELECT_IMAGE_KEY = "selectImageKey"
     const val TAKE_PICTURE_KEY = "takePictureKey"
+    const val REQUEST_PERMISSION_KEY = "requestPermissionKey"
+    const val REQUEST_PERMISSIONS_KEY = "requestPermissionsKey"
 
     // Other
     const val PROFILE_PICTURE_FORMAT_EXTENSION = "webp"

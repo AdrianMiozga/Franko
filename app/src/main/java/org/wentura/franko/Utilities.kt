@@ -98,14 +98,11 @@ object Utilities {
         inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun isLocationPermissionGranted(context: Context?): Boolean {
-        return if (context == null) {
-            false
-        } else
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+    fun isLocationPermissionGranted(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     fun loadProfilePicture(photoUrl: String?, imageView: ImageView) {

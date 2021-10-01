@@ -42,7 +42,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     @Inject
     lateinit var recordingRepository: RecordingRepository
 
-    private lateinit var map: GoogleMap
     private lateinit var user: User
     private lateinit var spinner: Spinner
     private var initialOnItemSelected = true
@@ -151,8 +150,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     override fun onMapReady(googleMap: GoogleMap) {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
-        map = googleMap
-        map.isMyLocationEnabled = true
+        googleMap.isMyLocationEnabled = true
 
         fusedLocationClient
             .lastLocation
@@ -161,15 +159,15 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
                 val latLng = LatLng(location.latitude, location.longitude)
 
-                map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                map.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                googleMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
         val polylineOptions = PolylineOptions()
             .width(Constants.LINE_WIDTH)
             .color(Constants.LINE_COLOR)
 
-        val polyline = map.addPolyline(polylineOptions)
+        val polyline = googleMap.addPolyline(polylineOptions)
 
         locationViewModel.points.observe(viewLifecycleOwner) { points ->
             polyline.points = points
@@ -203,9 +201,13 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
 
+        saveActivity()
+
 //        Navigation.findNavController(requireView())
 //            .navigate(MapFragmentDirections.toActivitySaveFragment())
+    }
 
+    private fun saveActivity() {
         val array: MutableList<HashMap<String, Double>> = ArrayList()
 
         recordingRepository.points.value?.forEach { point ->
@@ -241,7 +243,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,
             spinner.selectedItem.toString(),
-            "",
+            getString(R.string.activity_without_name),
             user.whoCanSeeActivityDefault
         )
 

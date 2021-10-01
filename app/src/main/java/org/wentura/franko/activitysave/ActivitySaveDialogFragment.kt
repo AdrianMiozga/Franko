@@ -9,7 +9,8 @@ import androidx.navigation.Navigation
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 
-class SaveDialogFragment(
+class ActivitySaveDialogFragment(
+    private val activitySaveObserver: ActivitySaveObserver,
     private val activityView: View
 ) : DialogFragment() {
 
@@ -21,6 +22,7 @@ class SaveDialogFragment(
             .setPositiveButton(getString(R.string.save)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
                 Navigation.findNavController(activityView).navigateUp()
+                activitySaveObserver.save()
             }
             .setNeutralButton(getString(R.string.no)) { _, _ ->
                 Utilities.closeKeyboard(activityView)

@@ -2,6 +2,7 @@ package org.wentura.franko.map
 
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.IBinder
 import android.os.Looper
 import android.os.SystemClock
@@ -20,10 +21,10 @@ import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
 @AndroidEntryPoint
-class LocationUpdatesService : Service() {
+class RecordingService : Service() {
 
     companion object {
-        val TAG = LocationUpdatesService::class.simpleName
+        val TAG = RecordingService::class.simpleName
     }
 
     @Inject
@@ -35,6 +36,8 @@ class LocationUpdatesService : Service() {
     private val initialTime = SystemClock.elapsedRealtime()
 
     private lateinit var notification: NotificationCompat.Builder
+
+    private val binder: IBinder = LocalBinder()
 
     private val locationRequest = LocationRequest.create().apply {
         interval = TimeUnit.SECONDS.toMillis(10)
@@ -71,9 +74,7 @@ class LocationUpdatesService : Service() {
         recordingRepository.recordingTime.value = 0L
         recordingRepository.points.value = ArrayList()
 
-        timer.cancel()
-
-        fusedLocationClient.removeLocationUpdates(recordingRepository)
+        stopUpdates()
     }
 
     private fun startTimer() {
@@ -101,5 +102,20 @@ class LocationUpdatesService : Service() {
         }, 0, 1000)
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    fun stopUpdates() {
+        if (this::timer.isInitialized) {
+            timer.cancel()
+        }
+
+        fusedLocationClient.removeLocationUpdates(recordingRepository)
+    }
+
+    override fun onBind(intent: Intent?): IBinder {
+        return binder
+    }
+
+    inner class LocalBinder : Binder() {
+
+        fun getService(): RecordingService = this@RecordingService
+    }
 }

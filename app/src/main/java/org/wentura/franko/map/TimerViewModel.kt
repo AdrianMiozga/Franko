@@ -1,50 +1,34 @@
 package org.wentura.franko.map
 
-import android.os.SystemClock
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.timerTask
+import javax.inject.Inject
 
-class TimerViewModel : ViewModel() {
+@HiltViewModel
+class TimerViewModel @Inject constructor(
+    elapsedTimeRepository: ElapsedTimeRepository
+) : ViewModel() {
 
     companion object {
         val TAG = TimerViewModel::class.simpleName
     }
 
-    private lateinit var timer: Timer
-    private var initialTime = 0L
+    private val _elapsedTime = MediatorLiveData<String>()
+    val elapsedTime: LiveData<String> = _elapsedTime
 
-    private val _secondsElapsed = MutableLiveData<String>()
-    val secondsElapsed: LiveData<String> = _secondsElapsed
+    init {
+        _elapsedTime.addSource(elapsedTimeRepository.elapsedTime) {
+            if (it == 0L) {
+                _elapsedTime.value = ""
+                return@addSource
+            }
 
-    fun startTimer() {
-        initialTime = SystemClock.elapsedRealtime()
-
-        timer = Timer()
-        timer.scheduleAtFixedRate(timerTask {
-            val newValue = SystemClock.elapsedRealtime() - initialTime
-
-            _secondsElapsed.postValue(
-                SimpleDateFormat("mm:ss", Locale.US)
-                    .format(newValue)
-            )
-        }, 0, 1000)
-    }
-
-    fun stopTimer() {
-        _secondsElapsed.postValue("")
-
-        if (this::timer.isInitialized) {
-            timer.cancel()
+            _elapsedTime.value =
+                SimpleDateFormat("mm:ss", Locale.US).format(it)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        stopTimer()
     }
 }

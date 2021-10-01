@@ -15,6 +15,7 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
@@ -28,16 +29,19 @@ class LocationUpdatesService : Service() {
     @Inject
     lateinit var locationRepository: LocationRepository
 
+    @Inject
+    lateinit var elapsedTimeRepository: ElapsedTimeRepository
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var timer: Timer
-    private var initialTime = -1L
+    private val initialTime = SystemClock.elapsedRealtime()
 
     private lateinit var notification: NotificationCompat.Builder
 
     private val locationRequest = LocationRequest.create().apply {
-        interval = 10000
-        fastestInterval = 5000
+        interval = TimeUnit.SECONDS.toMillis(10)
+        fastestInterval = TimeUnit.SECONDS.toMillis(5)
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
@@ -67,21 +71,25 @@ class LocationUpdatesService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
+        elapsedTimeRepository.elapsedTime.value = 0L
+
         timer.cancel()
         fusedLocationClient.removeLocationUpdates(locationRepository)
     }
 
     private fun startTimer() {
-        initialTime = SystemClock.elapsedRealtime()
-
         timer = Timer()
+
         timer.scheduleAtFixedRate(timerTask {
-            val elapsedSeconds = SystemClock.elapsedRealtime() - initialTime
+            val elapsedTime = SystemClock.elapsedRealtime() - initialTime
+
+            elapsedTimeRepository.elapsedTime.postValue(elapsedTime)
+
+            val time = SimpleDateFormat("mm:ss", Locale.US).format(elapsedTime)
 
             val title = getString(
                 R.string.activity_recording_notification_title,
-                SimpleDateFormat("mm:ss", Locale.US)
-                    .format(elapsedSeconds)
+                time
             )
 
             notification.setContentTitle(title)

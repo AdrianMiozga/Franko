@@ -1,9 +1,8 @@
 # Show App to Someone
 
-## Activities
-
 Save activity window after recording (activity name, type)  
-Work on GPS, path drawing, etc
+Work on GPS, path drawing, etc  
+Main fragment UI
 
 # TODO
 

@@ -43,7 +43,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
 
-    // TODO: 01.10.2021 This can't be here as activity is short lived
+    // TODO: 01.10.2021 This can't be here as activities are short lived
     private var startTime = 0L
 
     private var initialOnItemSelected = true
@@ -129,11 +129,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.mapReset.setOnClickListener {
-            polylinePoints.clear()
-            polyline.points = polylinePoints
-        }
-
         spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
@@ -215,6 +210,9 @@ class MapFragment : Fragment(R.layout.fragment_map),
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
         requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
+
+        polylinePoints.clear()
+        polyline.points = polylinePoints
 
 //        Navigation.findNavController(requireView())
 //            .navigate(MapFragmentDirections.toActivitySaveFragment())

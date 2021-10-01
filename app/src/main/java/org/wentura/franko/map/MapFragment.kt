@@ -19,12 +19,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,17 +40,16 @@ class MapFragment : Fragment(R.layout.fragment_map),
     @Inject
     lateinit var userRepository: UserRepository
 
+    @Inject
+    lateinit var elapsedTimeRepository: ElapsedTimeRepository
+
     private lateinit var map: GoogleMap
+    private lateinit var user: User
     private lateinit var spinner: Spinner
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
-
-    // TODO: 01.10.2021 This can't be here as activities are short lived
-    private var startTime = 0L
-
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
-    private lateinit var user: User
 
     private val userViewModel: UserViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
@@ -59,6 +60,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
+        @Suppress("unused")
         private val TAG = MapFragment::class.simpleName
     }
 
@@ -201,9 +203,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
         requireContext().startService(Intent(context, LocationUpdatesService::class.java))
-
-        polylinePoints.clear()
-        startTime = System.currentTimeMillis()
     }
 
     private fun stopTrackingLocation() {
@@ -211,47 +210,51 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
 
+//        Navigation.findNavController(requireView())
+//            .navigate(MapFragmentDirections.toActivitySaveFragment())
+
+        val array: MutableList<HashMap<String, Double>> = ArrayList()
+
+        for (point in polylinePoints) {
+            val element = hashMapOf(
+                Constants.LATITUDE to point.latitude,
+                Constants.LONGITUDE to point.longitude
+            )
+
+            array.add(element)
+        }
+
         polylinePoints.clear()
         polyline.points = polylinePoints
 
-//        Navigation.findNavController(requireView())
-//            .navigate(MapFragmentDirections.toActivitySaveFragment())
-//
-//        val array: MutableList<HashMap<String, Double>> = ArrayList()
-//
-//        for (point in polylinePoints) {
-//            val element = hashMapOf(
-//                Constants.LATITUDE to point.latitude,
-//                Constants.LONGITUDE to point.longitude
-//            )
-//
-//            array.add(element)
-//        }
-//
-//        if (startTime == 0L) return
-//
-//        if (System.currentTimeMillis() - startTime < Constants.MIN_ACTIVITY_TIME) {
-//            Toast.makeText(
-//                requireContext(),
-//                "Activities shorter than one minute aren’t recorded",
-//                Toast.LENGTH_LONG
-//            ).show()
-//            return
-//        }
-//
-//        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-//
-//        val activity = Activity(
-//            uid,
-//            TimeUnit.MILLISECONDS.toSeconds(startTime),
-//            TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
-//            array,
-//            spinner.selectedItem.toString(),
-//            "",
-//            user.whoCanSeeActivityDefault
-//        )
-//
-//        activityRepository.addActivity(activity)
+        val startTime = elapsedTimeRepository.initialTime
+
+        if (startTime == 0L) return
+
+        val elapsedTime = elapsedTimeRepository.elapsedTime.value ?: return
+
+        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.too_short_activity_to_save_toast),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val activity = Activity(
+            uid,
+            TimeUnit.MILLISECONDS.toSeconds(startTime),
+            TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
+            array,
+            spinner.selectedItem.toString(),
+            "",
+            user.whoCanSeeActivityDefault
+        )
+
+        activityRepository.addActivity(activity)
     }
 
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {

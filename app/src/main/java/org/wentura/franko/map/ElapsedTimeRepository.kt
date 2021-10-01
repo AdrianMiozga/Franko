@@ -8,4 +8,7 @@ import javax.inject.Singleton
 class ElapsedTimeRepository @Inject constructor() {
 
     var elapsedTime = MutableLiveData<Long>()
+
+    /** Milliseconds since epoch **/
+    var initialTime = 0L
 }

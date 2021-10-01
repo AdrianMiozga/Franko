@@ -1,6 +1,7 @@
 package org.wentura.franko.map
 
 import android.location.Location
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -14,7 +15,8 @@ class LocationRepository @Inject constructor() : LocationCallback() {
         val TAG = LocationRepository::class.simpleName
     }
 
-    val currentLocation = MutableLiveData<Location>()
+    private val _currentLocation = MutableLiveData<Location>()
+    val currentLocation: LiveData<Location> = _currentLocation
 
     override fun onLocationResult(locationResult: LocationResult) {
         val locationList = locationResult.locations
@@ -23,6 +25,6 @@ class LocationRepository @Inject constructor() : LocationCallback() {
 
         val location = locationList.last()
 
-        currentLocation.value = location
+        _currentLocation.value = location
     }
 }

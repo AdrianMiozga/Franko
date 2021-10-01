@@ -40,10 +40,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     private lateinit var map: GoogleMap
     private lateinit var spinner: Spinner
-    private lateinit var speed: TextView
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private var trackPosition: Boolean = false
+
+    // TODO: 01.10.2021 This can't be here as activity is short lived
     private var startTime = 0L
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
@@ -65,6 +66,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentMapBinding.bind(view)
+
+        val speed = binding.mapSpeed
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -92,18 +95,31 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
             val latLng = LatLng(location.latitude, location.longitude)
 
-            if (this::map.isInitialized) {
-                map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                map.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
-            }
-
             if (trackPosition) {
                 polylinePoints.add(latLng)
                 polyline.points = polylinePoints
             }
         }
 
-        timerViewModel.secondsElapsed.observe(viewLifecycleOwner) { time ->
+        val startButton: Button = binding.mapStart
+        val stopButton: Button = binding.mapStop
+
+        startButton.setOnClickListener { startTrackingLocation() }
+        stopButton.setOnClickListener { stopTrackingLocation() }
+
+        timerViewModel.elapsedTime.observe(viewLifecycleOwner) { time ->
+            if (time.isNotEmpty()) {
+                startButton.visibility = View.INVISIBLE
+                stopButton.visibility = View.VISIBLE
+
+                speed.visibility = View.VISIBLE
+            } else {
+                startButton.visibility = View.VISIBLE
+                stopButton.visibility = View.INVISIBLE
+
+                speed.visibility = View.INVISIBLE
+            }
+
             binding.mapTimer.apply {
                 visibility = if (time.isEmpty()) View.INVISIBLE else View.VISIBLE
                 text = time
@@ -113,29 +129,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val startButton: Button = binding.mapStart
-        val stopButton: Button = binding.mapStop
-
-        startButton.setOnClickListener {
-            startButton.visibility = View.INVISIBLE
-            stopButton.visibility = View.VISIBLE
-            startTrackingLocation()
-        }
-
-        stopButton.setOnClickListener {
-            startButton.visibility = View.VISIBLE
-            stopButton.visibility = View.INVISIBLE
-            stopTrackingLocation()
-        }
-
-        val resetButton: Button = binding.mapReset
-
-        resetButton.setOnClickListener {
+        binding.mapReset.setOnClickListener {
             polylinePoints.clear()
             polyline.points = polylinePoints
         }
-
-        speed = binding.mapSpeed
 
         spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
@@ -153,7 +150,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             }
 
             if (user.keepScreenOnInMap) {
-                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
         }
     }
@@ -161,7 +158,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     override fun onDestroyView() {
         super.onDestroyView()
 
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     @SuppressLint("MissingPermission")
@@ -210,13 +207,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         trackPosition = true
 
-        context?.startService(Intent(context, LocationUpdatesService::class.java))
-        timerViewModel.startTimer()
+        requireContext().startService(Intent(context, LocationUpdatesService::class.java))
 
         polylinePoints.clear()
         startTime = System.currentTimeMillis()
-
-        speed.visibility = View.VISIBLE
     }
 
     private fun stopTrackingLocation() {
@@ -224,11 +218,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         trackPosition = false
 
-        context?.stopService(Intent(context, LocationUpdatesService::class.java))
-
-        timerViewModel.stopTimer()
-
-        speed.visibility = View.INVISIBLE
+        requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
 
 //        Navigation.findNavController(requireView())
 //            .navigate(MapFragmentDirections.toActivitySaveFragment())

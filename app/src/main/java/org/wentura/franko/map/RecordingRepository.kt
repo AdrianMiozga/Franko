@@ -9,11 +9,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocationRepository @Inject constructor() : LocationCallback() {
+class RecordingRepository @Inject constructor() : LocationCallback() {
 
     companion object {
-        val TAG = LocationRepository::class.simpleName
+        val TAG = RecordingRepository::class.simpleName
     }
+
+    /** Recording time in milliseconds **/
+    var recordingTime = MutableLiveData<Long>()
+
+    /** Milliseconds since epoch **/
+    var startTime = 0L
 
     private val _currentLocation = MutableLiveData<Location>()
     val currentLocation: LiveData<Location> = _currentLocation

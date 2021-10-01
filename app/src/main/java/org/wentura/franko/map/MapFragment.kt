@@ -41,7 +41,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var elapsedTimeRepository: ElapsedTimeRepository
+    lateinit var recordingRepository: RecordingRepository
 
     private lateinit var map: GoogleMap
     private lateinit var user: User
@@ -109,7 +109,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         startButton.setOnClickListener { startTrackingLocation() }
         stopButton.setOnClickListener { stopTrackingLocation() }
 
-        timerViewModel.elapsedTime.observe(viewLifecycleOwner) { time ->
+        timerViewModel.recordingTime.observe(viewLifecycleOwner) { time ->
             if (time.isNotEmpty()) {
                 startButton.visibility = View.INVISIBLE
                 stopButton.visibility = View.VISIBLE
@@ -227,11 +227,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
         polylinePoints.clear()
         polyline.points = polylinePoints
 
-        val startTime = elapsedTimeRepository.initialTime
+        val startTime = recordingRepository.startTime
 
         if (startTime == 0L) return
 
-        val elapsedTime = elapsedTimeRepository.elapsedTime.value ?: return
+        val elapsedTime = recordingRepository.recordingTime.value ?: return
 
         if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
             Toast.makeText(
@@ -246,6 +246,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         val activity = Activity(
             uid,
+            // TODO: 01.10.2021 Store in milliseconds?
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,

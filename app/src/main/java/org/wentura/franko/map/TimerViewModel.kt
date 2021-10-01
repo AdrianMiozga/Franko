@@ -10,24 +10,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimerViewModel @Inject constructor(
-    elapsedTimeRepository: ElapsedTimeRepository
+    recordingRepository: RecordingRepository
 ) : ViewModel() {
 
     companion object {
         val TAG = TimerViewModel::class.simpleName
     }
 
-    private val _elapsedTime = MediatorLiveData<String>()
-    val elapsedTime: LiveData<String> = _elapsedTime
+    private val _recordingTime = MediatorLiveData<String>()
+    val recordingTime: LiveData<String> = _recordingTime
 
     init {
-        _elapsedTime.addSource(elapsedTimeRepository.elapsedTime) {
+        _recordingTime.addSource(recordingRepository.recordingTime) {
             if (it == 0L) {
-                _elapsedTime.value = ""
+                _recordingTime.value = ""
                 return@addSource
             }
 
-            _elapsedTime.value =
+            _recordingTime.value =
                 SimpleDateFormat("mm:ss", Locale.US).format(it)
         }
     }

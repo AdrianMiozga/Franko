@@ -2,15 +2,20 @@ package org.wentura.franko.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,14 +23,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,8 +45,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     @Inject
     lateinit var recordingRepository: RecordingRepository
 
-    private lateinit var user: User
-    private lateinit var spinner: Spinner
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
 
@@ -54,6 +55,22 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var locationObserver: LocationPermissionObserver
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private lateinit var recordingService: RecordingService
+    private var isRecordingServiceBound: Boolean = false
+
+    private val connection = object : ServiceConnection {
+
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as RecordingService.LocalBinder
+            recordingService = binder.getService()
+            isRecordingServiceBound = true
+        }
+
+        override fun onServiceDisconnected(componentName: ComponentName) {
+            isRecordingServiceBound = false
+        }
+    }
 
     companion object {
         val TAG = MapFragment::class.simpleName
@@ -119,12 +136,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        spinner = binding.mapActivitySpinner
+        val spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
-            this.user = user
-
             val lastActivity = user.lastActivity
             val id = resources.getStringArray(R.array.activities_array).indexOf(lastActivity)
 
@@ -144,6 +159,21 @@ class MapFragment : Fragment(R.layout.fragment_map),
         super.onDestroyView()
 
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        Intent(requireContext(), RecordingService::class.java).also { intent ->
+            requireContext().bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        requireContext().unbindService(connection)
+        isRecordingServiceBound = false
     }
 
     @SuppressLint("MissingPermission")
@@ -193,61 +223,34 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun startTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
-        requireContext().startService(Intent(context, LocationUpdatesService::class.java))
+        requireContext().startService(Intent(context, RecordingService::class.java))
     }
 
     private fun stopTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
-        requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
+        recordingService.stopUpdates()
 
-        saveActivity()
+        val elapsedTime = recordingRepository.recordingTime.value
 
-//        Navigation.findNavController(requireView())
-//            .navigate(MapFragmentDirections.toActivitySaveFragment())
-    }
-
-    private fun saveActivity() {
-        val array: MutableList<HashMap<String, Double>> = ArrayList()
-
-        recordingRepository.points.value?.forEach { point ->
-            val element = hashMapOf(
-                Constants.LATITUDE to point.latitude,
-                Constants.LONGITUDE to point.longitude
-            )
-
-            array.add(element)
-        } ?: return
-
-        val startTime = recordingRepository.startTime
-
-        if (startTime == 0L) return
-
-        val elapsedTime = recordingRepository.recordingTime.value ?: return
-
-        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.too_short_activity_to_save_toast),
-                Toast.LENGTH_LONG
-            ).show()
+        if (elapsedTime == null) {
+            requireContext().stopService(Intent(context, RecordingService::class.java))
             return
         }
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+//        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
+//            Toast.makeText(
+//                context,
+//                getString(R.string.too_short_activity_to_save_toast),
+//                Toast.LENGTH_LONG
+//            ).show()
+//
+//            requireContext().stopService(Intent(context, RecordingService::class.java))
+//            return
+//        }
 
-        val activity = Activity(
-            uid,
-            // TODO: 01.10.2021 Store in milliseconds?
-            TimeUnit.MILLISECONDS.toSeconds(startTime),
-            TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
-            array,
-            spinner.selectedItem.toString(),
-            getString(R.string.activity_without_name),
-            user.whoCanSeeActivityDefault
-        )
-
-        activityRepository.addActivity(activity)
+        Navigation.findNavController(requireView())
+            .navigate(MapFragmentDirections.toActivitySaveFragment())
     }
 
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {

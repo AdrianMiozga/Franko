@@ -8,24 +8,47 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
-import org.wentura.franko.databinding.FragmentActivitySaveBinding
+import org.wentura.franko.data.ActivityRepository
+import org.wentura.franko.data.UserRepository
+import org.wentura.franko.map.RecordingRepository
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
+
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var activityRepository: ActivityRepository
+
+    @Inject
+    lateinit var recordingRepository: RecordingRepository
+
+    private lateinit var activitySaveObserver: ActivitySaveObserver
 
     companion object {
         val TAG = ActivitySaveFragment::class.simpleName
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentActivitySaveBinding.bind(view)
+        activitySaveObserver = ActivitySaveObserver(
+            recordingRepository,
+            activityRepository,
+            userRepository,
+            requireContext()
+        )
+
+        lifecycle.addObserver(activitySaveObserver)
 
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
-                SaveDialogFragment(view).show(
+                ActivitySaveDialogFragment(activitySaveObserver, view).show(
                     parentFragmentManager,
-                    SaveDialogFragment::class.simpleName
+                    ActivitySaveDialogFragment::class.simpleName
                 )
             }
 
@@ -40,6 +63,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
         return when (item.itemId) {
             R.id.save -> {
                 Navigation.findNavController(requireView()).navigateUp()
+                activitySaveObserver.save()
                 true
             }
             else -> super.onOptionsItemSelected(item)

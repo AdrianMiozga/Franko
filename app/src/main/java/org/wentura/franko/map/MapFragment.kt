@@ -42,10 +42,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var spinner: Spinner
     private lateinit var polyline: Polyline
     private val polylinePoints: MutableList<LatLng> = mutableListOf()
-    private var trackPosition: Boolean = false
 
     // TODO: 01.10.2021 This can't be here as activity is short lived
     private var startTime = 0L
+
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
     private lateinit var user: User
@@ -95,7 +95,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
             val latLng = LatLng(location.latitude, location.longitude)
 
-            if (trackPosition) {
+            if (this::polyline.isInitialized) {
                 polylinePoints.add(latLng)
                 polyline.points = polylinePoints
             }
@@ -205,8 +205,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun startTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
-        trackPosition = true
-
         requireContext().startService(Intent(context, LocationUpdatesService::class.java))
 
         polylinePoints.clear()
@@ -215,8 +213,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
     private fun stopTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
-
-        trackPosition = false
 
         requireContext().stopService(Intent(context, LocationUpdatesService::class.java))
 

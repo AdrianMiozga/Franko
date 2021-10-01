@@ -24,12 +24,13 @@
         android:layout_margin="8dp"
         android:importantForAutofill="no"
         android:inputType="textCapSentences"
+        android:text="@string/activity_without_name"
         app:layout_constraintBottom_toTopOf="@id/activity_save_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_save_activity_name_text" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_save_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"

@@ -2,15 +2,16 @@ package org.wentura.franko.activitysave
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.toObject
 import org.wentura.franko.Constants
-import org.wentura.franko.R
 import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
+import org.wentura.franko.databinding.FragmentActivitySaveBinding
 import org.wentura.franko.map.RecordingRepository
 import org.wentura.franko.map.RecordingService
 import java.util.concurrent.TimeUnit
@@ -19,10 +20,13 @@ class ActivitySaveObserver(
     private val recordingRepository: RecordingRepository,
     private val activityRepository: ActivityRepository,
     private val userRepository: UserRepository,
-    private val context: Context
+    private val context: Context,
+    private val view: View
 ) : DefaultLifecycleObserver {
 
     fun save() {
+        val binding = FragmentActivitySaveBinding.bind(view)
+
         val array: MutableList<HashMap<String, Double>> = ArrayList()
 
         val points = recordingRepository.points.value
@@ -59,7 +63,7 @@ class ActivitySaveObserver(
                     TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
                     array,
                     user.lastActivity,
-                    context.getString(R.string.activity_without_name),
+                    binding.activitySaveActivityName.text.toString().trim(),
                     user.whoCanSeeActivityDefault
                 )
 

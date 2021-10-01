@@ -60,17 +60,20 @@ class ProfilePictureObserver(
             ) { uri ->
                 if (uri == null) return@register
 
-                context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                    owner.lifecycleScope.launchWhenCreated {
-                        tmpFile = Utilities.createTmpFile(
-                            Constants.TMP_IMAGE_PREFIX,
-                            Constants.TMP_IMAGE_SUFFIX,
-                            context.cacheDir
-                        )
+                owner.lifecycleScope.launchWhenCreated {
+                    @Suppress("BlockingMethodInNonBlockingContext")
+                    withContext(Dispatchers.IO) {
+                        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                            tmpFile = Utilities.createTmpFile(
+                                Constants.TMP_IMAGE_PREFIX,
+                                Constants.TMP_IMAGE_SUFFIX,
+                                context.cacheDir
+                            )
 
-                        inputStream.copyToFile(tmpFile)
+                            inputStream.copyToFile(tmpFile)
 
-                        updateProfilePicture()
+                            updateProfilePicture()
+                        }
                     }
                 }
             }

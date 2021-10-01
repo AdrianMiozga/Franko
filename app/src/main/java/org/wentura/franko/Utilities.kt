@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -20,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.wentura.franko.map.EnableLocationDialogFragment
-import org.wentura.franko.profileedit.ProfilePictureObserver
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -49,22 +47,25 @@ object Utilities {
         return photoUrl
     }
 
-    fun InputStream.copyToFile(outputFile: File) {
-        this.use { input ->
-            val outputStream = FileOutputStream(outputFile)
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun InputStream.copyToFile(outputFile: File) {
+        withContext(Dispatchers.IO) {
+            this@copyToFile.use { input ->
+                val outputStream = FileOutputStream(outputFile)
 
-            outputStream.use { output ->
-                val bufferSize = ByteArray(4 * 1024)
+                outputStream.use { output ->
+                    val bufferSize = ByteArray(4 * 1024)
 
-                while (true) {
-                    val byteCount = input.read(bufferSize)
+                    while (true) {
+                        val byteCount = input.read(bufferSize)
 
-                    if (byteCount < 0) break
+                        if (byteCount < 0) break
 
-                    output.write(bufferSize, 0, byteCount)
+                        output.write(bufferSize, 0, byteCount)
+                    }
+
+                    output.flush()
                 }
-
-                output.flush()
             }
         }
     }
@@ -81,8 +82,6 @@ object Utilities {
         val file: File
 
         withContext(Dispatchers.IO) {
-            Log.d(ProfilePictureObserver.TAG, "createTmpFile: ")
-
             @Suppress("BlockingMethodInNonBlockingContext")
             file = File.createTempFile(
                 prefix,

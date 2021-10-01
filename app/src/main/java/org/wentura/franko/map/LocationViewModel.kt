@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationViewModel @Inject constructor(
-    locationRepository: LocationRepository
+    recordingRepository: RecordingRepository
 ) : ViewModel() {
 
     companion object {
@@ -20,7 +20,7 @@ class LocationViewModel @Inject constructor(
     val currentLocation: LiveData<Location> = _currentLocation
 
     init {
-        _currentLocation.addSource(locationRepository.currentLocation) { result ->
+        _currentLocation.addSource(recordingRepository.currentLocation) { result ->
             _currentLocation.value = result
         }
     }

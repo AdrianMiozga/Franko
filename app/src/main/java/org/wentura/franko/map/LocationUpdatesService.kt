@@ -27,10 +27,7 @@ class LocationUpdatesService : Service() {
     }
 
     @Inject
-    lateinit var locationRepository: LocationRepository
-
-    @Inject
-    lateinit var elapsedTimeRepository: ElapsedTimeRepository
+    lateinit var recordingRepository: RecordingRepository
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -61,7 +58,7 @@ class LocationUpdatesService : Service() {
         @Suppress("MissingPermission")
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
-            locationRepository,
+            recordingRepository,
             Looper.getMainLooper()
         )
 
@@ -71,10 +68,10 @@ class LocationUpdatesService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        elapsedTimeRepository.elapsedTime.value = 0L
+        recordingRepository.recordingTime.value = 0L
 
         timer.cancel()
-        fusedLocationClient.removeLocationUpdates(locationRepository)
+        fusedLocationClient.removeLocationUpdates(recordingRepository)
     }
 
     private fun startTimer() {
@@ -83,8 +80,8 @@ class LocationUpdatesService : Service() {
         timer.scheduleAtFixedRate(timerTask {
             val elapsedTime = SystemClock.elapsedRealtime() - initialTime
 
-            elapsedTimeRepository.initialTime = System.currentTimeMillis()
-            elapsedTimeRepository.elapsedTime.postValue(elapsedTime)
+            recordingRepository.startTime = System.currentTimeMillis()
+            recordingRepository.recordingTime.postValue(elapsedTime)
 
             val time = SimpleDateFormat("mm:ss", Locale.US).format(elapsedTime)
 

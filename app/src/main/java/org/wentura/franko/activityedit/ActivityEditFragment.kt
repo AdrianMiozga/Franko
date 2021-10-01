@@ -2,9 +2,7 @@ package org.wentura.franko.activityedit
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -13,15 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.activity.ActivityFragmentArgs
-import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.viewmodels.ActivityViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ActivityEditFragment : PreferenceFragmentCompat() {
-
-    @Inject
-    lateinit var activityRepository: ActivityRepository
 
     private val activityViewModel: ActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
@@ -37,22 +30,10 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete -> {
-                AlertDialog
-                    .Builder(requireContext())
-                    .setMessage(getString(R.string.delete_activity_dialog_message))
-                    .setPositiveButton(R.string.delete) { _, _ ->
-                        activityRepository
-                            .deleteActivity(args.id)
-                            .addOnSuccessListener {
-                                view?.let { view ->
-                                    Navigation.findNavController(view).navigateUp()
-                                    Navigation.findNavController(view).navigateUp()
-                                }
-                            }
-                    }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
-                    .create()
-                    .show()
+                ActivityDeleteDialogFragment(args.id, requireView()).show(
+                    parentFragmentManager,
+                    ActivityDeleteDialogFragment::class.simpleName
+                )
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -65,12 +46,19 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         preferenceManager.preferenceDataStore = DataStoreActivity(args.id)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val activityType: ListPreference? = preferenceManager.findPreference(Constants.ACTIVITY_TYPE_KEY)
-        val whoCanSeeThisActivity: ListPreference? = preferenceManager.findPreference(
-            Constants.WHO_CAN_SEE_THIS_ACTIVITY
-        )
-        val activityName: EditTextPreference? = preferenceManager.findPreference(Constants.ACTIVITY_NAME)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val activityType: ListPreference? =
+            preferenceManager.findPreference(Constants.ACTIVITY_TYPE_KEY)
+
+        val whoCanSeeThisActivity: ListPreference? =
+            preferenceManager.findPreference(Constants.WHO_CAN_SEE_THIS_ACTIVITY)
+
+        val activityName: EditTextPreference? =
+            preferenceManager.findPreference(Constants.ACTIVITY_NAME)
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
             if (activity == null) return@observe

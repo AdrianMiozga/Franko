@@ -17,16 +17,16 @@ class SaveDialogFragment(
         return AlertDialog
             .Builder(requireContext())
             .setTitle(getString(R.string.unsaved_changes))
-            .setMessage(getString(R.string.you_have_unsaved_changes))
+            .setMessage(getString(R.string.new_activity_unsaved_changes_message))
             .setPositiveButton(getString(R.string.save)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
                 Navigation.findNavController(activityView).navigateUp()
             }
-            .setNeutralButton(getString(R.string.discard)) { _, _ ->
+            .setNeutralButton(getString(R.string.no)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
                 Navigation.findNavController(activityView).navigateUp()
             }
-            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .setNegativeButton(getString(R.string.back)) { _, _ -> }
             .create()
     }
 }

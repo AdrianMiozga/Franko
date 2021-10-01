@@ -78,6 +78,9 @@
     <string name="following">Obserwowani</string>
     <string name="home">Home</string>
     <string name="save_activity">Save Activity</string>
+    <string name="back">Wróć</string>
+    <string name="no">Nie</string>
+    <string name="new_activity_unsaved_changes_message">Czy chcesz zapisać aktywność?</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

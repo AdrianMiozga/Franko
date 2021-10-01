@@ -1,8 +1,14 @@
+# Show App to Someone
+
+## Activities
+
+Save activity window after recording (activity name, type)  
+Work on GPS, path drawing, etc
+
 # TODO
 
 ## Activities
 
-Save activity window after recording  
 Show activity length in km  
 Show average speed  
 Show max speed  

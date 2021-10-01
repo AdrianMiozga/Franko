@@ -3,18 +3,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/activity_save_activity_name"
+        android:id="@+id/activity_save_activity_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/activity_save_map"
+        android:layout_margin="8dp"
+        android:labelFor="@id/activity_save_activity_name"
+        android:text="@string/activity_name"
+        app:layout_constraintBottom_toTopOf="@id/activity_save_activity_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Activity Name" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/activity_save_activity_name"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:importantForAutofill="no"
+        app:layout_constraintBottom_toTopOf="@id/activity_save_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_save_activity_name_text" />
 
     <fragment
         android:id="@+id/activity_save_map"

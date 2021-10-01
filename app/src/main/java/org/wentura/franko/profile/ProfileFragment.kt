@@ -165,6 +165,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun show(view: View) {
+        // TODO: 30.09.2021 Write this cleaner, without booleans
         if (profileLoaded && followersLoaded && followingsLoaded) {
             view.visibility = View.GONE
         }

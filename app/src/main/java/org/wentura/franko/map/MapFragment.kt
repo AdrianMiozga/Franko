@@ -49,8 +49,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private val speedometer: Speedometer = Speedometer()
 
     private val userViewModel: UserViewModel by viewModels()
-    private val locationViewModel: LocationViewModel by viewModels()
-    private val timerViewModel: TimerViewModel by viewModels()
+    private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var locationObserver: LocationPermissionObserver
 
@@ -91,7 +90,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             Utilities.checkLocationEnabled(requireContext(), parentFragmentManager)
         }
 
-        locationViewModel.location.observe(viewLifecycleOwner) { location ->
+        recordingViewModel.location.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 location.speedAccuracyMetersPerSecond.toDouble()
             } else {
@@ -114,7 +113,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         startButton.setOnClickListener { startTrackingLocation() }
         stopButton.setOnClickListener { stopTrackingLocation() }
 
-        timerViewModel.recordingTime.observe(viewLifecycleOwner) { time ->
+        recordingViewModel.recordingTime.observe(viewLifecycleOwner) { time ->
             if (time.isNotEmpty()) {
                 startButton.visibility = View.INVISIBLE
                 stopButton.visibility = View.VISIBLE
@@ -199,7 +198,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         val polyline = googleMap.addPolyline(polylineOptions)
 
-        locationViewModel.points.observe(viewLifecycleOwner) { points ->
+        recordingViewModel.points.observe(viewLifecycleOwner) { points ->
             polyline.points = points
         }
     }

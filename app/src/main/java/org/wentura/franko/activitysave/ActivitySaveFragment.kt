@@ -23,8 +23,8 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
-import org.wentura.franko.map.LocationViewModel
 import org.wentura.franko.map.RecordingRepository
+import org.wentura.franko.map.RecordingViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,7 +40,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     @Inject
     lateinit var recordingRepository: RecordingRepository
 
-    private val locationViewModel: LocationViewModel by viewModels()
+    private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -116,7 +116,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
 
         val polyline = googleMap.addPolyline(polylineOptions)
 
-        locationViewModel.points.observe(viewLifecycleOwner) { points ->
+        recordingViewModel.points.observe(viewLifecycleOwner) { points ->
             polyline.points = points
         }
     }

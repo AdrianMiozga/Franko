@@ -16,7 +16,6 @@
     <!-- Translatable resources -->
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="reset">Reset</string>
     <string name="sign_out">Wyloguj się</string>
     <string name="map">Mapa</string>
     <string name="activities">Aktywności</string>

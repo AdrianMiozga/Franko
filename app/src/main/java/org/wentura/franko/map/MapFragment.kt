@@ -60,8 +60,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
-        @Suppress("unused")
-        private val TAG = MapFragment::class.simpleName
+        val TAG = MapFragment::class.simpleName
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

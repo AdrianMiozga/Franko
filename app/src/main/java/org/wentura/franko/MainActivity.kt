@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var content: View
 
     companion object {
-        private val TAG = MainActivity::class.simpleName
+        val TAG = MainActivity::class.simpleName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

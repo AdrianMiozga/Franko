@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,6 +25,8 @@ class RecordingRepository @Inject constructor() : LocationCallback() {
     private val _currentLocation = MutableLiveData<Location>()
     val currentLocation: LiveData<Location> = _currentLocation
 
+    val points = MutableLiveData<ArrayList<LatLng>>()
+
     override fun onLocationResult(locationResult: LocationResult) {
         val locationList = locationResult.locations
 
@@ -32,5 +35,10 @@ class RecordingRepository @Inject constructor() : LocationCallback() {
         val location = locationList.last()
 
         _currentLocation.value = location
+
+        val tempPoints = points.value ?: ArrayList()
+        tempPoints.add(LatLng(location.latitude, location.longitude))
+
+        points.value = tempPoints
     }
 }

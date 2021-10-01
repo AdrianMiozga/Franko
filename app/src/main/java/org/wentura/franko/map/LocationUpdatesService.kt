@@ -69,8 +69,10 @@ class LocationUpdatesService : Service() {
         super.onDestroy()
 
         recordingRepository.recordingTime.value = 0L
+        recordingRepository.points.value = ArrayList()
 
         timer.cancel()
+
         fusedLocationClient.removeLocationUpdates(recordingRepository)
     }
 

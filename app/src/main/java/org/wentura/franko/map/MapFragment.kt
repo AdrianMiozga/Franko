@@ -17,7 +17,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,8 +45,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private lateinit var map: GoogleMap
     private lateinit var user: User
     private lateinit var spinner: Spinner
-    private lateinit var polyline: Polyline
-    private val polylinePoints: MutableList<LatLng> = mutableListOf()
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
 
@@ -78,7 +75,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             Utilities.checkLocationEnabled(requireContext(), parentFragmentManager)
         }
 
-        locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
+        locationViewModel.location.observe(viewLifecycleOwner) { location ->
             speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 location.speedAccuracyMetersPerSecond.toDouble()
             } else {
@@ -93,13 +90,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
                 },
                 speedometer.speed.toInt()
             )
-
-            val latLng = LatLng(location.latitude, location.longitude)
-
-            if (this::polyline.isInitialized) {
-                polylinePoints.add(latLng)
-                polyline.points = polylinePoints
-            }
         }
 
         val startButton: Button = binding.mapStart
@@ -179,7 +169,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
             .width(Constants.LINE_WIDTH)
             .color(Constants.LINE_COLOR)
 
-        polyline = map.addPolyline(polylineOptions)
+        val polyline = map.addPolyline(polylineOptions)
+
+        locationViewModel.points.observe(viewLifecycleOwner) { points ->
+            polyline.points = points
+        }
     }
 
     private fun checkLocationPermission() {
@@ -214,17 +208,14 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         val array: MutableList<HashMap<String, Double>> = ArrayList()
 
-        for (point in polylinePoints) {
+        recordingRepository.points.value?.forEach { point ->
             val element = hashMapOf(
                 Constants.LATITUDE to point.latitude,
                 Constants.LONGITUDE to point.longitude
             )
 
             array.add(element)
-        }
-
-        polylinePoints.clear()
-        polyline.points = polylinePoints
+        } ?: return
 
         val startTime = recordingRepository.startTime
 

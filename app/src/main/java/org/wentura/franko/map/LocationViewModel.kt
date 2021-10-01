@@ -4,6 +4,7 @@ import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,12 +17,19 @@ class LocationViewModel @Inject constructor(
         val TAG = LocationViewModel::class.simpleName
     }
 
-    private val _currentLocation = MediatorLiveData<Location>()
-    val currentLocation: LiveData<Location> = _currentLocation
+    private val _location = MediatorLiveData<Location>()
+    val location: LiveData<Location> = _location
+
+    private val _points = MediatorLiveData<ArrayList<LatLng>>()
+    val points: LiveData<ArrayList<LatLng>> = _points
 
     init {
-        _currentLocation.addSource(recordingRepository.currentLocation) { result ->
-            _currentLocation.value = result
+        _location.addSource(recordingRepository.currentLocation) { result ->
+            _location.value = result
+        }
+
+        _points.addSource(recordingRepository.points) { result ->
+            _points.value = result
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.wentura.franko.activitysave
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -7,16 +8,28 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
+import org.wentura.franko.map.LocationViewModel
 import org.wentura.franko.map.RecordingRepository
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
+class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
+    OnMapReadyCallback {
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -26,6 +39,10 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
 
     @Inject
     lateinit var recordingRepository: RecordingRepository
+
+    private val locationViewModel: LocationViewModel by viewModels()
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var activitySaveObserver: ActivitySaveObserver
 
@@ -38,8 +55,14 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
             recordingRepository,
             activityRepository,
             userRepository,
-            requireContext()
+            requireContext(),
+            view
         )
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.activity_save_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         lifecycle.addObserver(activitySaveObserver)
 
@@ -67,6 +90,34 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save) {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(googleMap: GoogleMap) {
+        // TODO: 01.10.2021 Duplicate code in MapFragment
+
+        googleMap.isMyLocationEnabled = true
+
+        fusedLocationClient
+            .lastLocation
+            .addOnSuccessListener { location ->
+                if (location == null) return@addOnSuccessListener
+
+                val latLng = LatLng(location.latitude, location.longitude)
+
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                googleMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+            }
+
+        val polylineOptions = PolylineOptions()
+            .width(Constants.LINE_WIDTH)
+            .color(Constants.LINE_COLOR)
+
+        val polyline = googleMap.addPolyline(polylineOptions)
+
+        locationViewModel.points.observe(viewLifecycleOwner) { points ->
+            polyline.points = points
         }
     }
 }

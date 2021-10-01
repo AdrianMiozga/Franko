@@ -23,6 +23,7 @@
         android:layout_height="48dp"
         android:layout_margin="8dp"
         android:importantForAutofill="no"
+        android:inputType="textCapSentences"
         app:layout_constraintBottom_toTopOf="@id/activity_save_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

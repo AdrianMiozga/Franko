@@ -81,6 +81,7 @@
     <string name="back">Wróć</string>
     <string name="no">Nie</string>
     <string name="new_activity_unsaved_changes_message">Czy chcesz zapisać aktywność?</string>
+    <string name="too_short_activity_to_save_toast">Aktywności krótsze niż jedna minuta nie są zapisywane</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

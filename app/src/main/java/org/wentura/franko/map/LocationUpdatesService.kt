@@ -83,6 +83,7 @@ class LocationUpdatesService : Service() {
         timer.scheduleAtFixedRate(timerTask {
             val elapsedTime = SystemClock.elapsedRealtime() - initialTime
 
+            elapsedTimeRepository.initialTime = System.currentTimeMillis()
             elapsedTimeRepository.elapsedTime.postValue(elapsedTime)
 
             val time = SimpleDateFormat("mm:ss", Locale.US).format(elapsedTime)

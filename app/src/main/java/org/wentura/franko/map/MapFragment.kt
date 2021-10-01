@@ -223,7 +223,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun startTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
-        requireContext().startService(Intent(context, RecordingService::class.java))
+        val intent = Intent(context, RecordingService::class.java)
+        requireContext().startService(intent)
     }
 
     private fun stopTrackingLocation() {
@@ -234,26 +235,36 @@ class MapFragment : Fragment(R.layout.fragment_map),
         val elapsedTime = recordingRepository.recordingTime.value
 
         if (elapsedTime == null) {
-            requireContext().stopService(Intent(context, RecordingService::class.java))
+            stopRecordingService()
             return
         }
 
-//        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
-//            Toast.makeText(
-//                context,
-//                getString(R.string.too_short_activity_to_save_toast),
-//                Toast.LENGTH_LONG
-//            ).show()
-//
-//            requireContext().stopService(Intent(context, RecordingService::class.java))
-//            return
-//        }
+        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
+            Toast.makeText(
+                context,
+                getString(R.string.too_short_activity_to_save_toast),
+                Toast.LENGTH_LONG
+            ).show()
+
+            stopRecordingService()
+            return
+        }
 
         Navigation.findNavController(requireView())
             .navigate(MapFragmentDirections.toActivitySaveFragment())
     }
 
-    override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {
+    private fun stopRecordingService() {
+        val intent = Intent(context, RecordingService::class.java)
+        requireContext().stopService(intent)
+    }
+
+    override fun onItemSelected(
+        adapterView: AdapterView<*>,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
         if (initialOnItemSelected) {
             initialOnItemSelected = false
             return

@@ -11,7 +11,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -114,18 +113,19 @@ class MapFragment : Fragment(R.layout.fragment_map),
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val startStopButton: Button = binding.mapStartStop
+        val startButton: Button = binding.mapStart
+        val stopButton: Button = binding.mapStop
 
-        startStopButton.setOnClickListener {
-            trackPosition = !trackPosition
+        startButton.setOnClickListener {
+            startButton.visibility = View.INVISIBLE
+            stopButton.visibility = View.VISIBLE
+            startTrackingLocation()
+        }
 
-            if (trackPosition) {
-                startStopButton.text = getString(R.string.stop)
-                startTrackingLocation()
-            } else {
-                startStopButton.text = getString(R.string.start)
-                stopTrackingLocation()
-            }
+        stopButton.setOnClickListener {
+            startButton.visibility = View.VISIBLE
+            stopButton.visibility = View.INVISIBLE
+            stopTrackingLocation()
         }
 
         val resetButton: Button = binding.mapReset
@@ -208,6 +208,8 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun startTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
+        trackPosition = true
+
         context?.startService(Intent(context, LocationUpdatesService::class.java))
         timerViewModel.startTimer()
 
@@ -220,15 +222,17 @@ class MapFragment : Fragment(R.layout.fragment_map),
     private fun stopTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
+        trackPosition = false
+
         context?.stopService(Intent(context, LocationUpdatesService::class.java))
 
         timerViewModel.stopTimer()
 
         speed.visibility = View.INVISIBLE
 
-        Navigation.findNavController(requireView())
-            .navigate(MapFragmentDirections.toActivitySaveFragment())
-
+//        Navigation.findNavController(requireView())
+//            .navigate(MapFragmentDirections.toActivitySaveFragment())
+//
 //        val array: MutableList<HashMap<String, Double>> = ArrayList()
 //
 //        for (point in polylinePoints) {

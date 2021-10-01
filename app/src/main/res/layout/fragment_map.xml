@@ -42,21 +42,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/map_start_stop"
+        app:layout_constraintBottom_toTopOf="@+id/map_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map_activity_spinner" />
 
     <Button
-        android:id="@+id/map_start_stop"
+        android:id="@+id/map_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/map_reset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map_map" />
+
+    <Button
+        android:id="@+id/map_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/map_reset"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +80,7 @@
         android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/map_start_stop"
+        app:layout_constraintStart_toEndOf="@id/map_start"
         app:layout_constraintTop_toBottomOf="@id/map_map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

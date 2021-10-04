@@ -28,13 +28,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
         preferenceManager.preferenceDataStore = DataStore()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val darkModeSwitch: SwitchPreferenceCompat? = preferenceManager.findPreference(Constants.DARK_MODE_KEY)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val darkModeSwitch: SwitchPreferenceCompat? =
+            preferenceManager.findPreference(Constants.DARK_MODE_KEY)
+
         val keepScreenOnInMapSwitch: SwitchPreferenceCompat? =
             preferenceManager.findPreference(Constants.KEEP_SCREEN_ON_IN_MAP)
-        val unitsOfMeasure: ListPreference? = preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
-        val whoCanSeeMyProfile: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
-        val whoCanSeeMyLocation: ListPreference? = preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
+
+        val unitsOfMeasure: ListPreference? =
+            preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
+
+        val whoCanSeeMyProfile: ListPreference? =
+            preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
+
+        val whoCanSeeMyLocation: ListPreference? =
+            preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_LOCATION)
+
         val whoCanSeeActivityDefault: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT)
 

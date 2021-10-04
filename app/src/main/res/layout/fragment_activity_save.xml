@@ -25,10 +25,53 @@
         android:importantForAutofill="no"
         android:inputType="textCapSentences"
         android:text="@string/activity_without_name"
-        app:layout_constraintBottom_toTopOf="@id/activity_save_map"
+        app:layout_constraintBottom_toTopOf="@id/activity_save_activity_type_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_save_activity_name_text" />
+
+    <TextView
+        android:id="@+id/activity_save_activity_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/activity_type"
+        app:layout_constraintBottom_toBottomOf="@id/activity_save_activity_type_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/activity_save_activity_type_spinner" />
+
+    <Spinner
+        android:id="@+id/activity_save_activity_type_spinner"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:entries="@array/activities_array"
+        app:layout_constraintBottom_toTopOf="@id/activity_save_activity_visibility_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/activity_save_activity_visibility_spinner"
+        app:layout_constraintTop_toBottomOf="@id/activity_save_activity_name" />
+
+    <TextView
+        android:id="@+id/activity_save_activity_visibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/who_can_see_this_activity"
+        app:layout_constraintBottom_toBottomOf="@id/activity_save_activity_visibility_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/activity_save_activity_visibility_spinner" />
+
+    <Spinner
+        android:id="@+id/activity_save_activity_visibility_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:entries="@array/who_can_see_activity"
+        app:layout_constraintBottom_toTopOf="@id/activity_save_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_save_activity_type_spinner" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_save_map"
@@ -39,6 +82,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_save_activity_name" />
+        app:layout_constraintTop_toBottomOf="@id/activity_save_activity_visibility_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

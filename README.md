@@ -1,6 +1,5 @@
 # Show App to Someone
 
-Save activity window after recording (activity name, type)  
 Work on GPS, path drawing, etc  
 Main fragment UI
 

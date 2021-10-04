@@ -243,16 +243,16 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
-        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
-            Toast.makeText(
-                context,
-                getString(R.string.too_short_activity_to_save_toast),
-                Toast.LENGTH_LONG
-            ).show()
-
-            stopRecordingService()
-            return
-        }
+//        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
+//            Toast.makeText(
+//                context,
+//                getString(R.string.too_short_activity_to_save_toast),
+//                Toast.LENGTH_LONG
+//            ).show()
+//
+//            stopRecordingService()
+//            return
+//        }
 
         Navigation.findNavController(requireView())
             .navigate(MapFragmentDirections.toActivitySaveFragment())

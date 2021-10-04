@@ -49,6 +49,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            app:singleLineTitle="false"
             app:entries="@array/who_can_see_activity"
             app:entryValues="@array/who_can_see_activity"
             app:iconSpaceReserved="false"

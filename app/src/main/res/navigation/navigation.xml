@@ -5,56 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/main_fragment">
-
-    <fragment
-        android:id="@+id/main_fragment"
-        android:name="org.wentura.franko.MainFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_main">
-
-        <action
-            android:id="@+id/to_map_fragment"
-            app:destination="@id/map_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_activities_fragment"
-            app:destination="@id/activities_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_settings_fragment"
-            app:destination="@id/settings_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_people_fragment"
-            app:destination="@id/people_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_profile_edit_fragment"
-            app:destination="@id/profile_edit_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-        <action
-            android:id="@+id/to_home_fragment"
-            app:destination="@id/home_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-
-    </fragment>
+    app:startDestination="@id/home_fragment">
 
     <fragment
         android:id="@+id/map_fragment"
         android:name="org.wentura.franko.map.MapFragment"
-        android:label="@string/map"
         tools:layout="@layout/fragment_map">
 
         <action
@@ -71,9 +26,7 @@
 
         <action
             android:id="@+id/to_activity_fragment"
-            app:destination="@id/activity_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:destination="@id/activity_fragment" />
 
     </fragment>
 
@@ -87,14 +40,11 @@
     <fragment
         android:id="@+id/people_fragment"
         android:name="org.wentura.franko.people.PeopleFragment"
-        android:label="@string/people"
         tools:layout="@layout/fragment_people">
 
         <action
             android:id="@+id/to_profile_fragment"
-            app:destination="@id/profile_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:destination="@id/profile_fragment" />
 
     </fragment>
 
@@ -121,8 +71,12 @@
     <fragment
         android:id="@+id/profile_edit_fragment"
         android:name="org.wentura.franko.profileedit.ProfileEditFragment"
-        android:label="@string/edit_profile"
         tools:layout="@layout/fragment_profile_edit" />
+
+    <fragment
+        android:id="@+id/view_pager_fragment"
+        android:name="org.wentura.franko.ProfileViewPagerFragment"
+        tools:layout="@layout/fragment_profile_view_pager" />
 
     <fragment
         android:id="@+id/activity_fragment"
@@ -186,7 +140,6 @@
     <fragment
         android:id="@+id/home_fragment"
         android:name="org.wentura.franko.home.HomeFragment"
-        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
     <fragment

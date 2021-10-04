@@ -29,7 +29,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         val binding = FragmentPeopleBinding.bind(view)
 
@@ -57,8 +57,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people),
                 adapter = peopleAdapter
             }
         }
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

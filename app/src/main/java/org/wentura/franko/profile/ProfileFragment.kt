@@ -33,8 +33,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val binding = FragmentProfileBinding.bind(view)
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid

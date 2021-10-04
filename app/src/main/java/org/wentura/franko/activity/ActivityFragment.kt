@@ -38,7 +38,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         val binding = FragmentActivityBinding.bind(view)
 
@@ -85,8 +85,6 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
                 )
             }
         }
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

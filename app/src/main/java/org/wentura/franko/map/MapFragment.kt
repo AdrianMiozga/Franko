@@ -75,8 +75,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val binding = FragmentMapBinding.bind(view)
 
         val speed = binding.mapSpeed

@@ -1,6 +1,7 @@
 # Show App to Someone
 
-Work on GPS, path drawing, etc
+Work on GPS, path drawing, etc  
+Use something like Facebook instead of CardView for activities
 
 # TODO
 

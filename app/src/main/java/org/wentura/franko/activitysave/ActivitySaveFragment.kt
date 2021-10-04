@@ -2,10 +2,7 @@ package org.wentura.franko.activitysave
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,8 +20,10 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
+import org.wentura.franko.databinding.FragmentActivitySaveBinding
 import org.wentura.franko.map.RecordingRepository
 import org.wentura.franko.map.RecordingViewModel
+import org.wentura.franko.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,6 +39,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     @Inject
     lateinit var recordingRepository: RecordingRepository
 
+    private val userViewModel: UserViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -51,10 +51,34 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentActivitySaveBinding.bind(view)
+
+        val activityTypeSpinner = binding.activitySaveActivityTypeSpinner
+        val activityVisibilitySpinner = binding.activitySaveActivityVisibilitySpinner
+
+        userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+            val lastActivity = user.lastActivity
+
+            val lastActivityId = resources
+                .getStringArray(R.array.activities_array)
+                .indexOf(lastActivity)
+
+            activityTypeSpinner.setSelection(lastActivityId)
+
+            val whoCanSeeActivityDefault = user.whoCanSeeActivityDefault
+
+            val visibilityId = resources
+                .getStringArray(R.array.who_can_see_activity)
+                .indexOf(whoCanSeeActivityDefault)
+
+            activityVisibilitySpinner.setSelection(visibilityId)
+        }
+
         activitySaveObserver = ActivitySaveObserver(
             recordingRepository,
             activityRepository,
-            userRepository,
             requireContext(),
             view
         )

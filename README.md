@@ -1,7 +1,6 @@
 # Show App to Someone
 
-Work on GPS, path drawing, etc  
-Main fragment UI
+Work on GPS, path drawing, etc
 
 # TODO
 

@@ -64,6 +64,11 @@ object Constants {
     const val REQUEST_PERMISSION_KEY = "requestPermissionKey"
     const val REQUEST_PERMISSIONS_KEY = "requestPermissionsKey"
 
+    // Pager Indexes
+    const val ACTIVITIES_PAGE_INDEX = 0
+    const val PROFILE_EDIT_PAGE_INDEX = 1
+    const val SETTINGS_PAGE_INDEX = 2
+
     // Other
     const val PROFILE_PICTURE_FORMAT_EXTENSION = "webp"
     const val TMP_IMAGE_PREFIX = "tmp_image_file_"

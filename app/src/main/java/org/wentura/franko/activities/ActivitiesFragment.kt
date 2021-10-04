@@ -34,8 +34,6 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val binding = FragmentActivitiesBinding.bind(view)
 
         val recyclerView = binding.activitesRecyclerView
@@ -43,7 +41,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
 
         val observer = Observer<ArrayList<Activity>> { activities ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
-          
+
             if (activities.isEmpty()) {
                 recyclerView.visibility = View.INVISIBLE
                 activitiesNothingToShow.visibility = View.VISIBLE

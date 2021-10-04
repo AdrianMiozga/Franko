@@ -111,12 +111,21 @@
             app:layout_constraintTop_toBottomOf="@id/profile_edit_bio_text" />
 
         <Button
+            android:id="@+id/profile_edit_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/sign_out"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_bio" />
+
+        <Button
             android:id="@+id/profile_edit_delete_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/delete_account"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_edit_bio" />
 
         <include

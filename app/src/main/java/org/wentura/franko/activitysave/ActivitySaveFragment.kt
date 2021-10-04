@@ -51,7 +51,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         val binding = FragmentActivitySaveBinding.bind(view)
 
@@ -98,8 +98,6 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
                     ActivitySaveDialogFragment::class.simpleName
                 )
             }
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

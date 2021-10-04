@@ -1,14 +1,17 @@
 package org.wentura.franko.profileedit
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.firebase.ui.auth.AuthUI
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.MainActivity
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.data.User
@@ -34,7 +37,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         profilePictureObserver = ProfilePictureObserver(requireContext(), requireActivity().activityResultRegistry)
         lifecycle.addObserver(profilePictureObserver)
@@ -49,6 +52,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         val bioEditText = binding.profileEditBio
         val cityEditText = binding.profileEditCity
         val editProfileProfilePicture = binding.profileEditProfilePicture
+        val profileEditSignOut = binding.profileEditSignOut
         val profileEditDeleteAccount = binding.profileEditDeleteAccount
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
@@ -63,6 +67,15 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             }
 
             Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
+        }
+
+        profileEditSignOut.setOnClickListener {
+            AuthUI
+                .getInstance()
+                .signOut(requireContext())
+                .addOnSuccessListener {
+                    (activity as MainActivity).createSignInIntent()
+                }
         }
 
         profileEditDeleteAccount.setOnClickListener {
@@ -87,27 +100,26 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             )
         }
 
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner) {
-                // TODO: 01.10.2021 Compare changes in a cleaner way
-                if (user.firstName != firstNameEditText.text.toString().trim() ||
-                    user.lastName != lastNameEditText.text.toString().trim() ||
-                    user.bio != bioEditText.text.toString().trim() ||
-                    user.city != cityEditText.text.toString().trim()
-                ) {
-                    UnsavedChangesDialogFragment(view, saveObserver).show(
-                        parentFragmentManager,
-                        UnsavedChangesDialogFragment::class.simpleName
-                    )
-
-                    return@addCallback
-                }
-
-                Navigation.findNavController(view).navigateUp()
-            }
-
-        setHasOptionsMenu(true)
+        // TODO: 04.10.2021 This creates crash
+//        requireActivity()
+//            .onBackPressedDispatcher
+//            .addCallback(viewLifecycleOwner) {
+//                // TODO: 01.10.2021 Compare changes in a cleaner way
+//                if (user.firstName != firstNameEditText.text.toString().trim() ||
+//                    user.lastName != lastNameEditText.text.toString().trim() ||
+//                    user.bio != bioEditText.text.toString().trim() ||
+//                    user.city != cityEditText.text.toString().trim()
+//                ) {
+//                    UnsavedChangesDialogFragment(view, saveObserver).show(
+//                        parentFragmentManager,
+//                        UnsavedChangesDialogFragment::class.simpleName
+//                    )
+//
+//                    return@addCallback
+//                }
+//
+//                Navigation.findNavController(view).navigateUp()
+//            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

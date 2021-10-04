@@ -12,12 +12,14 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.data.UserRepository
+import org.wentura.franko.databinding.ActivityMainBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,8 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userRepository: UserRepository
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -47,7 +47,10 @@ class MainActivity : AppCompatActivity() {
 
         installSplashScreen()
 
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+
+        setContentView(view)
 
         content = findViewById(android.R.id.content)
 
@@ -58,7 +61,18 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
 
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        val bottomNavigation = binding.bottomNavigation
+
+        bottomNavigation.setupWithNavController(navController)
+
+        val topLevelDestinations = setOf(
+            R.id.home_fragment,
+            R.id.map_fragment,
+            R.id.people_fragment,
+            R.id.view_pager_fragment
+        )
+
+        val appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 

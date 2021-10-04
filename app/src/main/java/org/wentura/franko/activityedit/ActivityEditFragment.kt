@@ -51,6 +51,8 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
+
         val activityType: ListPreference? =
             preferenceManager.findPreference(Constants.ACTIVITY_TYPE_KEY)
 
@@ -81,8 +83,6 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
                 activityName.text = activity.activityName
             }
         }
-
-        setHasOptionsMenu(true)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

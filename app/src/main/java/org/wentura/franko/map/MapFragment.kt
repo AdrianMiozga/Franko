@@ -3,7 +3,6 @@ package org.wentura.franko.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
@@ -164,15 +163,17 @@ class MapFragment : Fragment(R.layout.fragment_map),
         super.onStart()
 
         Intent(requireContext(), RecordingService::class.java).also { intent ->
-            requireContext().bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            requireContext().bindService(intent, connection, 0)
         }
     }
 
     override fun onStop() {
         super.onStop()
 
-        requireContext().unbindService(connection)
-        isRecordingServiceBound = false
+        if (isRecordingServiceBound) {
+            requireContext().unbindService(connection)
+            isRecordingServiceBound = false
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -224,6 +225,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         val intent = Intent(context, RecordingService::class.java)
         requireContext().startService(intent)
+
+        Intent(requireContext(), RecordingService::class.java).also {
+            requireContext().bindService(it, connection, 0)
+        }
     }
 
     private fun stopTrackingLocation() {
@@ -254,6 +259,11 @@ class MapFragment : Fragment(R.layout.fragment_map),
     }
 
     private fun stopRecordingService() {
+        if (isRecordingServiceBound) {
+            requireContext().unbindService(connection)
+            isRecordingServiceBound = false
+        }
+
         val intent = Intent(context, RecordingService::class.java)
         requireContext().stopService(intent)
     }

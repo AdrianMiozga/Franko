@@ -43,9 +43,11 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
         fun bindView(position: Int, userActivities: List<Activity>) {
             view.setOnClickListener {
-                Navigation.findNavController(view).navigate(
-                    ActivitiesFragmentDirections.toActivityFragment(userActivities[position].documentId)
-                )
+                val toActivityFragment =
+                    ActivitiesFragmentDirections
+                        .toActivityFragment(userActivities[position].documentId)
+
+                Navigation.findNavController(view).navigate(toActivityFragment)
             }
 
             userActivities[position].path?.forEach {

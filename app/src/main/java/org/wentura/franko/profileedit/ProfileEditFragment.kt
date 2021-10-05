@@ -39,7 +39,12 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
-        profilePictureObserver = ProfilePictureObserver(requireContext(), requireActivity().activityResultRegistry)
+        profilePictureObserver =
+            ProfilePictureObserver(
+                requireContext(),
+                requireActivity().activityResultRegistry
+            )
+
         lifecycle.addObserver(profilePictureObserver)
 
         saveObserver = SaveObserver(userRepository, view)

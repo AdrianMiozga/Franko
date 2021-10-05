@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
+            supportFragmentManager
+                .findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
 
         val navController = navHostFragment.navController
 

@@ -129,7 +129,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
             }
         }
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager
+                .findFragmentById(R.id.map_map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         val spinner = binding.mapActivitySpinner

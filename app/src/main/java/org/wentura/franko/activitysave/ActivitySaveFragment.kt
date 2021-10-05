@@ -85,7 +85,10 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.activity_save_map) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager
+                .findFragmentById(R.id.activity_save_map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         lifecycle.addObserver(activitySaveObserver)

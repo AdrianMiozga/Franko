@@ -45,7 +45,10 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         val activityTitle = binding.activityTitle
         val activityTimeSpan = binding.activityTimeSpan
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager
+                .findFragmentById(R.id.activity_map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
@@ -94,10 +97,9 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.edit -> {
-                view?.let {
-                    Navigation.findNavController(it)
-                        .navigate(ActivityFragmentDirections.toActivityEditFragment(args.id))
-                }
+                Navigation.findNavController(requireView())
+                    .navigate(ActivityFragmentDirections.toActivityEditFragment(args.id))
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

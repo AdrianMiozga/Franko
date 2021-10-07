@@ -1,11 +1,11 @@
 # Show App to Someone
 
-Edit profile save doesn't work?
+Edit profile save doesn't work?  
+Crash when logging in
 
 ## GPS
 
 Work on GPS, path drawing, etc  
-Hide stuff like parkings etc on map  
 Prevent zooming so much into map
 
 # TODO

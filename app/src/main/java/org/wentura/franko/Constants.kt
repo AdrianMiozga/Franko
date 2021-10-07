@@ -48,12 +48,13 @@ object Constants {
 
     // Map Settings
     const val DEFAULT_ZOOM = 17F
-    const val LINE_WIDTH = 50F
+    const val LINE_WIDTH = 20F
     const val LINE_COLOR = Color.BLUE
 
     // Notification
     const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1
-    const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID = "activity_recording_notification_channel"
+    const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID =
+        "activity_recording_notification_channel"
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"

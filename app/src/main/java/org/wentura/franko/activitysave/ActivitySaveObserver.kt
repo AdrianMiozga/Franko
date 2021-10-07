@@ -52,7 +52,6 @@ class ActivitySaveObserver(
 
         val activity = Activity(
             uid,
-            // TODO: 01.10.2021 Store in milliseconds?
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,

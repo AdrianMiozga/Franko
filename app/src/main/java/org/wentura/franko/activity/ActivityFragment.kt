@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -25,15 +26,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 @AndroidEntryPoint
 class ActivityFragment : Fragment(R.layout.fragment_activity),
     OnMapReadyCallback {
 
-    private lateinit var map: GoogleMap
-    private var latLng: ArrayList<LatLng> = arrayListOf()
     private val activityViewModel: ActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
+
+    private lateinit var activityTitle: TextView
+    private lateinit var activityTimeSpan: TextView
 
     companion object {
         val TAG = ActivityFragment::class.simpleName
@@ -44,52 +45,14 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
         val binding = FragmentActivityBinding.bind(view)
 
-        val activityTitle = binding.activityTitle
-        val activityTimeSpan = binding.activityTimeSpan
+        activityTitle = binding.activityTitle
+        activityTimeSpan = binding.activityTimeSpan
 
         val mapFragment =
             childFragmentManager
                 .findFragmentById(R.id.activity_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
-
-        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
-            val startTime = activity?.startTime ?: 0L
-            val endTime = activity?.endTime ?: 0L
-
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
-
-            activityTitle.text = requireContext()
-                .getString(R.string.activity_title, activity.activityName, activity.activity, date)
-
-            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
-
-            activityTimeSpan.text = requireContext()
-                .getString(
-                    R.string.time_span,
-                    timeFormatter.format(
-                        TimeUnit.SECONDS.toMillis(startTime)
-                    ),
-                    timeFormatter.format(
-                        TimeUnit.SECONDS.toMillis(endTime)
-                    )
-                )
-
-            activity.path?.forEach {
-                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
-            }
-
-            if (this::map.isInitialized) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                map.addPolyline(
-                    PolylineOptions()
-                        .addAll(latLng)
-                        .width(Constants.LINE_WIDTH)
-                        .color(Constants.LINE_COLOR)
-                )
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -110,13 +73,56 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-
         googleMap.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(
                 requireContext(),
                 R.raw.google_map_style
             )
         )
+
+        val polylineOptions = PolylineOptions()
+            .width(Constants.LINE_WIDTH)
+            .color(Constants.LINE_COLOR)
+
+        val polyline = googleMap.addPolyline(polylineOptions)
+
+        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+            val startTime = activity?.startTime ?: 0L
+            val endTime = activity?.endTime ?: 0L
+
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+
+            activityTitle.text = requireContext()
+                .getString(
+                    R.string.activity_title,
+                    activity.activityName,
+                    activity.activity,
+                    date
+                )
+
+            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
+
+            activityTimeSpan.text = requireContext()
+                .getString(
+                    R.string.time_span,
+                    timeFormatter.format(
+                        TimeUnit.SECONDS.toMillis(startTime)
+                    ),
+                    timeFormatter.format(
+                        TimeUnit.SECONDS.toMillis(endTime)
+                    )
+                )
+
+            val latLng: ArrayList<LatLng> = arrayListOf()
+
+            activity.path?.forEach {
+                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+            }
+
+            polyline.points = latLng
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
+        }
     }
 }

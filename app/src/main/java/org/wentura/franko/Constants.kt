@@ -54,7 +54,7 @@ object Constants {
     // Notification
     const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1
     const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID =
-        "activity_recording_notification_channel"
+        "activityRecordingNotificationChannel"
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"
@@ -62,7 +62,6 @@ object Constants {
     // Result Registry Keys
     const val SELECT_IMAGE_KEY = "selectImageKey"
     const val TAKE_PICTURE_KEY = "takePictureKey"
-    const val REQUEST_PERMISSION_KEY = "requestPermissionKey"
     const val REQUEST_PERMISSIONS_KEY = "requestPermissionsKey"
 
     // Pager Indexes

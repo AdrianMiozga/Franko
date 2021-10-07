@@ -192,6 +192,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         )
 
         fusedLocationClient
+            // TODO: 07.10.2021 getCurrentLocation is better?
             .lastLocation
             .addOnSuccessListener { location ->
                 if (location == null) return@addOnSuccessListener

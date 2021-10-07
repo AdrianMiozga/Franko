@@ -182,6 +182,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
     override fun onMapReady(googleMap: GoogleMap) {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
 
+        googleMap.clear()
         googleMap.isMyLocationEnabled = true
 
         setupMap(googleMap, requireContext())
@@ -194,8 +195,13 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
                 val latLng = LatLng(location.latitude, location.longitude)
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                googleMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
+                val newLatLngZoom =
+                    CameraUpdateFactory.newLatLngZoom(
+                        latLng,
+                        Constants.DEFAULT_ZOOM
+                    )
+
+                googleMap.moveCamera(newLatLngZoom)
             }
 
         val polyline = googleMap.addPolyline(createPolylineOptions())

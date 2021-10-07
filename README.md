@@ -14,8 +14,10 @@ Prevent zooming so much into map
 
 Show activity length in km  
 Show average speed  
-Show max speed  
+Show max speed
+
 Auto pause
+https://developer.android.com/guide/topics/location/transitions
 
 ## Performance
 

@@ -48,7 +48,7 @@ object Constants {
 
     // Map Settings
     const val DEFAULT_ZOOM = 17F
-    const val LINE_WIDTH = 20F
+    const val LINE_WIDTH = 12F
     const val LINE_COLOR = Color.BLUE
 
     // Notification

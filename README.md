@@ -6,7 +6,8 @@ Crash when logging in
 ## GPS
 
 Work on GPS, path drawing, etc  
-Prevent zooming so much into map
+Prevent zooming so much into map  
+Stop activity doesn't clean recorded path
 
 # TODO
 
@@ -15,6 +16,8 @@ Prevent zooming so much into map
 Show activity length in km  
 Show average speed  
 Show max speed
+
+Pause activity, not only stop
 
 Auto pause
 https://developer.android.com/guide/topics/location/transitions
@@ -31,6 +34,7 @@ If you follow someone, they need to accept it
 
 Translate all strings to polish  
 App logo  
+Fold something when scrolling through activities (app bar? tab layout? chips?)
 Polyline should be smoothed out, without corners. Like in Strava   
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network

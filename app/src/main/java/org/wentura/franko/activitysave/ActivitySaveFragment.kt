@@ -15,10 +15,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
+import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentActivitySaveBinding
@@ -144,11 +144,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
                 googleMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
             }
 
-        val polylineOptions = PolylineOptions()
-            .width(Constants.LINE_WIDTH)
-            .color(Constants.LINE_COLOR)
-
-        val polyline = googleMap.addPolyline(polylineOptions)
+        val polyline = googleMap.addPolyline(createPolylineOptions())
 
         recordingViewModel.points.observe(viewLifecycleOwner) { points ->
             polyline.points = points

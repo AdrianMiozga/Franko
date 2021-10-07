@@ -40,7 +40,7 @@ class RecordingService : Service() {
     private val binder: IBinder = LocalBinder()
 
     private val locationRequest = LocationRequest.create().apply {
-        interval = TimeUnit.SECONDS.toMillis(10)
+        interval = TimeUnit.SECONDS.toMillis(5)
 //        fastestInterval = TimeUnit.SECONDS.toMillis(5)
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }

@@ -14,6 +14,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -136,5 +137,11 @@ object Utilities {
                 transformations(CircleCropTransformation())
             }
         }
+    }
+
+    fun createPolylineOptions(): PolylineOptions {
+        return PolylineOptions()
+            .width(Constants.LINE_WIDTH)
+            .color(Constants.LINE_COLOR)
     }
 }

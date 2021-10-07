@@ -1,7 +1,6 @@
 # Show App to Someone
 
-Work on GPS, path drawing, etc  
-Use something like Facebook instead of CardView for activities
+Work on GPS, path drawing, etc
 
 # TODO
 
@@ -23,11 +22,9 @@ If you follow someone, they need to accept it
 ## UI
 
 Translate all strings to polish  
-Loading bar when changing profile picture  
 App logo  
 Dialog in case user disabled location during activity recording  
-Dialog in case of disabled network  
-Dark mode
+Dialog in case of disabled network
 
 # Nice to Have
 
@@ -51,4 +48,6 @@ Log in with Facebook, Twitter
 
 ## UI
 
-Optional notification when somebody follows you
+Optional notification when somebody follows you  
+Loading bar when changing profile picture  
+Dark mode

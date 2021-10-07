@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
@@ -113,6 +114,13 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                             .color(Constants.LINE_COLOR)
                     )
                 }
+
+                map.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        context,
+                        R.raw.google_map_style
+                    )
+                )
 
                 mapType = GoogleMap.MAP_TYPE_NORMAL
             }

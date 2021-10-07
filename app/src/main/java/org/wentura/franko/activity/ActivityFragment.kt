@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
@@ -23,6 +24,7 @@ import org.wentura.franko.viewmodels.ActivityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 @AndroidEntryPoint
 class ActivityFragment : Fragment(R.layout.fragment_activity),
@@ -95,6 +97,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // TODO: 07.10.2021 Simplify like in navigation component doc
         return when (item.itemId) {
             R.id.edit -> {
                 Navigation.findNavController(requireView())
@@ -108,5 +111,12 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                requireContext(),
+                R.raw.google_map_style
+            )
+        )
     }
 }

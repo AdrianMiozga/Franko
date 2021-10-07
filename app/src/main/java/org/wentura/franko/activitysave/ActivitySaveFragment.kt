@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
@@ -123,6 +124,13 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
         // TODO: 01.10.2021 Duplicate code in MapFragment
 
         googleMap.isMyLocationEnabled = true
+
+        googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                requireContext(),
+                R.raw.google_map_style
+            )
+        )
 
         fusedLocationClient
             .lastLocation

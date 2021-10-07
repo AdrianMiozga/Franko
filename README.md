@@ -1,7 +1,12 @@
 # Show App to Someone
 
-Work on GPS, path drawing, etc  
 Edit profile save doesn't work?
+
+## GPS
+
+Work on GPS, path drawing, etc  
+Hide stuff like parkings etc on map  
+Prevent zooming so much into map
 
 # TODO
 
@@ -24,6 +29,7 @@ If you follow someone, they need to accept it
 
 Translate all strings to polish  
 App logo  
+Polyline should be smoothed out, without corners. Like in Strava   
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network
 

@@ -10,6 +10,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.franko.Constants
+import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.data.Activity
 import org.wentura.franko.databinding.ListItemActivityBinding
@@ -44,7 +45,7 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         fun bindView(position: Int, userActivities: List<Activity>) {
             view.setOnClickListener {
                 val toActivityFragment =
-                    ActivitiesFragmentDirections
+                    ProfileViewPagerFragmentDirections
                         .toActivityFragment(userActivities[position].documentId)
 
                 Navigation.findNavController(view).navigate(toActivityFragment)

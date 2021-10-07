@@ -14,6 +14,8 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
@@ -143,5 +145,16 @@ object Utilities {
         return PolylineOptions()
             .width(Constants.LINE_WIDTH)
             .color(Constants.LINE_COLOR)
+    }
+
+    fun setupMap(googleMap: GoogleMap, context: Context) {
+        googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                context,
+                R.raw.google_map_style
+            )
+        )
+
+        googleMap.setMaxZoomPreference(18f)
     }
 }

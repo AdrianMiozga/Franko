@@ -14,11 +14,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.createPolylineOptions
+import org.wentura.franko.Utilities.setupMap
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentActivitySaveBinding
@@ -122,15 +122,9 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         // TODO: 01.10.2021 Duplicate code in MapFragment
-
         googleMap.isMyLocationEnabled = true
 
-        googleMap.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                requireContext(),
-                R.raw.google_map_style
-            )
-        )
+        setupMap(googleMap, requireContext())
 
         fusedLocationClient
             // TODO: 07.10.2021 getCurrentLocation is better?

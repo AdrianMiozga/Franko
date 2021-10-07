@@ -5,9 +5,9 @@ Crash when logging in
 
 ## GPS
 
-Work on GPS, path drawing, etc  
-Prevent zooming so much into map  
-Stop activity doesn't clean recorded path
+Stop activity doesn't clean recorded path  
+GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something  
+Map view in activities should show whole path
 
 # TODO
 
@@ -63,4 +63,5 @@ Log in with Facebook, Twitter
 
 Optional notification when somebody follows you  
 Loading bar when changing profile picture  
-Dark mode
+Dark mode  
+Fragment transitions

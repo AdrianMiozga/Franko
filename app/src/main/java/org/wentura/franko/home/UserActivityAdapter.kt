@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
+import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityHomeBinding
 import java.text.SimpleDateFormat
@@ -109,12 +109,7 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
             with(map) {
                 if (latLng.size > 0) {
                     moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                    addPolyline(
-                        PolylineOptions()
-                            .addAll(latLng)
-                            .width(Constants.LINE_WIDTH)
-                            .color(Constants.LINE_COLOR)
-                    )
+                    addPolyline(createPolylineOptions().addAll(latLng))
                 }
 
                 map.setMapStyle(

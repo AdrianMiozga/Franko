@@ -10,6 +10,7 @@
     <fragment
         android:id="@+id/map_fragment"
         android:name="org.wentura.franko.map.MapFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_map">
 
         <action
@@ -34,6 +35,7 @@
     <fragment
         android:id="@+id/people_fragment"
         android:name="org.wentura.franko.people.PeopleFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_people">
 
         <action
@@ -70,6 +72,7 @@
     <fragment
         android:id="@+id/view_pager_fragment"
         android:name="org.wentura.franko.ProfileViewPagerFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_profile_view_pager">
 
         <action
@@ -140,6 +143,7 @@
     <fragment
         android:id="@+id/home_fragment"
         android:name="org.wentura.franko.home.HomeFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
 
     <fragment

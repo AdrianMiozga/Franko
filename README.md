@@ -1,6 +1,7 @@
 # Show App to Someone
 
-Work on GPS, path drawing, etc
+Work on GPS, path drawing, etc  
+Edit profile save doesn't work?
 
 # TODO
 

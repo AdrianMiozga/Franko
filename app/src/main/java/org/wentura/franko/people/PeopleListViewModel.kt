@@ -8,11 +8,12 @@ import com.google.firebase.firestore.ktx.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.wentura.franko.data.User
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class PeopleListViewModel @Inject constructor(
-    private val peopleRepository: PeopleRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _users = MutableLiveData<ArrayList<User>>()
@@ -20,7 +21,7 @@ class PeopleListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _users.value = ArrayList(peopleRepository.getPeople().toObjects())
+            _users.value = ArrayList(userRepository.getPeople().toObjects())
         }
     }
 }

@@ -6,6 +6,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,6 +25,16 @@ class UserRepository @Inject constructor() {
     fun getUser(uid: String): DocumentReference {
         return db.collection(Constants.USERS)
             .document(uid)
+    }
+
+    suspend fun getPeople(): QuerySnapshot {
+        return db.collection(Constants.USERS)
+            .whereEqualTo(
+                Constants.WHO_CAN_SEE_MY_PROFILE,
+                Constants.EVERYONE
+            )
+            .get()
+            .await()
     }
 
     fun getUsers(uids: ArrayList<String>): Task<QuerySnapshot> {
@@ -71,7 +82,9 @@ class UserRepository @Inject constructor() {
             .update(Constants.PHOTO_URL, FieldValue.delete())
 
         val imageDirectory = Firebase.storage.reference.child(Constants.IMAGES)
-        val profilePicture = imageDirectory.child("$myUid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}")
+
+        val imageName = "$myUid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}"
+        val profilePicture = imageDirectory.child(imageName)
 
         profilePicture.delete()
     }

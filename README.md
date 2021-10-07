@@ -5,7 +5,6 @@ Crash when logging in
 
 ## GPS
 
-Stop activity doesn't clean recorded path  
 GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something  
 Map view in activities should show whole path
 

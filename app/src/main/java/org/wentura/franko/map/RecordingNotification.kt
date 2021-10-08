@@ -21,9 +21,9 @@ class RecordingNotification(
         .createPendingIntent()
 
     init {
-        this.setSmallIcon(R.mipmap.ic_launcher)
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setShowWhen(false)
+        setSmallIcon(R.mipmap.ic_launcher)
+        setContentIntent(pendingIntent)
+        priority = NotificationCompat.PRIORITY_LOW
+        setShowWhen(false)
     }
 }

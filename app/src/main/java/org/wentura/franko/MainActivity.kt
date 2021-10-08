@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
-        this.onSignInResult(result)
+        onSignInResult(result)
     }
 
     private val onPreDrawListener = ViewTreeObserver.OnPreDrawListener { false }

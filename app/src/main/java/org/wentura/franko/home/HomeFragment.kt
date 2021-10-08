@@ -15,9 +15,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: UserActivityListViewModel by viewModels()
 
-    private val recyclerListener = RecyclerView.RecyclerListener { holder ->
-        val mapHolder = holder as UserActivityAdapter.ViewHolder
-        mapHolder.clearView()
+    private val recyclerListener by lazy {
+        RecyclerView.RecyclerListener { holder ->
+            val mapHolder = holder as UserActivityAdapter.ViewHolder
+            mapHolder.clearView()
+        }
     }
 
     companion object {

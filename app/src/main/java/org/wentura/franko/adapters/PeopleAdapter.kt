@@ -28,22 +28,20 @@ class PeopleAdapter(private val people: List<User>) :
 
         private val context = view.context
 
-        fun bindView(position: Int, people: List<User>) {
+        fun bindView(user: User) {
             view.setOnClickListener {
                 Navigation.findNavController(view).navigate(
                     R.id.to_profile_fragment,
-                    bundleOf("uid" to people[position].uid)
+                    bundleOf("uid" to user.uid)
                 )
             }
 
-            val photoUrl = people[position].photoUrl
-
-            Utilities.loadProfilePicture(photoUrl, profilePicture)
+            Utilities.loadProfilePicture(user.photoUrl, profilePicture)
 
             fullName.text = context.getString(
                 R.string.full_name,
-                people[position].firstName,
-                people[position].lastName
+                user.firstName,
+                user.lastName
             )
         }
     }
@@ -56,7 +54,7 @@ class PeopleAdapter(private val people: List<User>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, people)
+        viewHolder.bindView(people[position])
     }
 
     override fun getItemCount() = people.size

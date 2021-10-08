@@ -116,7 +116,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileBio.text = profile.bio
             }
 
-            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location)[0]
+            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location).first()
 
             if (profile.whoCanSeeMyLocation == locationEveryone) {
                 profileCity.text = profile.city

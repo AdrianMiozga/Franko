@@ -26,7 +26,7 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         OnMapReadyCallback {
 
         private lateinit var map: GoogleMap
-        private var latLng: ArrayList<LatLng> = arrayListOf()
+        private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityHomeBinding.bind(view)
 
         private val profileProfilePicture: ImageView = binding.itemActivityHomeProfilePicture
@@ -46,17 +46,17 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
             }
         }
 
-        fun bindView(position: Int, userActivities: List<UserActivity>) {
-            userActivities[position].activity.path?.forEach {
-                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+        fun bindView(userActivity: UserActivity) {
+            userActivity.activity.path?.forEach {
+                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
             mapView.tag = this
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-            val startTime = userActivities[position].activity.startTime ?: 0L
-            val endTime = userActivities[position].activity.endTime ?: 0L
+            val startTime = userActivity.activity.startTime ?: 0L
+            val endTime = userActivity.activity.endTime ?: 0L
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
@@ -69,19 +69,19 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
 
             title.text = context.getString(
                 R.string.user_activity_title,
-                userActivities[position].activity.activityName,
-                userActivities[position].activity.activity,
+                userActivity.activity.activityName,
+                userActivity.activity.activity,
             )
 
             dateTextView.text = date
 
             name.text = context.getString(
                 R.string.full_name,
-                userActivities[position].user.firstName,
-                userActivities[position].user.lastName
+                userActivity.user.firstName,
+                userActivity.user.lastName
             )
 
-            val photoUrl = userActivities[position].user.photoUrl
+            val photoUrl = userActivity.user.photoUrl
 
             Utilities.loadProfilePicture(photoUrl, profileProfilePicture)
 
@@ -89,6 +89,8 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         }
 
         fun clearView() {
+            points.clear()
+
             if (!this::map.isInitialized) return
 
             with(map) {
@@ -100,22 +102,21 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         override fun onMapReady(googleMap: GoogleMap) {
             MapsInitializer.initialize(mapView.context)
             map = googleMap
+
             setupMap()
         }
 
         private fun setupMap() {
             if (!this::map.isInitialized) return
 
-            with(map) {
-                if (latLng.size > 0) {
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                    addPolyline(createPolylineOptions().addAll(latLng))
-                }
-
-                setupMap(map, context)
-
-                mapType = GoogleMap.MAP_TYPE_NORMAL
+            if (points.isNotEmpty()) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
+                map.addPolyline(createPolylineOptions().addAll(points))
             }
+
+            setupMap(map, context)
+
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
     }
 
@@ -127,7 +128,7 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, userActivities)
+        viewHolder.bindView(userActivities[position])
     }
 
     override fun getItemCount() = userActivities.size

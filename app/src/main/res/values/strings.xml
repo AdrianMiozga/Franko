@@ -47,7 +47,7 @@
     <string name="unfollow">Przestań obserwować</string>
     <string name="OK">OK</string>
     <string name="enable_location_dialog_message">Usługi lokalizacji są wyłączone. Czy chcesz je włączyć?</string>
-    <string name="activity_recording_channel_name">Nagrywanie Aktywności</string>
+    <string name="activity_recording_channel_name">Nagrywanie aktywności</string>
     <string name="recording_channel_description">Powiadomienie podczas nagrywania aktywności</string>
     <string name="activity_recording_notification_title">Nagrywanie (%s)</string>
     <string name="location_updates_service_description">Usługa, która monitoruje aktywność użytkownika.</string>
@@ -68,7 +68,7 @@
     <string name="walking">Chodzenie</string>
     <string name="running">Bieganie</string>
     <string name="search">Wyszukaj</string>
-    <string name="edit_activity">Edytuj Aktywność</string>
+    <string name="edit_activity">Edytuj aktywność</string>
     <string name="activity">Aktywność</string>
     <string name="profile">Profil</string>
     <string name="followers">Obserwujący</string>

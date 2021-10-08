@@ -1,6 +1,6 @@
 # Show App to Someone
 
-Prevent setting name to nothing
+Prevent setting name to nothing, other validations
 
 ## GPS
 
@@ -61,4 +61,5 @@ Log in with Facebook, Twitter
 Optional notification when somebody follows you  
 Loading bar when changing profile picture  
 Dark mode  
-Fragment transitions
+Fragment transitions  
+Impose edit texts char limits

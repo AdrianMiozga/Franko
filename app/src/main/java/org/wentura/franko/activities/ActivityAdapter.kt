@@ -11,8 +11,8 @@ import com.google.android.gms.maps.model.LatLng
 import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
-import org.wentura.franko.Utilities.setupMap
 import org.wentura.franko.data.Activity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
@@ -26,7 +26,7 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         OnMapReadyCallback {
 
         private lateinit var map: GoogleMap
-        private var latLng: ArrayList<LatLng> = arrayListOf()
+        private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
 
         private val title: TextView = binding.itemActivityTitle
@@ -43,25 +43,25 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
             }
         }
 
-        fun bindView(position: Int, userActivities: List<Activity>) {
+        fun bindView(activity: Activity) {
             view.setOnClickListener {
                 val toActivityFragment =
                     ProfileViewPagerFragmentDirections
-                        .toActivityFragment(userActivities[position].documentId)
+                        .toActivityFragment(activity.documentId)
 
                 Navigation.findNavController(view).navigate(toActivityFragment)
             }
 
-            userActivities[position].path?.forEach {
-                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+            activity.path?.forEach {
+                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
             mapView.tag = this
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-            val startTime = userActivities[position].startTime ?: 0L
-            val endTime = userActivities[position].endTime ?: 0L
+            val startTime = activity.startTime ?: 0L
+            val endTime = activity.endTime ?: 0L
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
@@ -78,8 +78,8 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
             title.text = context.getString(
                 R.string.activity_title,
-                userActivities[position].activityName,
-                userActivities[position].activity,
+                activity.activityName,
+                activity.activity,
                 date
             )
 
@@ -87,6 +87,8 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         }
 
         fun clearView() {
+            points.clear()
+
             if (!this::map.isInitialized) return
 
             with(map) {
@@ -98,22 +100,21 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         override fun onMapReady(googleMap: GoogleMap) {
             MapsInitializer.initialize(mapView.context)
             map = googleMap
+
             setupMap()
         }
 
         private fun setupMap() {
             if (!this::map.isInitialized) return
 
-            with(map) {
-                if (latLng.size > 0) {
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
-                    addPolyline(createPolylineOptions().addAll(latLng))
-                }
-
-                setupMap(map, context)
-
-                mapType = GoogleMap.MAP_TYPE_NORMAL
+            if (points.isNotEmpty()) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
+                map.addPolyline(createPolylineOptions().addAll(points))
             }
+
+            Utilities.setupMap(map, context)
+
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
     }
 
@@ -125,7 +126,7 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(position, userActivities)
+        viewHolder.bindView(userActivities[position])
     }
 
     override fun getItemCount() = userActivities.size

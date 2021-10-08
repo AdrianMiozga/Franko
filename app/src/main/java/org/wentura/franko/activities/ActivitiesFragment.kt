@@ -24,9 +24,11 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         Constants.WALKING
     )
 
-    private val recyclerListener = RecyclerView.RecyclerListener { holder ->
-        val mapHolder = holder as ActivityAdapter.ViewHolder
-        mapHolder.clearView()
+    private val recyclerListener by lazy {
+        RecyclerView.RecyclerListener { holder ->
+            val mapHolder = holder as ActivityAdapter.ViewHolder
+            mapHolder.clearView()
+        }
     }
 
     companion object {
@@ -59,7 +61,9 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
             }
         }
 
-        viewModel.getCurrentActivities(activityTypes).observe(viewLifecycleOwner, observer)
+        viewModel
+            .getCurrentActivities(activityTypes)
+            .observe(viewLifecycleOwner, observer)
 
         val chipBike = binding.chipBike
         val chipWalking = binding.chipWalking

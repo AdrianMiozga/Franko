@@ -106,15 +106,15 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
                     )
                 )
 
-            val latLng: ArrayList<LatLng> = arrayListOf()
+            val points: ArrayList<LatLng> = arrayListOf()
 
             activity.path?.forEach {
-                latLng.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
             }
 
-            polyline.points = latLng
+            polyline.points = points
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[0], 16f))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
         }
     }
 }

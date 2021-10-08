@@ -14,7 +14,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ActivityDeleteDialogFragment(
     private val activityId: String,
-    // TODO: 01.10.2021 Can you do this without passing View?
     private val activityView: View
 ) : DialogFragment() {
 
@@ -29,8 +28,11 @@ class ActivityDeleteDialogFragment(
                 activityRepository
                     .deleteActivity(activityId)
                     .addOnSuccessListener {
+                        val toProfileViewPagerFragment =
+                            ActivityEditFragmentDirections.toProfileViewPagerFragment()
+
                         Navigation.findNavController(activityView)
-                            .navigate(ActivityEditFragmentDirections.toProfileViewPagerFragment())
+                            .navigate(toProfileViewPagerFragment)
                     }
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }

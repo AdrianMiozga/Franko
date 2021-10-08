@@ -18,97 +18,84 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:contentDescription="@string/profile_picture"
-            app:layout_constraintBottom_toTopOf="@+id/profile_edit_first_name_text"
+            app:layout_constraintBottom_toTopOf="@+id/profile_edit_first_name"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_profile_picture_placeholder" />
 
-        <TextView
-            android:id="@+id/profile_edit_first_name_text"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_edit_first_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:labelFor="@+id/profile_edit_first_name"
-            android:text="@string/first_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_picture" />
-
-        <EditText
-            android:id="@+id/profile_edit_first_name"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:autofillHints="personGivenName"
-            android:inputType="textPersonName|textCapWords"
+            android:hint="@string/first_name"
+            app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toStartOf="@id/profile_edit_last_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_first_name_text" />
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_picture">
 
-        <TextView
-            android:id="@+id/profile_edit_last_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:labelFor="@+id/profile_edit_last_name"
-            android:text="@string/last_name"
-            app:layout_constraintStart_toStartOf="@id/profile_edit_last_name"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_picture" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/profile_edit_last_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:autofillHints="personFamilyName"
-            android:inputType="textPersonName|textCapWords"
+            android:hint="@string/last_name"
+            app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/profile_edit_first_name"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_first_name_text" />
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_picture">
 
-        <TextView
-            android:id="@+id/profile_edit_city_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:labelFor="@+id/profile_edit_city"
-            android:text="@string/city"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_first_name" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/profile_edit_city"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:autofillHints="addressLocality"
-            android:inputType="textCapWords"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_city_text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/profile_edit_bio_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:labelFor="@id/profile_edit_bio"
-            android:text="@string/bio"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_city" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/profile_edit_bio"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:importantForAutofill="no"
-            android:inputType="textCapSentences"
+            android:hint="@string/bio"
+            app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_bio_text" />
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_first_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_edit_city"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/city"
+            app:hintAnimationEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_bio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/profile_edit_sign_out"
@@ -117,7 +104,7 @@
             android:layout_margin="8dp"
             android:text="@string/sign_out"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_bio" />
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_city" />
 
         <Button
             android:id="@+id/profile_edit_delete_account"
@@ -126,7 +113,7 @@
             android:layout_margin="8dp"
             android:text="@string/delete_account"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_edit_bio" />
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_city" />
 
         <include
             android:id="@+id/progress_bar_overlay"

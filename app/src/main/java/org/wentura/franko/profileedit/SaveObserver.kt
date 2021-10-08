@@ -14,17 +14,17 @@ class SaveObserver(
     fun save() {
         val binding = FragmentProfileEditBinding.bind(view)
 
-        val firstNameEditText = binding.profileEditFirstName
-        val lastNameEditText = binding.profileEditLastName
-        val bioEditText = binding.profileEditBio
-        val cityEditText = binding.profileEditCity
+        val firstNameEditText = binding.profileEditFirstName.editText
+        val lastNameEditText = binding.profileEditLastName.editText
+        val bioEditText = binding.profileEditBio.editText
+        val cityEditText = binding.profileEditCity.editText
 
         val updates: HashMap<String, Any> =
             hashMapOf(
-                Constants.FIRST_NAME to firstNameEditText.text.toString().trim(),
-                Constants.LAST_NAME to lastNameEditText.text.toString().trim(),
-                Constants.BIO to bioEditText.text.toString().trim(),
-                Constants.CITY to cityEditText.text.toString().trim()
+                Constants.FIRST_NAME to firstNameEditText?.text.toString().trim(),
+                Constants.LAST_NAME to lastNameEditText?.text.toString().trim(),
+                Constants.BIO to bioEditText?.text.toString().trim(),
+                Constants.CITY to cityEditText?.text.toString().trim()
             )
 
         userRepository.updateUser(updates)

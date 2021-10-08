@@ -56,7 +56,7 @@ class ActivitySaveObserver(
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,
             activitySaveActivityTypeSpinner.selectedItem.toString(),
-            activitySaveActivityName.text.toString().trim(),
+            activitySaveActivityName.editText?.text.toString().trim(),
             activitySaveActivityVisibilitySpinner.selectedItem.toString()
         )
 

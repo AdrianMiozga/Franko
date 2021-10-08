@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(view)
 
-        content = findViewById(android.R.id.content)
-
         createNotificationChannel()
+
+        content = findViewById(android.R.id.content)
 
         val navHostFragment =
             supportFragmentManager

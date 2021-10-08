@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class UserRepository @Inject constructor() {
 
     private val db = Firebase.firestore
-    private val myUid = getCurrentUserUid()
+    private val myUid: String by lazy { getCurrentUserUid() }
 
     fun getUser(): DocumentReference {
         return db.collection(Constants.USERS)

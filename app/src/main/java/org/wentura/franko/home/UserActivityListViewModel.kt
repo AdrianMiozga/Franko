@@ -26,12 +26,11 @@ class UserActivityListViewModel @Inject constructor(
     }
 
     private val userActivities = MutableLiveData<ArrayList<UserActivity>>()
-    private val uid = getCurrentUserUid()
 
     fun getCurrentActivities(): LiveData<ArrayList<UserActivity>> {
         viewModelScope.launch {
             val following = userRepository
-                .getFollowing(uid)
+                .getFollowing(getCurrentUserUid())
                 .get()
                 .await()
 

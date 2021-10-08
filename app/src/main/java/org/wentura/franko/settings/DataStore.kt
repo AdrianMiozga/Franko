@@ -1,15 +1,15 @@
 package org.wentura.franko.settings
 
 import androidx.preference.PreferenceDataStore
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import org.wentura.franko.Constants
+import org.wentura.franko.Utilities.getCurrentUserUid
 
 class DataStore : PreferenceDataStore() {
 
     private val db = Firebase.firestore
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    private val uid = getCurrentUserUid()
 
     companion object {
         val TAG = DataStore::class.simpleName

@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -22,6 +21,7 @@ import kotlinx.coroutines.withContext
 import org.wentura.franko.Constants
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.copyToFile
+import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.Utilities.getUri
 import java.io.File
 import java.io.FileInputStream
@@ -32,11 +32,12 @@ class ProfilePictureObserver(
 ) : DefaultLifecycleObserver {
 
     private val db = Firebase.firestore
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    private val uid = getCurrentUserUid()
 
     private val imageDirectory = Firebase.storage.reference.child(Constants.IMAGES)
 
-    private val profilePicture = imageDirectory.child("$uid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}")
+    private val fileName = "$uid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}"
+    private val profilePicture = imageDirectory.child(fileName)
 
     private lateinit var tmpFile: File
 

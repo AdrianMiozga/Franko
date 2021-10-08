@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +12,7 @@ import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
+import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.databinding.FragmentProfileBinding
 import org.wentura.franko.viewmodels.UserViewModel
 
@@ -34,9 +34,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentProfileBinding.bind(view)
 
-        // TODO: 08.10.2021 User helper method and always throw exception if not found?
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-            ?: throw IllegalStateException("Current user UID does not exist")
+        val uid = getCurrentUserUid()
 
         val arguments = arguments
 

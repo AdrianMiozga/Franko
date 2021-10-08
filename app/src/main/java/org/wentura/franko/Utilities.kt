@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -139,6 +140,11 @@ object Utilities {
                 transformations(CircleCropTransformation())
             }
         }
+    }
+
+    fun getCurrentUserUid(): String {
+        return FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("Current user UID does not exist")
     }
 
     fun createPolylineOptions(): PolylineOptions {

@@ -1,7 +1,5 @@
 # Show App to Someone
 
-Crash when logging in
-
 ## GPS
 
 GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something  

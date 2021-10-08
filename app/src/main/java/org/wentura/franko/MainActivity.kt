@@ -47,14 +47,25 @@ class MainActivity : AppCompatActivity() {
 
         installSplashScreen()
 
+        createNotificationChannel()
+
+        content = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            createSignInIntent()
+        } else {
+            setupUi()
+        }
+    }
+
+    private fun setupUi() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
 
         setContentView(view)
 
-        createNotificationChannel()
-
-        content = findViewById(android.R.id.content)
+        content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
 
         val navHostFragment =
             supportFragmentManager
@@ -76,12 +87,6 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        if (FirebaseAuth.getInstance().currentUser == null) {
-            createSignInIntent()
-        } else {
-            content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -90,8 +95,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createSignInIntent() {
-        content.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
-
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
@@ -120,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
+        setupUi()
 
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val photoUrl = Utilities.extractPhotoUrl(user)

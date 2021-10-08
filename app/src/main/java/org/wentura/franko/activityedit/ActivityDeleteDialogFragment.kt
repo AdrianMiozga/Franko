@@ -29,9 +29,8 @@ class ActivityDeleteDialogFragment(
                 activityRepository
                     .deleteActivity(activityId)
                     .addOnSuccessListener {
-                        // TODO: 01.10.2021 Write this in one action
-                        Navigation.findNavController(activityView).navigateUp()
-                        Navigation.findNavController(activityView).navigateUp()
+                        Navigation.findNavController(activityView)
+                            .navigate(ActivityEditFragmentDirections.toProfileViewPagerFragment())
                     }
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }

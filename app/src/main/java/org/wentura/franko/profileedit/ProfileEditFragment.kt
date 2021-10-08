@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -105,26 +106,25 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             )
         }
 
-        // TODO: 04.10.2021 This creates crash
-//        requireActivity()
-//            .onBackPressedDispatcher
-//            .addCallback(viewLifecycleOwner) {
-//                // TODO: 01.10.2021 Compare changes in a cleaner way
-//                if (user.firstName != firstNameEditText.text.toString().trim() ||
-//                    user.lastName != lastNameEditText.text.toString().trim() ||
-//                    user.bio != bioEditText.text.toString().trim() ||
-//                    user.city != cityEditText.text.toString().trim()
-//                ) {
-//                    UnsavedChangesDialogFragment(view, saveObserver).show(
-//                        parentFragmentManager,
-//                        UnsavedChangesDialogFragment::class.simpleName
-//                    )
-//
-//                    return@addCallback
-//                }
-//
-//                Navigation.findNavController(view).navigateUp()
-//            }
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner) {
+                // TODO: 01.10.2021 Compare changes in a cleaner way
+                if (user.firstName != firstNameEditText.text.toString().trim() ||
+                    user.lastName != lastNameEditText.text.toString().trim() ||
+                    user.bio != bioEditText.text.toString().trim() ||
+                    user.city != cityEditText.text.toString().trim()
+                ) {
+                    UnsavedChangesDialogFragment(view, saveObserver).show(
+                        parentFragmentManager,
+                        UnsavedChangesDialogFragment::class.simpleName
+                    )
+
+                    return@addCallback
+                }
+
+                Navigation.findNavController(view).navigateUp()
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

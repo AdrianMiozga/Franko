@@ -1,6 +1,5 @@
 # Show App to Someone
 
-Edit profile save doesn't work?  
 Crash when logging in
 
 ## GPS

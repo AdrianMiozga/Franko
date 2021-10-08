@@ -66,7 +66,7 @@ object Constants {
 
     // Pager Indexes
     const val ACTIVITIES_PAGE_INDEX = 0
-    const val PROFILE_EDIT_PAGE_INDEX = 1
+    const val PROFILE_PAGE_INDEX = 1
     const val SETTINGS_PAGE_INDEX = 2
 
     // Other

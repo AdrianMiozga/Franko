@@ -8,11 +8,13 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
+import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.Activity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
@@ -25,9 +27,11 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
-        private lateinit var map: GoogleMap
+        private lateinit var googleMap: GoogleMap
         private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
+
+        private lateinit var bounds: LatLngBounds
 
         private val title: TextView = binding.itemActivityTitle
         private val mapView: MapView = binding.itemActivityMap
@@ -44,6 +48,10 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         }
 
         fun bindView(activity: Activity) {
+            if (activity.path == null) return
+
+            mapView.tag = this
+
             view.setOnClickListener {
                 val toActivityFragment =
                     ProfileViewPagerFragmentDirections
@@ -52,11 +60,14 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                 Navigation.findNavController(view).navigate(toActivityFragment)
             }
 
-            activity.path?.forEach {
-                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+            for (point in activity.path) {
+                val latitude = point[Constants.LATITUDE]!!
+                val longitude = point[Constants.LONGITUDE]!!
+
+                points.add(LatLng(latitude, longitude))
             }
 
-            mapView.tag = this
+            bounds = Utilities.getBounds(points)
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
@@ -89,9 +100,9 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         fun clearView() {
             points.clear()
 
-            if (!this::map.isInitialized) return
+            if (!this::googleMap.isInitialized) return
 
-            with(map) {
+            with(googleMap) {
                 clear()
                 mapType = GoogleMap.MAP_TYPE_NONE
             }
@@ -99,22 +110,22 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
         override fun onMapReady(googleMap: GoogleMap) {
             MapsInitializer.initialize(mapView.context)
-            map = googleMap
+            this.googleMap = googleMap
 
             setupMap()
         }
 
         private fun setupMap() {
-            if (!this::map.isInitialized) return
+            if (!this::googleMap.isInitialized) return
 
             if (points.isNotEmpty()) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
-                map.addPolyline(createPolylineOptions().addAll(points))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
+                googleMap.addPolyline(createPolylineOptions().addAll(points))
             }
 
-            Utilities.setupMap(map, context)
+            googleMap.setup(context)
 
-            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+            googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
     }
 

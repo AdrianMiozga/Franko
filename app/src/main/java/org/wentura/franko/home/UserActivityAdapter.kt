@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
-import org.wentura.franko.Utilities.setupMap
+import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityHomeBinding
 import java.text.SimpleDateFormat
@@ -25,7 +26,9 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
-        private lateinit var map: GoogleMap
+        private lateinit var googleMap: GoogleMap
+        private lateinit var bounds: LatLngBounds
+
         private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityHomeBinding.bind(view)
 
@@ -47,11 +50,18 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         }
 
         fun bindView(userActivity: UserActivity) {
-            userActivity.activity.path?.forEach {
-                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
-            }
+            if (userActivity.activity.path == null) return
 
             mapView.tag = this
+
+            for (point in userActivity.activity.path) {
+                val latitude = point[Constants.LATITUDE]!!
+                val longitude = point[Constants.LONGITUDE]!!
+
+                points.add(LatLng(latitude, longitude))
+            }
+
+            bounds = Utilities.getBounds(points)
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
@@ -91,9 +101,9 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         fun clearView() {
             points.clear()
 
-            if (!this::map.isInitialized) return
+            if (!this::googleMap.isInitialized) return
 
-            with(map) {
+            with(googleMap) {
                 clear()
                 mapType = GoogleMap.MAP_TYPE_NONE
             }
@@ -101,22 +111,22 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
 
         override fun onMapReady(googleMap: GoogleMap) {
             MapsInitializer.initialize(mapView.context)
-            map = googleMap
+            this.googleMap = googleMap
 
             setupMap()
         }
 
         private fun setupMap() {
-            if (!this::map.isInitialized) return
+            if (!this::googleMap.isInitialized) return
+
+            googleMap.setup(context)
 
             if (points.isNotEmpty()) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
-                map.addPolyline(createPolylineOptions().addAll(points))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
+                googleMap.addPolyline(createPolylineOptions().addAll(points))
             }
 
-            setupMap(map, context)
-
-            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+            googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
     }
 

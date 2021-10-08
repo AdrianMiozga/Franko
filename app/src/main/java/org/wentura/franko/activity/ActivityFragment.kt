@@ -18,8 +18,9 @@ import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
-import org.wentura.franko.Utilities.setupMap
+import org.wentura.franko.Utilities.setup
 import org.wentura.franko.databinding.FragmentActivityBinding
 import org.wentura.franko.viewmodels.ActivityViewModel
 import java.text.SimpleDateFormat
@@ -74,11 +75,13 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        setupMap(googleMap, requireContext())
+        googleMap.setup(requireContext())
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
         activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+            if (activity.path == null) return@observe
+
             val startTime = activity?.startTime ?: 0L
             val endTime = activity?.endTime ?: 0L
 
@@ -108,13 +111,18 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
             val points: ArrayList<LatLng> = arrayListOf()
 
-            activity.path?.forEach {
-                points.add(LatLng(it[Constants.LATITUDE]!!, it[Constants.LONGITUDE]!!))
+            for (point in activity.path) {
+                val latitude = point[Constants.LATITUDE]!!
+                val longitude = point[Constants.LONGITUDE]!!
+
+                points.add(LatLng(latitude, longitude))
             }
+
+            val bounds = Utilities.getBounds(points)
 
             polyline.points = points
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 16f))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
         }
     }
 }

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import org.wentura.franko.Constants.ACTIVITIES_PAGE_INDEX
-import org.wentura.franko.Constants.PROFILE_EDIT_PAGE_INDEX
+import org.wentura.franko.Constants.PROFILE_PAGE_INDEX
 import org.wentura.franko.Constants.SETTINGS_PAGE_INDEX
 import org.wentura.franko.adapters.ProfilePagerAdapter
 import org.wentura.franko.databinding.FragmentProfileViewPagerBinding
@@ -30,7 +30,7 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
     private fun getTabTitle(position: Int): String? {
         return when (position) {
             ACTIVITIES_PAGE_INDEX -> getString(R.string.activities)
-            PROFILE_EDIT_PAGE_INDEX -> getString(R.string.edit_profile)
+            PROFILE_PAGE_INDEX -> getString(R.string.profile)
             SETTINGS_PAGE_INDEX -> getString(R.string.settings)
             else -> null
         }

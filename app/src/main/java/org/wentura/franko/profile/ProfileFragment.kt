@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
+import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.databinding.FragmentProfileBinding
@@ -19,7 +19,6 @@ import org.wentura.franko.viewmodels.UserViewModel
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    private val args: ProfileFragmentArgs by navArgs()
     private val userViewModel: UserViewModel by viewModels()
 
     private var followersLoaded = false
@@ -35,7 +34,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentProfileBinding.bind(view)
 
+        // TODO: 08.10.2021 User helper method and always throw exception if not found?
         val uid = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("Current user UID does not exist")
+
+        val arguments = arguments
+
+        val argUid = if (arguments == null) {
+            uid
+        } else {
+            ProfileFragmentArgs.fromBundle(arguments).uid
+        }
 
         val profileFollow = binding.profileFollow
         val profileUnfollow = binding.profileUnfollow
@@ -45,36 +54,33 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val profileCity = binding.profileCity
         val profileFollowing = binding.profileFollowing
         val profileFollowers = binding.profileFollowers
+        val editProfile = binding.profileEditProfile
         val progressBarOverlay = binding.progressBarOverlay.progressBarOverlay
 
         profileFollow.setOnClickListener {
-            if (uid == null) return@setOnClickListener
-
             // TODO: 17.09.2021 Queries should act like transactions
             db.collection(Constants.USERS)
                 .document(uid)
                 .collection(Constants.FOLLOWING)
-                .document(args.uid)
-                .set(hashMapOf(Constants.UID to args.uid))
+                .document(argUid)
+                .set(hashMapOf(Constants.UID to argUid))
                 .addOnSuccessListener {
                     profileFollow.visibility = View.INVISIBLE
                     profileUnfollow.visibility = View.VISIBLE
                 }
 
             db.collection(Constants.USERS)
-                .document(args.uid)
+                .document(argUid)
                 .collection(Constants.FOLLOWERS)
                 .document(uid)
                 .set(hashMapOf(Constants.UID to uid))
         }
 
         profileUnfollow.setOnClickListener {
-            if (uid == null) return@setOnClickListener
-
             db.collection(Constants.USERS)
                 .document(uid)
                 .collection(Constants.FOLLOWING)
-                .document(args.uid)
+                .document(argUid)
                 .delete()
                 .addOnSuccessListener {
                     profileUnfollow.visibility = View.INVISIBLE
@@ -82,13 +88,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
 
             db.collection(Constants.USERS)
-                .document(args.uid)
+                .document(argUid)
                 .collection(Constants.FOLLOWERS)
                 .document(uid)
                 .delete()
         }
 
-        userViewModel.getUser(args.uid).observe(viewLifecycleOwner) { profile ->
+        editProfile.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(ProfileViewPagerFragmentDirections.toProfileEditFragment())
+        }
+
+        userViewModel.getUser(argUid).observe(viewLifecycleOwner) { profile ->
             profileLoaded = true
             show(progressBarOverlay)
 
@@ -113,14 +124,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileCity.visibility = View.GONE
             }
 
-            if (uid == null) return@observe
-
-            if (args.uid == uid) {
+            if (argUid == uid) {
                 profileFollow.visibility = View.GONE
+            } else {
+                editProfile.visibility = View.GONE
             }
         }
 
-        userViewModel.getFollowing(args.uid).observe(viewLifecycleOwner) { following ->
+        userViewModel.getFollowing(argUid).observe(viewLifecycleOwner) { following ->
             followingsLoaded = true
             show(progressBarOverlay)
 
@@ -133,12 +144,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             profileFollowing.setOnClickListener {
                 Navigation.findNavController(view).navigate(
-                    ProfileFragmentDirections.toFollowingFragment(args.uid)
+                    ProfileFragmentDirections.toFollowingFragment(argUid)
                 )
             }
         }
 
-        userViewModel.getFollowers(args.uid).observe(viewLifecycleOwner) { followers ->
+        userViewModel.getFollowers(argUid).observe(viewLifecycleOwner) { followers ->
             followersLoaded = true
             show(progressBarOverlay)
 
@@ -156,7 +167,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             profileFollowers.setOnClickListener {
                 Navigation.findNavController(view).navigate(
-                    ProfileFragmentDirections.toFollowersFragment(args.uid)
+                    ProfileFragmentDirections.toFollowersFragment(argUid)
                 )
             }
         }

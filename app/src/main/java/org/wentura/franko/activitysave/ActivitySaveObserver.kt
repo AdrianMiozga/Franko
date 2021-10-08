@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
-import com.google.firebase.auth.FirebaseAuth
 import org.wentura.franko.Constants
+import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.data.Activity
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.databinding.FragmentActivitySaveBinding
@@ -42,7 +42,7 @@ class ActivitySaveObserver(
             array.add(element)
         }
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val uid = getCurrentUserUid()
 
         val binding = FragmentActivitySaveBinding.bind(view)
 

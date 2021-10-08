@@ -1,13 +1,13 @@
 package org.wentura.franko.data
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
+import org.wentura.franko.Utilities.getCurrentUserUid
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class UserRepository @Inject constructor() {
 
     private val db = Firebase.firestore
-    private val myUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    private val myUid = getCurrentUserUid()
 
     fun getUser(): DocumentReference {
         return db.collection(Constants.USERS)
@@ -37,9 +37,9 @@ class UserRepository @Inject constructor() {
             .await()
     }
 
-    fun getUsers(uids: ArrayList<String>): Task<QuerySnapshot> {
+    fun getUsers(uidList: ArrayList<String>): Task<QuerySnapshot> {
         return db.collection(Constants.USERS)
-            .whereIn(FieldPath.documentId(), uids)
+            .whereIn(FieldPath.documentId(), uidList)
             .get()
     }
 
@@ -62,16 +62,14 @@ class UserRepository @Inject constructor() {
     }
 
     fun addNewUser(values: HashMap<String, Any>) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
         db.collection(Constants.USERS)
-            .document(uid)
+            .document(myUid)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) return@addOnSuccessListener
 
                 db.collection(Constants.USERS)
-                    .document(uid)
+                    .document(myUid)
                     .set(values)
             }
     }

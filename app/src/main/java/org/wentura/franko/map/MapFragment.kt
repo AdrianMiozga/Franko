@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.*
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.createPolylineOptions
-import org.wentura.franko.Utilities.setupMap
+import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
 import org.wentura.franko.viewmodels.UserViewModel
@@ -185,9 +185,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
         googleMap.clear()
         googleMap.isMyLocationEnabled = true
 
-        setupMap(googleMap, requireContext())
+        googleMap.setup(requireContext())
 
         fusedLocationClient
+            // TODO: 07.10.2021 getCurrentLocation is better?
             .lastLocation
             .addOnSuccessListener { location ->
                 if (location == null) return@addOnSuccessListener

@@ -15,6 +15,8 @@ import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +58,7 @@ object Utilities {
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun InputStream.copyToFile(outputFile: File) {
         withContext(Dispatchers.IO) {
-            this@copyToFile.use { input ->
+            use { input ->
                 val outputStream = FileOutputStream(outputFile)
 
                 outputStream.use { output ->
@@ -155,14 +157,34 @@ object Utilities {
             .color(Constants.LINE_COLOR)
     }
 
-    fun setupMap(googleMap: GoogleMap, context: Context) {
-        googleMap.setMapStyle(
+    fun GoogleMap.setup(context: Context) {
+        setMapStyle(
             MapStyleOptions.loadRawResourceStyle(
                 context,
                 R.raw.google_map_style
             )
         )
 
-        googleMap.setMaxZoomPreference(18f)
+        setMaxZoomPreference(18f)
+    }
+
+    // TODO: 08.10.2021 Firebase stores points as List of HashMaps,
+    //  I store as List of LatLng. This requires looping two times
+    fun getBounds(points: List<LatLng>): LatLngBounds {
+        if (points.isEmpty()) {
+            val zero = LatLng(0.0, 0.0)
+            return LatLngBounds(zero, zero)
+        }
+
+        val smallestLatitude = points.minByOrNull { it.latitude }!!.latitude
+        val biggestLatitude = points.maxByOrNull { it.latitude }!!.latitude
+
+        val smallestLongitude = points.minByOrNull { it.longitude }!!.longitude
+        val biggestLongitude = points.maxByOrNull { it.longitude }!!.longitude
+
+        val southWest = LatLng(smallestLatitude, smallestLongitude)
+        val northEast = LatLng(biggestLatitude, biggestLongitude)
+
+        return LatLngBounds(southWest, northEast)
     }
 }

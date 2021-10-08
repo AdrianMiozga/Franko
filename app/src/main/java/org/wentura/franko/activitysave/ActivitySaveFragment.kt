@@ -2,7 +2,10 @@ package org.wentura.franko.activitysave
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,12 +16,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
-import org.wentura.franko.Constants
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
-import org.wentura.franko.Utilities.setupMap
+import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.ActivityRepository
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentActivitySaveBinding
@@ -84,7 +86,8 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
             view
         )
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
 
         val mapFragment =
             childFragmentManager
@@ -121,26 +124,14 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-        // TODO: 01.10.2021 Duplicate code in MapFragment
-        googleMap.isMyLocationEnabled = true
-
-        setupMap(googleMap, requireContext())
-
-        fusedLocationClient
-            // TODO: 07.10.2021 getCurrentLocation is better?
-            .lastLocation
-            .addOnSuccessListener { location ->
-                if (location == null) return@addOnSuccessListener
-
-                val latLng = LatLng(location.latitude, location.longitude)
-
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                googleMap.moveCamera(CameraUpdateFactory.zoomTo(Constants.DEFAULT_ZOOM))
-            }
+        googleMap.setup(requireContext())
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
         recordingViewModel.points.observe(viewLifecycleOwner) { points ->
+            val latLngBounds = Utilities.getBounds(points)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0))
+
             polyline.points = points
         }
     }

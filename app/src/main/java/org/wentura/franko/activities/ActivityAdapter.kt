@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+// TODO: 08.10.2021 It is very similar to UserActivityAdapter
 class ActivityAdapter(private val userActivities: List<Activity>) :
     RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,8 +93,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         editProfile.setOnClickListener {
-            Navigation.findNavController(view)
-                .navigate(ProfileViewPagerFragmentDirections.toProfileEditFragment())
+            val toProfileEditFragment =
+                ProfileViewPagerFragmentDirections.toProfileEditFragment()
+
+            findNavController().navigate(toProfileEditFragment)
         }
 
         userViewModel.getUser(argUid).observe(viewLifecycleOwner) { profile ->
@@ -141,9 +143,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             if (following.size <= 0) return@observe
 
             profileFollowing.setOnClickListener {
-                Navigation.findNavController(view).navigate(
+                val toFollowingFragment =
                     ProfileFragmentDirections.toFollowingFragment(argUid)
-                )
+
+                findNavController().navigate(toFollowingFragment)
             }
         }
 
@@ -164,9 +167,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             if (followers.size <= 0) return@observe
 
             profileFollowers.setOnClickListener {
-                Navigation.findNavController(view).navigate(
+                val toFollowersFragment =
                     ProfileFragmentDirections.toFollowersFragment(argUid)
-                )
+
+                findNavController().navigate(toFollowersFragment)
             }
         }
     }

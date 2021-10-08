@@ -14,7 +14,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -260,8 +260,10 @@ class MapFragment : Fragment(R.layout.fragment_map),
 //            return
 //        }
 
-        Navigation.findNavController(requireView())
-            .navigate(MapFragmentDirections.toActivitySaveFragment())
+        val toActivitySaveFragment =
+            MapFragmentDirections.toActivitySaveFragment()
+
+        findNavController().navigate(toActivitySaveFragment)
     }
 
     private fun stopRecordingService() {

@@ -6,7 +6,7 @@ import android.view.*
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -111,7 +111,7 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
-                Navigation.findNavController(requireView()).navigateUp()
+                findNavController().navigateUp()
                 activitySaveObserver.save()
                 true
             }

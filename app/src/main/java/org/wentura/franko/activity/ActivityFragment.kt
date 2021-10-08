@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -60,11 +60,12 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // TODO: 07.10.2021 Simplify like in navigation component doc
         return when (item.itemId) {
             R.id.edit -> {
-                Navigation.findNavController(requireView())
-                    .navigate(ActivityFragmentDirections.toActivityEditFragment(args.id))
+                val toActivityEditFragment =
+                    ActivityFragmentDirections.toActivityEditFragment(args.id)
+
+                findNavController().navigate(toActivityEditFragment)
 
                 true
             }

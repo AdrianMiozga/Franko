@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.MainActivity
@@ -89,7 +89,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 .getInstance()
                 .delete(requireContext())
                 .addOnSuccessListener {
-                    Navigation.findNavController(view).navigateUp()
+                    findNavController().navigateUp()
 
                     Toast.makeText(
                         requireContext(),
@@ -123,7 +123,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                     return@addCallback
                 }
 
-                Navigation.findNavController(view).navigateUp()
+                findNavController().navigateUp()
             }
     }
 
@@ -135,7 +135,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         return when (item.itemId) {
             R.id.save -> {
                 saveObserver.save()
-                Navigation.findNavController(requireView()).navigateUp()
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(item)

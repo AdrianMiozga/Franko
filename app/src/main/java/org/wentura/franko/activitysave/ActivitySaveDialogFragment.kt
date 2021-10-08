@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.map.RecordingService
@@ -23,12 +23,12 @@ class ActivitySaveDialogFragment(
             .setMessage(getString(R.string.new_activity_unsaved_changes_message))
             .setPositiveButton(getString(R.string.save)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
-                Navigation.findNavController(activityView).navigateUp()
+                findNavController().navigateUp()
                 activitySaveObserver.save()
             }
             .setNeutralButton(getString(R.string.no)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
-                Navigation.findNavController(activityView).navigateUp()
+                findNavController().navigateUp()
 
                 val intent = Intent(context, RecordingService::class.java)
                 requireContext().stopService(intent)

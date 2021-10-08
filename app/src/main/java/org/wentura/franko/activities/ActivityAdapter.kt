@@ -8,11 +8,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
 import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.createPolylineOptions
+import org.wentura.franko.Utilities.setupMap
 import org.wentura.franko.data.Activity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
@@ -110,12 +110,7 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                     addPolyline(createPolylineOptions().addAll(latLng))
                 }
 
-                map.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                        context,
-                        R.raw.google_map_style
-                    )
-                )
+                setupMap(map, context)
 
                 mapType = GoogleMap.MAP_TYPE_NORMAL
             }

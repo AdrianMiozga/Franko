@@ -29,6 +29,8 @@ import java.io.InputStream
 
 object Utilities {
 
+    val TAG = Utilities::class.simpleName
+
     /**
      * Extract Google profile picture in original quality.
      *

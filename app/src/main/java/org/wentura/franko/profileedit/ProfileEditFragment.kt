@@ -53,10 +53,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
         val binding = FragmentProfileEditBinding.bind(view)
 
-        val firstNameEditText = binding.profileEditFirstName
-        val lastNameEditText = binding.profileEditLastName
-        val bioEditText = binding.profileEditBio
-        val cityEditText = binding.profileEditCity
+        val firstNameInput = binding.profileEditFirstName
+        val lastNameInput = binding.profileEditLastName
+        val bioInput = binding.profileEditBio
+        val cityInput = binding.profileEditCity
         val editProfileProfilePicture = binding.profileEditProfilePicture
         val profileEditSignOut = binding.profileEditSignOut
         val profileEditDeleteAccount = binding.profileEditDeleteAccount
@@ -66,10 +66,26 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
             binding.apply {
                 progressBarOverlay.progressBarOverlay.visibility = View.GONE
-                profileEditFirstName.setText(user.firstName)
-                profileEditLastName.setText(user.lastName)
-                profileEditCity.setText(user.city)
-                profileEditBio.setText(user.bio)
+
+                profileEditFirstName.apply {
+                    editText?.setText(user.firstName)
+                    isHintAnimationEnabled = true
+                }
+
+                profileEditLastName.apply {
+                    editText?.setText(user.lastName)
+                    isHintAnimationEnabled = true
+                }
+
+                profileEditBio.apply {
+                    editText?.setText(user.bio)
+                    isHintAnimationEnabled = true
+                }
+
+                profileEditCity.apply {
+                    editText?.setText(user.city)
+                    isHintAnimationEnabled = true
+                }
             }
 
             Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
@@ -110,10 +126,15 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
                 // TODO: 01.10.2021 Compare changes in a cleaner way
-                if (user.firstName != firstNameEditText.text.toString().trim() ||
-                    user.lastName != lastNameEditText.text.toString().trim() ||
-                    user.bio != bioEditText.text.toString().trim() ||
-                    user.city != cityEditText.text.toString().trim()
+                val firstName = firstNameInput.editText?.text.toString().trim()
+                val lastName = lastNameInput.editText?.text.toString().trim()
+                val bio = bioInput.editText?.text.toString().trim()
+                val city = cityInput.editText?.text.toString().trim()
+
+                if (user.firstName != firstName ||
+                    user.lastName != lastName ||
+                    user.bio != bio ||
+                    user.city != city
                 ) {
                     UnsavedChangesDialogFragment(view, saveObserver).show(
                         parentFragmentManager,

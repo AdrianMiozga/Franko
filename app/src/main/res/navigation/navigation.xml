@@ -62,6 +62,10 @@
             android:id="@+id/to_followers_fragment"
             app:destination="@id/followers_fragment" />
 
+        <action
+            android:id="@+id/to_profile_edit_fragment"
+            app:destination="@id/profile_edit_fragment" />
+
     </fragment>
 
     <fragment

@@ -9,6 +9,7 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
+            app:isPreferenceVisible="false"
             app:key="darkMode"
             app:title="@string/dark_mode" />
 
@@ -49,11 +50,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:singleLineTitle="false"
             app:entries="@array/who_can_see_activity"
             app:entryValues="@array/who_can_see_activity"
             app:iconSpaceReserved="false"
             app:key="whoCanSeeActivityDefault"
+            app:singleLineTitle="false"
             app:title="@string/who_can_see_activity_default"
             app:useSimpleSummaryProvider="true" />
 

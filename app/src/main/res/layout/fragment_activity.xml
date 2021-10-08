@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/activity_title"
         tools:text="12:43:55 - 12:55:55" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"

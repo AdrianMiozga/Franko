@@ -19,7 +19,6 @@
     <string name="sign_out">Wyloguj się</string>
     <string name="map">Mapa</string>
     <string name="activities">Aktywności</string>
-    <string name="statistics">Statystyki</string>
     <string name="settings">Ustawienia</string>
     <string name="kmh">%d km/h</string>
     <string name="mph">%d mp/h</string>
@@ -28,7 +27,6 @@
     <string name="account_deleted">Konto zostało usunięte</string>
     <string name="profile_picture">Zdjęcie profilowe</string>
     <string name="search_people">Wyszukaj ludzi</string>
-    <string name="achievements">Osiągnięcia</string>
     <string name="edit_profile">Edytuj profil</string>
     <string name="first_name">Imię</string>
     <string name="last_name">Nazwisko</string>

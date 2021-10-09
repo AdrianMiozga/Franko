@@ -1,11 +1,12 @@
 package org.wentura.franko.activitysave
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,25 +59,34 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
 
         val binding = FragmentActivitySaveBinding.bind(view)
 
-        val activityTypeSpinner = binding.activitySaveActivityTypeSpinner
-        val activityVisibilitySpinner = binding.activitySaveActivityVisibilitySpinner
+        val activityTypeTextView =
+            (binding.activitySaveActivityType.editText as AutoCompleteTextView).apply {
+                val adapter = ArrayAdapter.createFromResource(
+                    requireContext(),
+                    R.array.activities_array,
+                    R.layout.list_item
+                )
+
+                setAdapter(adapter)
+            }
+
+        val activityVisibilityTextView =
+            (binding.activitySaveActivityVisibility.editText as AutoCompleteTextView).apply {
+                val adapter = ArrayAdapter.createFromResource(
+                    requireContext(),
+                    R.array.who_can_see_activity,
+                    R.layout.list_item
+                )
+
+                setAdapter(adapter)
+            }
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             val lastActivity = user.lastActivity
-
-            val lastActivityId = resources
-                .getStringArray(R.array.activities_array)
-                .indexOf(lastActivity)
-
-            activityTypeSpinner.setSelection(lastActivityId)
+            activityTypeTextView.setText(lastActivity, false)
 
             val whoCanSeeActivityDefault = user.whoCanSeeActivityDefault
-
-            val visibilityId = resources
-                .getStringArray(R.array.who_can_see_activity)
-                .indexOf(whoCanSeeActivityDefault)
-
-            activityVisibilitySpinner.setSelection(visibilityId)
+            activityVisibilityTextView.setText(whoCanSeeActivityDefault, false)
         }
 
         activitySaveObserver = ActivitySaveObserver(
@@ -122,7 +132,6 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
         }
     }
 
-    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setup(requireContext())
 

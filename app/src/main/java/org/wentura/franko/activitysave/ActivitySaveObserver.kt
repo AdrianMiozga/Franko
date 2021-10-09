@@ -47,17 +47,17 @@ class ActivitySaveObserver(
         val binding = FragmentActivitySaveBinding.bind(view)
 
         val activitySaveActivityName = binding.activitySaveActivityName
-        val activitySaveActivityTypeSpinner = binding.activitySaveActivityTypeSpinner
-        val activitySaveActivityVisibilitySpinner = binding.activitySaveActivityVisibilitySpinner
+        val activitySaveActivityTypeSpinner = binding.activitySaveActivityType
+        val activitySaveActivityVisibilitySpinner = binding.activitySaveActivityVisibility
 
         val activity = Activity(
             uid,
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,
-            activitySaveActivityTypeSpinner.selectedItem.toString(),
+            activitySaveActivityTypeSpinner.editText?.text.toString(),
             activitySaveActivityName.editText?.text.toString().trim(),
-            activitySaveActivityVisibilitySpinner.selectedItem.toString()
+            activitySaveActivityVisibilitySpinner.editText?.text.toString()
         )
 
         activityRepository.addActivity(activity)

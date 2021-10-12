@@ -69,6 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/bio"
+            app:counterEnabled="true"
+            app:counterMaxLength="250"
             app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -7,10 +7,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.MainActivity
 import org.wentura.franko.R
@@ -32,6 +34,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     private val userViewModel: UserViewModel by viewModels()
 
     private lateinit var user: User
+    private lateinit var firstNameInput: TextInputLayout
 
     companion object {
         val TAG = ProfileEditFragment::class.simpleName
@@ -53,13 +56,21 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
         val binding = FragmentProfileEditBinding.bind(view)
 
-        val firstNameInput = binding.profileEditFirstName
+        firstNameInput = binding.profileEditFirstName
         val lastNameInput = binding.profileEditLastName
         val bioInput = binding.profileEditBio
         val cityInput = binding.profileEditCity
         val editProfileProfilePicture = binding.profileEditProfilePicture
         val profileEditSignOut = binding.profileEditSignOut
         val profileEditDeleteAccount = binding.profileEditDeleteAccount
+
+        firstNameInput.editText?.addTextChangedListener { editable ->
+            if (editable.isNullOrBlank()) {
+                firstNameInput.error = getString(R.string.field_can_not_be_empty)
+            } else {
+                firstNameInput.error = null
+            }
+        }
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             this.user = user
@@ -125,6 +136,15 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
+                if (firstNameInput.error != null) {
+                    InvalidChangesDialogFragment(view).show(
+                        parentFragmentManager,
+                        InvalidChangesDialogFragment::class.simpleName
+                    )
+
+                    return@addCallback
+                }
+
                 // TODO: 01.10.2021 Compare changes in a cleaner way
                 val firstName = firstNameInput.editText?.text.toString().trim()
                 val lastName = lastNameInput.editText?.text.toString().trim()
@@ -155,6 +175,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
+                if (firstNameInput.error != null) {
+                    return true
+                }
+
                 saveObserver.save()
                 findNavController().navigateUp()
                 true

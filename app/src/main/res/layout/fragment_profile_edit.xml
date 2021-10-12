@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/first_name"
+            app:errorEnabled="true"
             app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toStartOf="@id/profile_edit_last_name"
             app:layout_constraintStart_toStartOf="parent"

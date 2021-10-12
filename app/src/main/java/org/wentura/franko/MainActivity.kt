@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -18,8 +20,13 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.activities.ActivitiesFragment
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.ActivityMainBinding
+import org.wentura.franko.home.HomeFragment
+import org.wentura.franko.map.MapFragment
+import org.wentura.franko.people.PeopleFragment
+import org.wentura.franko.profile.ProfileFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -87,6 +94,34 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(
+            object : FragmentManager.FragmentLifecycleCallbacks() {
+                override fun onFragmentViewCreated(
+                    fragmentManager: FragmentManager,
+                    fragment: Fragment,
+                    view: View,
+                    savedInstanceState: Bundle?
+                ) {
+                    when (fragment) {
+                        is HomeFragment,
+                        is MapFragment,
+                        is PeopleFragment,
+                        is ProfileFragment,
+                        is ActivitiesFragment -> {
+                            bottomNavigation.visibility = View.VISIBLE
+                        }
+                        is NavHostFragment,
+                        is ProfileViewPagerFragment -> {
+                        }
+                        else -> {
+                            bottomNavigation.visibility = View.GONE
+                        }
+                    }
+                }
+            },
+            true
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

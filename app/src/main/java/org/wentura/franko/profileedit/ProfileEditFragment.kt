@@ -35,6 +35,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
     private lateinit var user: User
     private lateinit var firstNameInput: TextInputLayout
+    private lateinit var bioInput: TextInputLayout
 
     companion object {
         val TAG = ProfileEditFragment::class.simpleName
@@ -58,7 +59,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
         firstNameInput = binding.profileEditFirstName
         val lastNameInput = binding.profileEditLastName
-        val bioInput = binding.profileEditBio
+        bioInput = binding.profileEditBio
         val cityInput = binding.profileEditCity
         val editProfileProfilePicture = binding.profileEditProfilePicture
         val profileEditSignOut = binding.profileEditSignOut
@@ -136,7 +137,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
-                if (firstNameInput.error != null) {
+                if (areInputsInvalid()) {
                     InvalidChangesDialogFragment(view).show(
                         parentFragmentManager,
                         InvalidChangesDialogFragment::class.simpleName
@@ -175,7 +176,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
-                if (firstNameInput.error != null) {
+                if (areInputsInvalid()) {
                     return true
                 }
 
@@ -185,5 +186,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun areInputsInvalid(): Boolean {
+        return (firstNameInput.error != null ||
+                (bioInput.editText?.text?.length ?: 0 > bioInput.counterMaxLength))
     }
 }

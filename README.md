@@ -27,7 +27,6 @@ If you follow someone, they need to accept it
 
 ## UI
 
-Translate all strings to polish  
 App logo  
 Fold something when scrolling through activities (app bar? tab layout? chips?)
 Polyline should be smoothed out, without corners. Like in Strava   

@@ -25,6 +25,7 @@ object Constants {
     const val END_TIME = "endTime"
 
     // Firestore Values
+    // TODO: 12.10.2021 Remove imperial/metric
     const val IMPERIAL = "Imperial"
     const val METRIC = "Metric"
     const val EVERYONE = "Everyone"
@@ -37,7 +38,6 @@ object Constants {
 
     // Setting Keys
     const val DARK_MODE_KEY = "darkMode"
-    const val UNITS_OF_MEASURE_KEY = "unitsOfMeasure"
     const val WHO_CAN_SEE_MY_PROFILE = "whoCanSeeMyProfile"
     const val WHO_CAN_SEE_MY_LOCATION = "whoCanSeeMyLocation"
     const val ACTIVITY_TYPE_KEY = ACTIVITY

@@ -19,14 +19,6 @@
             app:summary="@string/keep_screen_on_in_map_summary"
             app:title="@string/keep_screen_on_in_map_title" />
 
-        <ListPreference
-            app:entries="@array/units_of_measure_array"
-            app:entryValues="@array/units_of_measure_array"
-            app:iconSpaceReserved="false"
-            app:key="unitsOfMeasure"
-            app:title="@string/units_of_measure"
-            app:useSimpleSummaryProvider="true" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -35,7 +27,7 @@
 
         <ListPreference
             app:entries="@array/who_can_see_my_profile"
-            app:entryValues="@array/who_can_see_my_profile"
+            app:entryValues="@array/who_can_see_my_profile_values"
             app:iconSpaceReserved="false"
             app:key="whoCanSeeMyProfile"
             app:title="@string/who_can_see_my_profile"
@@ -43,7 +35,7 @@
 
         <ListPreference
             app:entries="@array/who_can_see_my_location"
-            app:entryValues="@array/who_can_see_my_location"
+            app:entryValues="@array/who_can_see_my_location_values"
             app:iconSpaceReserved="false"
             app:key="whoCanSeeMyLocation"
             app:title="@string/who_can_see_my_location"
@@ -51,7 +43,7 @@
 
         <ListPreference
             app:entries="@array/who_can_see_activity"
-            app:entryValues="@array/who_can_see_activity"
+            app:entryValues="@array/who_can_see_activity_values"
             app:iconSpaceReserved="false"
             app:key="whoCanSeeActivityDefault"
             app:singleLineTitle="false"

@@ -88,13 +88,16 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
 
-            activityTitle.text = requireContext()
-                .getString(
-                    R.string.activity_title,
-                    activity.activityName,
-                    activity.activity,
-                    date
-                )
+            val index =
+                requireContext().resources.getStringArray(R.array.activities_array_values).indexOf(activity.activity)
+            val activityType = requireContext().resources.getStringArray(R.array.activities_array)[index]
+
+            activityTitle.text = requireContext().getString(
+                R.string.activity_title,
+                activity.activityName,
+                activityType,
+                date
+            )
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
 

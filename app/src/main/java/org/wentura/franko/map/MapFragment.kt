@@ -141,7 +141,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
             val lastActivity = user.lastActivity
-            val id = resources.getStringArray(R.array.activities_array).indexOf(lastActivity)
+            val id = resources.getStringArray(R.array.activities_array_values).indexOf(lastActivity)
 
             spinner.setSelection(id)
 
@@ -289,7 +289,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
         }
 
         val updates: HashMap<String, Any> =
-            hashMapOf(Constants.LAST_ACTIVITY to adapterView.getItemAtPosition(position))
+            hashMapOf(Constants.LAST_ACTIVITY to resources.getStringArray(R.array.activities_array_values)[position])
 
         userRepository.updateUser(updates)
     }

@@ -57,14 +57,26 @@ class ActivitySaveObserver(
             activityName = context.resources.getString(R.string.activity_without_name)
         }
 
+        val activityIndex = context.resources
+            .getStringArray(R.array.activities_array)
+            .indexOf(activitySaveActivityTypeSpinner.editText?.text.toString())
+
+        val activityType = context.resources.getStringArray(R.array.activities_array_values)[activityIndex]
+
+        val visibilityIndex = context.resources
+            .getStringArray(R.array.who_can_see_activity)
+            .indexOf(activitySaveActivityVisibilitySpinner.editText?.text.toString())
+
+        val visibility = context.resources.getStringArray(R.array.who_can_see_activity_values)[visibilityIndex]
+
         val activity = Activity(
             uid,
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
             array,
-            activitySaveActivityTypeSpinner.editText?.text.toString(),
+            activityType,
             activityName,
-            activitySaveActivityVisibilitySpinner.editText?.text.toString()
+            visibility
         )
 
         activityRepository.addActivity(activity)

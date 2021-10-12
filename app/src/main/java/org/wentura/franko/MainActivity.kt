@@ -95,8 +95,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createSignInIntent() {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
+        val providers = listOf(
+//            AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 

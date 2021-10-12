@@ -96,11 +96,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             }
 
             speed.text = getString(
-                if (speedometer.unitsOfMeasure == Constants.IMPERIAL) {
-                    R.string.mph
-                } else {
-                    R.string.kmh
-                },
+                R.string.kmh,
                 speedometer.speed.toInt()
             )
         }
@@ -144,10 +140,6 @@ class MapFragment : Fragment(R.layout.fragment_map),
             val id = resources.getStringArray(R.array.activities_array_values).indexOf(lastActivity)
 
             spinner.setSelection(id)
-
-            user.unitsOfMeasure?.let {
-                speedometer.unitsOfMeasure = it
-            }
 
             if (user.keepScreenOnInMap) {
                 requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

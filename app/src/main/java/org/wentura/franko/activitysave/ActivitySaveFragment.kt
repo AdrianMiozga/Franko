@@ -82,10 +82,14 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
             }
 
         userViewModel.getUser().observe(viewLifecycleOwner) { user ->
-            val lastActivity = user.lastActivity
-            activityTypeTextView.setText(lastActivity, false)
+            val activityType = resources.getStringArray(R.array.activities_array)[resources
+                .getStringArray(R.array.activities_array_values).indexOf(user.lastActivity)]
 
-            val whoCanSeeActivityDefault = user.whoCanSeeActivityDefault
+            activityTypeTextView.setText(activityType, false)
+
+            val whoCanSeeActivityDefault = resources.getStringArray(R.array.who_can_see_activity)[resources
+                .getStringArray(R.array.who_can_see_activity_values).indexOf(user.whoCanSeeActivityDefault)]
+
             activityVisibilityTextView.setText(whoCanSeeActivityDefault, false)
         }
 

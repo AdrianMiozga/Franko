@@ -66,15 +66,17 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
             if (activity == null) return@observe
 
             activityType?.let {
-                val array = resources.getStringArray(R.array.activities_array)
-                val index = array.indexOf(activity.activity)
+                val index = resources
+                    .getStringArray(R.array.activities_array_values)
+                    .indexOf(activity.activity)
 
                 activityType.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeThisActivity?.let {
-                val array = resources.getStringArray(R.array.who_can_see_activity)
-                val index = array.indexOf(activity.whoCanSeeThisActivity)
+                val index = resources
+                    .getStringArray(R.array.who_can_see_activity_values)
+                    .indexOf(activity.whoCanSeeThisActivity)
 
                 whoCanSeeThisActivity.setValueIndex(if (index == -1) 0 else index)
             }

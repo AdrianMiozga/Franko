@@ -88,10 +88,15 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                 )
             )
 
+            val activityType =
+                context.resources.getStringArray(R.array.activities_array)[context
+                    .resources.getStringArray(R.array.activities_array_values)
+                    .indexOf(activity.activity)]
+
             title.text = context.getString(
                 R.string.activity_title,
                 activity.activityName,
-                activity.activity,
+                activityType,
                 date
             )
 

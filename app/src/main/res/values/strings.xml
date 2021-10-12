@@ -81,6 +81,8 @@
     <string name="too_short_activity_to_save_toast">Aktywności krótsze niż jedna minuta nie są zapisywane</string>
     <string name="activity_without_name">Bez nazwy</string>
     <string name="field_can_not_be_empty">Pole nie może być puste</string>
+    <string name="everyone">Wszyscy</string>
+    <string name="no_one">Nikt</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
@@ -95,6 +97,12 @@
 
     <!-- String arrays -->
     <string-array name="activities_array">
+        <item>@string/bike</item>
+        <item>@string/walking</item>
+        <item>@string/running</item>
+    </string-array>
+
+    <string-array name="activities_array_values">
         <item>Bike</item>
         <item>Walking</item>
         <item>Running</item>
@@ -106,22 +114,32 @@
         <item>Usuń zdjęcie</item>
     </string-array>
 
-    <string-array name="units_of_measure_array">
-        <item>Metric</item>
-        <item>Imperial</item>
+    <string-array name="who_can_see_my_profile">
+        <item>@string/everyone</item>
+        <item>@string/no_one</item>
     </string-array>
 
-    <string-array name="who_can_see_my_profile">
+    <string-array name="who_can_see_my_profile_values">
         <item>Everyone</item>
         <item>No one</item>
     </string-array>
 
     <string-array name="who_can_see_my_location">
+        <item>@string/everyone</item>
+        <item>@string/no_one</item>
+    </string-array>
+
+    <string-array name="who_can_see_my_location_values">
         <item>Everyone</item>
         <item>No one</item>
     </string-array>
 
     <string-array name="who_can_see_activity">
+        <item>@string/everyone</item>
+        <item>@string/no_one</item>
+    </string-array>
+
+    <string-array name="who_can_see_activity_values">
         <item>Everyone</item>
         <item>No one</item>
     </string-array>

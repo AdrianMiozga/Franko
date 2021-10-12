@@ -77,10 +77,13 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
                 timeFormatter.format(TimeUnit.SECONDS.toMillis(endTime))
             )
 
+            val activityType = context.resources.getStringArray(R.array.activities_array)[context.resources
+                .getStringArray(R.array.activities_array_values).indexOf(userActivity.activity.activity)]
+
             title.text = context.getString(
                 R.string.user_activity_title,
                 userActivity.activity.activityName,
-                userActivity.activity.activity,
+                activityType
             )
 
             dateTextView.text = date

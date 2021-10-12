@@ -39,9 +39,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val keepScreenOnInMapSwitch: SwitchPreferenceCompat? =
             preferenceManager.findPreference(Constants.KEEP_SCREEN_ON_IN_MAP)
 
-        val unitsOfMeasure: ListPreference? =
-            preferenceManager.findPreference(Constants.UNITS_OF_MEASURE_KEY)
-
         val whoCanSeeMyProfile: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_MY_PROFILE)
 
@@ -60,30 +57,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 it.isChecked = user.keepScreenOnInMap
             }
 
-            unitsOfMeasure?.let {
-                val array = resources.getStringArray(R.array.units_of_measure_array)
-                val index = array.indexOf(user.unitsOfMeasure)
-
-                unitsOfMeasure.setValueIndex(if (index == -1) 0 else index)
-            }
-
             whoCanSeeMyProfile?.let {
-                val array = resources.getStringArray(R.array.who_can_see_my_profile)
-                val index = array.indexOf(user.whoCanSeeMyProfile)
+                val index = resources
+                    .getStringArray(R.array.who_can_see_my_profile_values)
+                    .indexOf(user.whoCanSeeMyProfile)
 
                 whoCanSeeMyProfile.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeMyLocation?.let {
-                val array = resources.getStringArray(R.array.who_can_see_my_location)
-                val index = array.indexOf(user.whoCanSeeMyLocation)
+                val index = resources
+                    .getStringArray(R.array.who_can_see_my_location_values)
+                    .indexOf(user.whoCanSeeMyLocation)
 
                 whoCanSeeMyLocation.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeActivityDefault?.let {
-                val array = resources.getStringArray(R.array.who_can_see_activity)
-                val index = array.indexOf(user.whoCanSeeActivityDefault)
+                val index = resources
+                    .getStringArray(R.array.who_can_see_activity_values)
+                    .indexOf(user.whoCanSeeActivityDefault)
 
                 whoCanSeeActivityDefault.setValueIndex(if (index == -1) 0 else index)
             }

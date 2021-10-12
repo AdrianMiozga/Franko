@@ -80,6 +80,7 @@
     <string name="new_activity_unsaved_changes_message">Czy chcesz zapisać aktywność?</string>
     <string name="too_short_activity_to_save_toast">Aktywności krótsze niż jedna minuta nie są zapisywane</string>
     <string name="activity_without_name">Bez nazwy</string>
+    <string name="field_can_not_be_empty">Pole nie może być puste</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

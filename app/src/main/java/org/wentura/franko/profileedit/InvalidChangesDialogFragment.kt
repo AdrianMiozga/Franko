@@ -9,9 +9,8 @@ import androidx.navigation.fragment.findNavController
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 
-class UnsavedChangesDialogFragment(
+class InvalidChangesDialogFragment(
     private val activityView: View,
-    private val saveObserver: SaveObserver
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -19,16 +18,11 @@ class UnsavedChangesDialogFragment(
             .Builder(requireContext())
             .setTitle(getString(R.string.unsaved_changes))
             .setMessage(getString(R.string.you_have_unsaved_changes))
-            .setPositiveButton(getString(R.string.save)) { _, _ ->
-                saveObserver.save()
-                Utilities.closeKeyboard(activityView)
-                findNavController().navigateUp()
-            }
+            .setPositiveButton(getString(R.string.back)) { _, _ -> }
             .setNeutralButton(getString(R.string.discard)) { _, _ ->
                 Utilities.closeKeyboard(activityView)
                 findNavController().navigateUp()
             }
-            .setNegativeButton(getString(R.string.back)) { _, _ -> }
             .create()
     }
 }

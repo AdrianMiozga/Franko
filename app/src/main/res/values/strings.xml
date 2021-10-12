@@ -21,7 +21,6 @@
     <string name="activities">Aktywności</string>
     <string name="settings">Ustawienia</string>
     <string name="kmh">%d km/h</string>
-    <string name="mph">%d mp/h</string>
     <string name="people">Ludzie</string>
     <string name="delete_account">Usuń konto</string>
     <string name="account_deleted">Konto zostało usunięte</string>

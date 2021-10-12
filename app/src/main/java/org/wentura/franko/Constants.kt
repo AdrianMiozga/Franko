@@ -25,9 +25,6 @@ object Constants {
     const val END_TIME = "endTime"
 
     // Firestore Values
-    // TODO: 12.10.2021 Remove imperial/metric
-    const val IMPERIAL = "Imperial"
-    const val METRIC = "Metric"
     const val EVERYONE = "Everyone"
     const val WALKING = "Walking"
     const val RUNNING = "Running"
@@ -75,9 +72,6 @@ object Constants {
 
     /** Min activity time to save in milliseconds **/
     val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
-
-    /** Meters per second to miles per hour **/
-    const val MPH = 2.23694
 
     /** Meters per second to kilometers per hour **/
     const val KMH = 3.6

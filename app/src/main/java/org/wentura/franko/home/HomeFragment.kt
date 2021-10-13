@@ -5,22 +5,15 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
+import org.wentura.franko.adapters.UserActivityAdapter
 import org.wentura.franko.databinding.FragmentHomeBinding
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: UserActivityListViewModel by viewModels()
-
-    private val recyclerListener by lazy {
-        RecyclerView.RecyclerListener { holder ->
-            val mapHolder = holder as UserActivityAdapter.ViewHolder
-            mapHolder.clearView()
-        }
-    }
 
     companion object {
         val TAG = HomeFragment::class.simpleName
@@ -38,7 +31,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = UserActivityAdapter(activities)
-                setRecyclerListener(recyclerListener)
             }
         }
     }

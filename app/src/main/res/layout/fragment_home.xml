@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_item_activity_home" />
+        tools:listitem="@layout/list_item_activity" />
 
     <TextView
         android:id="@+id/home_nothing_to_show"

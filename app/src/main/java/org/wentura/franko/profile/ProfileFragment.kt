@@ -11,8 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
-import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.getCurrentUserUid
+import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.databinding.FragmentProfileBinding
 import org.wentura.franko.viewmodels.UserViewModel
 
@@ -103,7 +103,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             profileLoaded = true
             show(progressBarOverlay)
 
-            Utilities.loadProfilePicture(profile.photoUrl, profileProfilePicture)
+            profileProfilePicture.loadProfilePicture(profile.photoUrl)
 
             profileFullName.text = getString(
                 R.string.full_name,

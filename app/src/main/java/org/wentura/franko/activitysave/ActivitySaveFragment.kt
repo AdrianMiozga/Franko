@@ -31,7 +31,8 @@ import org.wentura.franko.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save),
+class ActivitySaveFragment :
+    Fragment(R.layout.fragment_activity_save),
     OnMapReadyCallback {
 
     @Inject

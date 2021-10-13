@@ -28,7 +28,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ActivityFragment : Fragment(R.layout.fragment_activity),
+class ActivityFragment :
+    Fragment(R.layout.fragment_activity),
     OnMapReadyCallback {
 
     private val activityViewModel: ActivityViewModel by viewModels()
@@ -47,9 +48,9 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
         val binding = FragmentActivityBinding.bind(view)
 
-        activityTitle = binding.activityTitle
-        activityDuration = binding.activityDuration
-        activityDate = binding.activityDate
+        activityTitle = binding.activityView.activityTitle
+        activityDuration = binding.activityView.activityDuration
+        activityDate = binding.activityView.activityDate
 
         val mapFragment =
             childFragmentManager

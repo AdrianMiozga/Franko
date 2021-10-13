@@ -28,7 +28,7 @@ class ActivityRepository @Inject constructor() {
             .whereEqualTo(Constants.UID, uid)
     }
 
-    fun getActivities(uid: ArrayList<String>): Query {
+    fun getActivities(uid: List<String>): Query {
         return db.collection(Constants.ACTIVITIES)
             .whereIn(Constants.UID, uid)
     }

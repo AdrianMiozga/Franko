@@ -18,7 +18,8 @@ class ActivityViewModel @Inject constructor(
         val TAG = ActivityViewModel::class.simpleName
     }
 
-    private val activityId: String = savedStateHandle["id"] ?: throw IllegalArgumentException("Missing uid")
+    private val activityId: String = savedStateHandle["id"]
+        ?: throw IllegalArgumentException("Missing uid")
 
     private val activity = MutableLiveData<Activity>()
 

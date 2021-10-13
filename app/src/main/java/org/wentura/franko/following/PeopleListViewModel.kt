@@ -15,12 +15,13 @@ class PeopleListViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val uid: String = savedStateHandle["uid"] ?: throw IllegalArgumentException("Missing uid")
+    private val uid: String = savedStateHandle["uid"]
+        ?: throw IllegalArgumentException("Missing uid")
 
-    private val _following = MutableLiveData<ArrayList<User>>()
-    private val _followers = MutableLiveData<ArrayList<User>>()
+    private val _following = MutableLiveData<List<User>>()
+    private val _followers = MutableLiveData<List<User>>()
 
-    fun getFollowing(): LiveData<ArrayList<User>> {
+    fun getFollowing(): LiveData<List<User>> {
         viewModelScope.launch {
             val following = userRepository
                 .getFollowing(uid)
@@ -34,7 +35,7 @@ class PeopleListViewModel @Inject constructor(
             }
 
             if (followingIds.isEmpty()) {
-                _following.value = ArrayList()
+                _following.value = listOf()
                 return@launch
             }
 
@@ -48,7 +49,7 @@ class PeopleListViewModel @Inject constructor(
         return _following
     }
 
-    fun getFollowers(): LiveData<ArrayList<User>> {
+    fun getFollowers(): LiveData<List<User>> {
         viewModelScope.launch {
             val following = userRepository
                 .getFollowers(uid)

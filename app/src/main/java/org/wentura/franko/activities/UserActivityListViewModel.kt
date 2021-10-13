@@ -30,7 +30,7 @@ class UserActivityListViewModel @Inject constructor(
     fun getCurrentActivities(activityTypes: List<String>): LiveData<List<UserActivity>> {
         viewModelScope.launch {
             if (activityTypes.isEmpty()) {
-                userActivities.value = ArrayList()
+                userActivities.value = listOf()
                 return@launch
             }
 

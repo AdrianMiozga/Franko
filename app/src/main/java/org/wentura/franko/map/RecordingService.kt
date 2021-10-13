@@ -72,7 +72,7 @@ class RecordingService : Service() {
         super.onDestroy()
 
         recordingRepository.recordingTime.value = 0L
-        recordingRepository.points.value = ArrayList()
+        recordingRepository.points.value = listOf()
 
         stopUpdates()
     }

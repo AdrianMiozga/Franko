@@ -25,9 +25,9 @@ class UserActivityListViewModel @Inject constructor(
         val TAG = UserActivityListViewModel::class.simpleName
     }
 
-    private val userActivities = MutableLiveData<ArrayList<UserActivity>>()
+    private val userActivities = MutableLiveData<List<UserActivity>>()
 
-    fun getCurrentActivities(): LiveData<ArrayList<UserActivity>> {
+    fun getCurrentActivities(): LiveData<List<UserActivity>> {
         viewModelScope.launch {
             val following = userRepository
                 .getFollowing(getCurrentUserUid())
@@ -46,7 +46,7 @@ class UserActivityListViewModel @Inject constructor(
                 .get()
                 .await()
 
-            val activities: ArrayList<Activity> = ArrayList(activitiesSnapshot.toObjects())
+            val activities: List<Activity> = ArrayList(activitiesSnapshot.toObjects())
             val result: ArrayList<UserActivity> = ArrayList(activities.size)
 
             // TODO: 28.09.2021 Optimize

@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val photoUrl = Utilities.extractPhotoUrl(user)
 
-        val values: HashMap<String, Any> =
+        val values: Map<String, Any> =
             hashMapOf(
                 Constants.FIRST_NAME to (user.displayName ?: ""),
                 Constants.PHOTO_URL to photoUrl

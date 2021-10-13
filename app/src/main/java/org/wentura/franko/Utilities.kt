@@ -135,13 +135,13 @@ object Utilities {
         )
     }
 
-    fun loadProfilePicture(photoUrl: String?, imageView: ImageView) {
+    fun ImageView.loadProfilePicture(photoUrl: String?) {
         if (photoUrl.isNullOrBlank()) {
-            imageView.load(R.drawable.ic_profile_picture_placeholder) {
+            load(R.drawable.ic_profile_picture_placeholder) {
                 transformations(CircleCropTransformation())
             }
         } else {
-            imageView.load(photoUrl) {
+            load(photoUrl) {
                 transformations(CircleCropTransformation())
             }
         }

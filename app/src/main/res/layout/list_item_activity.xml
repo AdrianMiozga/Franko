@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -16,44 +15,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/item_activity_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/item_activity_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/example_activity_title" />
-
-        <TextView
-            android:id="@+id/item_activity_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@id/item_activity_duration"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_activity_title"
-            tools:text="@string/example_date" />
-
-        <TextView
-            android:id="@+id/item_activity_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/item_activity_map"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_activity_date"
-            tools:text="@string/example_duration" />
+        <include
+            android:id="@+id/activity_view"
+            layout="@layout/activity_view" />
 
         <com.google.android.gms.maps.MapView
-            android:id="@+id/item_activity_map"
+            android:id="@+id/item_activity_home_map"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="8dp"
@@ -61,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toBottomOf="@id/item_activity_duration"
+            map:layout_constraintTop_toBottomOf="@id/activity_view"
             map:liteMode="true"
             map:mapType="none"
             map:uiMapToolbar="false" />

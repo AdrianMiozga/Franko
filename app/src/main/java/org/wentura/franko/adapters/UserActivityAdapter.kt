@@ -1,43 +1,44 @@
-package org.wentura.franko.activities
+package org.wentura.franko.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import org.wentura.franko.Constants
-import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.Utilities.setup
-import org.wentura.franko.data.Activity
+import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-// TODO: 08.10.2021 It is very similar to UserActivityAdapter
-class ActivityAdapter(private val userActivities: List<Activity>) :
-    RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
+class UserActivityAdapter(private val userActivities: List<UserActivity>) :
+    RecyclerView.Adapter<UserActivityAdapter.ViewHolder>() {
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
         private lateinit var googleMap: GoogleMap
+        private lateinit var bounds: LatLngBounds
+
         private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
 
-        private lateinit var bounds: LatLngBounds
-
-        private val title: TextView = binding.itemActivityTitle
-        private val mapView: MapView = binding.itemActivityMap
-        private val durationTextView: TextView = binding.itemActivityDuration
-        private val dateTextView: TextView = binding.itemActivityDate
+        //        private val profileProfilePicture: ImageView = binding.activityView.activityProfilePicture
+        private val name: TextView = binding.activityView.activityUsername
+        private val dateTextView: TextView = binding.activityView.activityDate
+        private val title: TextView = binding.activityView.activityTitle
+        private val mapView: MapView = binding.itemActivityHomeMap
+        private val durationTextView: TextView = binding.activityView.activityDuration
 
         private val context = view.context
 
@@ -49,20 +50,17 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
             }
         }
 
-        fun bindView(activity: Activity) {
-            if (activity.path == null) return
-
-            mapView.tag = this
+        fun bindView(userActivity: UserActivity) {
+            if (userActivity.activity.path == null) return
 
             view.setOnClickListener {
-                val toActivityFragment =
-                    ProfileViewPagerFragmentDirections
-                        .toActivityFragment(activity.documentId)
-
-                Navigation.findNavController(view).navigate(toActivityFragment)
+                Navigation.findNavController(view).navigate(
+                    R.id.to_activity_fragment,
+                    bundleOf(Pair("id", userActivity.activity.documentId))
+                )
             }
 
-            for (point in activity.path) {
+            for (point in userActivity.activity.path) {
                 val latitude = point[Constants.LATITUDE]!!
                 val longitude = point[Constants.LONGITUDE]!!
 
@@ -73,8 +71,8 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
-            val startTime = activity.startTime ?: 0L
-            val endTime = activity.endTime ?: 0L
+            val startTime = userActivity.activity.startTime ?: 0L
+            val endTime = userActivity.activity.endTime ?: 0L
             val duration = endTime - startTime
 
             durationTextView.text = context.getString(
@@ -82,14 +80,12 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                 Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
             )
 
-            val activityType =
-                context.resources.getStringArray(R.array.activities_array)[context
-                    .resources.getStringArray(R.array.activities_array_values)
-                    .indexOf(activity.activity)]
+            val activityType = context.resources.getStringArray(R.array.activities_array)[context.resources
+                .getStringArray(R.array.activities_array_values).indexOf(userActivity.activity.activity)]
 
             title.text = context.getString(
-                R.string.activity_title,
-                activity.activityName,
+                R.string.user_activity_title,
+                userActivity.activity.activityName,
                 activityType
             )
 
@@ -101,6 +97,16 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
                 date,
                 timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             )
+
+            name.text = context.getString(
+                R.string.full_name,
+                userActivity.user.firstName,
+                userActivity.user.lastName
+            )
+
+            // TODO: 13.10.2021 This breaks MapView rendering
+//            val photoUrl = userActivity.user.photoUrl
+//            profileProfilePicture.loadProfilePicture(photoUrl)
 
             setupMap()
         }
@@ -126,15 +132,20 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
         private fun setupMap() {
             if (!this::googleMap.isInitialized) return
 
+            googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            googleMap.setup(context)
+
             if (points.isNotEmpty()) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
                 googleMap.addPolyline(createPolylineOptions().addAll(points))
             }
-
-            googleMap.setup(context)
-
-            googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
+    }
+
+    override fun onViewRecycled(viewHolder: ViewHolder) {
+        super.onViewRecycled(viewHolder)
+
+        viewHolder.clearView()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {

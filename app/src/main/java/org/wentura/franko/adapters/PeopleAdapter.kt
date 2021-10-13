@@ -9,7 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import org.wentura.franko.R
-import org.wentura.franko.Utilities
+import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
@@ -36,7 +36,7 @@ class PeopleAdapter(private val people: List<User>) :
                 )
             }
 
-            Utilities.loadProfilePicture(user.photoUrl, profilePicture)
+            profilePicture.loadProfilePicture(user.photoUrl)
 
             fullName.text = context.getString(
                 R.string.full_name,

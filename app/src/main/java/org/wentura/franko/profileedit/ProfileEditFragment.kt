@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.MainActivity
 import org.wentura.franko.R
-import org.wentura.franko.Utilities
+import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentProfileEditBinding
@@ -100,7 +100,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 }
             }
 
-            Utilities.loadProfilePicture(user.photoUrl, editProfileProfilePicture)
+            editProfileProfilePicture.loadProfilePicture(user.photoUrl)
         }
 
         profileEditSignOut.setOnClickListener {

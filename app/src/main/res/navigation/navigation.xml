@@ -163,7 +163,13 @@
         android:id="@+id/home_fragment"
         android:name="org.wentura.franko.home.HomeFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/to_activity_fragment"
+            app:destination="@id/activity_fragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/activity_save_fragment"

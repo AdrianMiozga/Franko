@@ -12,22 +12,35 @@
         android:id="@+id/activity_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/activity_time_span"
+        app:layout_constraintBottom_toTopOf="@id/activity_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Item" />
+        tools:text="@string/example_activity_title" />
 
     <TextView
-        android:id="@+id/activity_time_span"
+        android:id="@+id/activity_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_map"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/activity_duration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_title"
-        tools:text="12:43:55 - 12:55:55" />
+        tools:text="@string/example_date" />
+
+    <TextView
+        android:id="@+id/activity_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_date"
+        tools:text="@string/example_duration" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_map"
@@ -38,6 +51,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@id/activity_time_span" />
+        map:layout_constraintTop_toBottomOf="@id/activity_duration" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

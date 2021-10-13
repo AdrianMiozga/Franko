@@ -37,7 +37,7 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
         private val dateTextView: TextView = binding.itemActivityHomeDate
         private val title: TextView = binding.itemActivityHomeTitle
         private val mapView: MapView = binding.itemActivityHomeMap
-        private val timeSpan: TextView = binding.itemActivityHomeTimeSpan
+        private val durationTextView: TextView = binding.itemActivityHomeDuration
 
         private val context = view.context
 
@@ -67,14 +67,11 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
 
             val startTime = userActivity.activity.startTime ?: 0L
             val endTime = userActivity.activity.endTime ?: 0L
-            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            val duration = endTime - startTime
 
-            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
-
-            timeSpan.text = context.getString(
-                R.string.time_span,
-                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime)),
-                timeFormatter.format(TimeUnit.SECONDS.toMillis(endTime))
+            durationTextView.text = context.getString(
+                R.string.time,
+                Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
             )
 
             val activityType = context.resources.getStringArray(R.array.activities_array)[context.resources
@@ -86,7 +83,14 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
                 activityType
             )
 
-            dateTextView.text = date
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
+
+            dateTextView.text = context.getString(
+                R.string.date_and_time,
+                date,
+                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            )
 
             name.text = context.getString(
                 R.string.full_name,

@@ -28,6 +28,7 @@ import org.wentura.franko.map.EnableLocationDialogFragment
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.concurrent.TimeUnit
 
 object Utilities {
 
@@ -186,5 +187,25 @@ object Utilities {
         val northEast = LatLng(biggestLatitude, biggestLongitude)
 
         return LatLngBounds(southWest, northEast)
+    }
+
+    fun formatTime(time: Long): String {
+        var result = ""
+
+        val hours = TimeUnit.MILLISECONDS.toHours(time)
+
+        if (hours != 0L) {
+            result += "${hours}h"
+        }
+
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(time)
+
+        result += if (minutes == 0L) {
+            "1m"
+        } else {
+            "${minutes}m"
+        }
+
+        return result
     }
 }

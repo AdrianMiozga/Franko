@@ -36,7 +36,8 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
         private val title: TextView = binding.itemActivityTitle
         private val mapView: MapView = binding.itemActivityMap
-        private val timeSpan: TextView = binding.itemActivityTimeSpan
+        private val durationTextView: TextView = binding.itemActivityDuration
+        private val dateTextView: TextView = binding.itemActivityDate
 
         private val context = view.context
 
@@ -74,18 +75,11 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
 
             val startTime = activity.startTime ?: 0L
             val endTime = activity.endTime ?: 0L
-            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            val duration = endTime - startTime
 
-            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
-
-            timeSpan.text = context.getString(
-                R.string.time_span,
-                timeFormatter.format(
-                    TimeUnit.SECONDS.toMillis(startTime)
-                ),
-                timeFormatter.format(
-                    TimeUnit.SECONDS.toMillis(endTime)
-                )
+            durationTextView.text = context.getString(
+                R.string.time,
+                Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
             )
 
             val activityType =
@@ -96,8 +90,16 @@ class ActivityAdapter(private val userActivities: List<Activity>) :
             title.text = context.getString(
                 R.string.activity_title,
                 activity.activityName,
-                activityType,
-                date
+                activityType
+            )
+
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
+
+            dateTextView.text = context.getString(
+                R.string.date_and_time,
+                date,
+                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             )
 
             setupMap()

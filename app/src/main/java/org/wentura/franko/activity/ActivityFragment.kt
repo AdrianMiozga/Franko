@@ -35,7 +35,8 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
     private val args: ActivityFragmentArgs by navArgs()
 
     private lateinit var activityTitle: TextView
-    private lateinit var activityTimeSpan: TextView
+    private lateinit var activityDuration: TextView
+    private lateinit var activityDate: TextView
 
     companion object {
         val TAG = ActivityFragment::class.simpleName
@@ -47,7 +48,8 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
         val binding = FragmentActivityBinding.bind(view)
 
         activityTitle = binding.activityTitle
-        activityTimeSpan = binding.activityTimeSpan
+        activityDuration = binding.activityDuration
+        activityDate = binding.activityDate
 
         val mapFragment =
             childFragmentManager
@@ -84,9 +86,12 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
 
             val startTime = activity?.startTime ?: 0L
             val endTime = activity?.endTime ?: 0L
+            val duration = endTime - startTime
 
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            activityDuration.text = requireContext().getString(
+                R.string.time,
+                Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
+            )
 
             val index =
                 requireContext().resources.getStringArray(R.array.activities_array_values).indexOf(activity.activity)
@@ -95,22 +100,18 @@ class ActivityFragment : Fragment(R.layout.fragment_activity),
             activityTitle.text = requireContext().getString(
                 R.string.activity_title,
                 activity.activityName,
-                activityType,
-                date
+                activityType
             )
 
-            val timeFormatter = SimpleDateFormat("HH:mm:ss", Locale.US)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
 
-            activityTimeSpan.text = requireContext()
-                .getString(
-                    R.string.time_span,
-                    timeFormatter.format(
-                        TimeUnit.SECONDS.toMillis(startTime)
-                    ),
-                    timeFormatter.format(
-                        TimeUnit.SECONDS.toMillis(endTime)
-                    )
-                )
+            activityDate.text = requireContext().getString(
+                R.string.date_and_time,
+                date,
+                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+            )
 
             val points: ArrayList<LatLng> = arrayListOf()
 

@@ -31,7 +31,9 @@ App logo
 Fold something when scrolling through activities (app bar? tab layout? chips?)
 Polyline should be smoothed out, without corners. Like in Strava   
 Dialog in case user disabled location during activity recording  
-Dialog in case of disabled network
+Dialog in case of disabled network  
+Time isn't saved correctly all the time?  
+Bottom navigation doesn't hide when viewing other people profiles
 
 # Nice to Have
 
@@ -59,4 +61,5 @@ Optional notification when somebody follows you
 Loading bar when changing profile picture  
 Dark mode  
 Fragment transitions  
-Impose edit texts char limits
+Impose edit texts char limits  
+Proper back navigation with bottom navigation like Facebook

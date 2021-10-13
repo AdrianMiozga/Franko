@@ -22,7 +22,7 @@ class ActivitySaveObserver(
 ) : DefaultLifecycleObserver {
 
     fun save() {
-        val path: MutableList<HashMap<String, Double>> = ArrayList()
+        val path: ArrayList<HashMap<String, Double>> = ArrayList()
 
         val points = recordingRepository.points.value
         val startTime = recordingRepository.startTime

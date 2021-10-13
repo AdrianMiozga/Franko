@@ -32,7 +32,8 @@ import org.wentura.franko.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MapFragment : Fragment(R.layout.fragment_map),
+class MapFragment :
+    Fragment(R.layout.fragment_map),
     OnMapReadyCallback,
     AdapterView.OnItemSelectedListener {
 
@@ -280,7 +281,7 @@ class MapFragment : Fragment(R.layout.fragment_map),
             return
         }
 
-        val updates: HashMap<String, Any> =
+        val updates: Map<String, Any> =
             hashMapOf(Constants.LAST_ACTIVITY to resources.getStringArray(R.array.activities_array_values)[position])
 
         userRepository.updateUser(updates)

@@ -19,7 +19,7 @@ class SaveObserver(
         val bioEditText = binding.profileEditBio.editText
         val cityEditText = binding.profileEditCity.editText
 
-        val updates: HashMap<String, Any> =
+        val updates: Map<String, Any> =
             hashMapOf(
                 Constants.FIRST_NAME to firstNameEditText?.text.toString().trim(),
                 Constants.LAST_NAME to lastNameEditText?.text.toString().trim(),

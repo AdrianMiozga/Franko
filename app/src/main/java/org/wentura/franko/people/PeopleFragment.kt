@@ -15,7 +15,8 @@ import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentPeopleBinding
 
 @AndroidEntryPoint
-class PeopleFragment : Fragment(R.layout.fragment_people),
+class PeopleFragment :
+    Fragment(R.layout.fragment_people),
     SearchView.OnQueryTextListener {
 
     private var people: ArrayList<User> = arrayListOf()

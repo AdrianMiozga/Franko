@@ -21,8 +21,8 @@ class UserViewModel @Inject constructor(
     }
 
     private val user = MutableLiveData<User>()
-    private val following = MutableLiveData<ArrayList<String>>()
-    private val followers = MutableLiveData<ArrayList<String>>()
+    private val following = MutableLiveData<List<String>>()
+    private val followers = MutableLiveData<List<String>>()
 
     fun getUser(): LiveData<User> {
         userRepository
@@ -58,7 +58,7 @@ class UserViewModel @Inject constructor(
         return user
     }
 
-    fun getFollowing(uid: String): LiveData<ArrayList<String>> {
+    fun getFollowing(uid: String): LiveData<List<String>> {
         userRepository
             .getFollowing(uid)
             .addSnapshotListener { querySnapshot, exception ->
@@ -79,7 +79,7 @@ class UserViewModel @Inject constructor(
         return following
     }
 
-    fun getFollowers(uid: String): LiveData<ArrayList<String>> {
+    fun getFollowers(uid: String): LiveData<List<String>> {
         userRepository
             .getFollowers(uid)
             .addSnapshotListener { querySnapshot, exception ->

@@ -22,8 +22,8 @@ class RecordingViewModel @Inject constructor(
     private val _location = MediatorLiveData<Location>()
     val location: LiveData<Location> = _location
 
-    private val _points = MediatorLiveData<ArrayList<LatLng>>()
-    val points: LiveData<ArrayList<LatLng>> = _points
+    private val _points = MediatorLiveData<List<LatLng>>()
+    val points: LiveData<List<LatLng>> = _points
 
     private val _recordingTime = MediatorLiveData<String>()
     val recordingTime: LiveData<String> = _recordingTime

@@ -16,8 +16,8 @@ class PeopleListViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<ArrayList<User>>()
-    val users: LiveData<ArrayList<User>> = _users
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>> = _users
 
     init {
         viewModelScope.launch {

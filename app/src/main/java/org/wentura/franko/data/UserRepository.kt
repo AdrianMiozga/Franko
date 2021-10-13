@@ -37,7 +37,7 @@ class UserRepository @Inject constructor() {
             .await()
     }
 
-    fun getUsers(uidList: ArrayList<String>): Task<QuerySnapshot> {
+    fun getUsers(uidList: List<String>): Task<QuerySnapshot> {
         return db.collection(Constants.USERS)
             .whereIn(FieldPath.documentId(), uidList)
             .get()
@@ -55,13 +55,13 @@ class UserRepository @Inject constructor() {
             .collection(Constants.FOLLOWERS)
     }
 
-    fun updateUser(updates: HashMap<String, Any>) {
+    fun updateUser(updates: Map<String, Any>) {
         db.collection(Constants.USERS)
             .document(myUid)
             .update(updates)
     }
 
-    fun addNewUser(values: HashMap<String, Any>) {
+    fun addNewUser(values: Map<String, Any>) {
         db.collection(Constants.USERS)
             .document(myUid)
             .get()

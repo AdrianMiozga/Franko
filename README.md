@@ -1,9 +1,5 @@
 # Show App to Someone
 
-## GPS
-
-GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
-
 # TODO
 
 ## Activities
@@ -33,7 +29,8 @@ Polyline should be smoothed out, without corners. Like in Strava
 Dialog in case user disabled location during activity recording  
 Dialog in case of disabled network  
 Time isn't saved correctly all the time?  
-Bottom navigation doesn't hide when viewing other people profiles
+Bottom navigation doesn't hide when viewing other people profiles  
+GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
 
 # Nice to Have
 

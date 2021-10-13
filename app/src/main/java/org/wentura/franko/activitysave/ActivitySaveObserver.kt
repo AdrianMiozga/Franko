@@ -22,7 +22,7 @@ class ActivitySaveObserver(
 ) : DefaultLifecycleObserver {
 
     fun save() {
-        val array: MutableList<HashMap<String, Double>> = ArrayList()
+        val path: MutableList<HashMap<String, Double>> = ArrayList()
 
         val points = recordingRepository.points.value
         val startTime = recordingRepository.startTime
@@ -40,7 +40,7 @@ class ActivitySaveObserver(
                 Constants.LONGITUDE to point.longitude
             )
 
-            array.add(element)
+            path.add(element)
         }
 
         val uid = getCurrentUserUid()
@@ -73,7 +73,7 @@ class ActivitySaveObserver(
             uid,
             TimeUnit.MILLISECONDS.toSeconds(startTime),
             TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
-            array,
+            path,
             activityType,
             activityName,
             visibility

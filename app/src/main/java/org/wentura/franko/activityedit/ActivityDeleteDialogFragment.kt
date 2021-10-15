@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.Constants.ACTIVITIES_PAGE_INDEX
 import org.wentura.franko.R
 import org.wentura.franko.data.ActivityRepository
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class ActivityDeleteDialogFragment(
                     .deleteActivity(activityId)
                     .addOnSuccessListener {
                         val toProfileViewPagerFragment =
-                            ActivityEditFragmentDirections.toProfileViewPagerFragment()
+                            ActivityEditFragmentDirections.toProfileViewPagerFragment(ACTIVITIES_PAGE_INDEX)
 
                         Navigation.findNavController(activityView)
                             .navigate(toProfileViewPagerFragment)

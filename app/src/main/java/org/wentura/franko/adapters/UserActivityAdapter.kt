@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -22,8 +24,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class UserActivityAdapter(private val userActivities: List<UserActivity>) :
-    RecyclerView.Adapter<UserActivityAdapter.ViewHolder>() {
+class UserActivityAdapter :
+    ListAdapter<UserActivity, UserActivityAdapter.ViewHolder>(UserActivityDiffCallback()) {
 
     class ViewHolder(private val view: View) :
         RecyclerView.ViewHolder(view),
@@ -166,8 +168,23 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(userActivities[position])
+        viewHolder.bindView(getItem(position))
+    }
+}
+
+private class UserActivityDiffCallback : DiffUtil.ItemCallback<UserActivity>() {
+
+    override fun areItemsTheSame(
+        oldItem: UserActivity,
+        newItem: UserActivity
+    ): Boolean {
+        return oldItem.activity.documentId == newItem.activity.documentId
     }
 
-    override fun getItemCount() = userActivities.size
+    override fun areContentsTheSame(
+        oldItem: UserActivity,
+        newItem: UserActivity
+    ): Boolean {
+        return oldItem == newItem
+    }
 }

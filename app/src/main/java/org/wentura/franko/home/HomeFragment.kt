@@ -22,14 +22,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val binding = FragmentHomeBinding.bind(view)
 
         val recyclerView = binding.homeRecyclerView
+        recyclerView.setHasFixedSize(true)
+
+        val adapter = UserActivityAdapter()
+        recyclerView.adapter = adapter
 
         viewModel.userActivities.observe(viewLifecycleOwner) { userActivities ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
 
-            recyclerView.apply {
-                setHasFixedSize(true)
-                adapter = UserActivityAdapter(userActivities)
-            }
+            adapter.submitList(userActivities)
         }
     }
 }

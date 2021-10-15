@@ -1,4 +1,4 @@
-package org.wentura.franko.viewmodels
+package org.wentura.franko.activityedit
 
 import android.util.Log
 import androidx.lifecycle.*

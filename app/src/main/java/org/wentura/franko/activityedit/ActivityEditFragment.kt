@@ -11,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.activity.ActivityFragmentArgs
-import org.wentura.franko.viewmodels.ActivityViewModel
 
 @AndroidEntryPoint
 class ActivityEditFragment : PreferenceFragmentCompat() {

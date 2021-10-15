@@ -20,12 +20,13 @@ class UserActivityListViewModel @Inject constructor(
     }
 
     private val _userActivity = MutableLiveData<UserActivity>()
-    val userActivity: LiveData<UserActivity> = _userActivity
 
     private val activityId: String = savedStateHandle["id"]
         ?: throw IllegalArgumentException("Missing uid")
 
-    init {
+    // TODO: 15.10.2021 Isn't using such method in OnViewCreated pointless
+    //  as it downloads data again when rotating screen
+    fun getUserActivity(): LiveData<UserActivity> {
         viewModelScope.launch {
             val activitySnapshot = activityRepository
                 .getActivity(activityId)
@@ -45,5 +46,7 @@ class UserActivityListViewModel @Inject constructor(
 
             _userActivity.value = UserActivity(user, activity)
         }
+
+        return _userActivity
     }
 }

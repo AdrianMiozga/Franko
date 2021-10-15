@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
 import org.wentura.franko.adapters.PeopleAdapter
@@ -22,7 +21,6 @@ class FollowersFragment : Fragment(R.layout.fragment_simplified_people) {
 
             binding.simplifiedPeopleRecyclerView.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
                 adapter = PeopleAdapter(result)
             }
         }

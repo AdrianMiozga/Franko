@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
@@ -48,7 +47,6 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
 
             recyclerView.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
                 adapter = UserActivityAdapter(userActivities)
             }
         }

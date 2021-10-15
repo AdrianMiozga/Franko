@@ -27,7 +27,7 @@ import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentActivitySaveBinding
 import org.wentura.franko.map.RecordingRepository
 import org.wentura.franko.map.RecordingViewModel
-import org.wentura.franko.viewmodels.UserViewModel
+import org.wentura.franko.viewmodels.CurrentUserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,7 +44,7 @@ class ActivitySaveFragment :
     @Inject
     lateinit var recordingRepository: RecordingRepository
 
-    private val userViewModel: UserViewModel by viewModels()
+    private val currentUserViewModel: CurrentUserViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -82,7 +82,7 @@ class ActivitySaveFragment :
                 setAdapter(adapter)
             }
 
-        userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+        currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
             val activityType = resources.getStringArray(R.array.activities_array)[resources
                 .getStringArray(R.array.activities_array_values).indexOf(user.lastActivity)]
 

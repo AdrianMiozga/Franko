@@ -93,7 +93,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .delete()
         }
 
-        userViewModel.getUser(argUid).observe(viewLifecycleOwner) { profile ->
+        userViewModel.user.observe(viewLifecycleOwner) { profile ->
             profileLoaded = true
             show(progressBarOverlay)
 
@@ -123,7 +123,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
 
-        userViewModel.getFollowing(argUid).observe(viewLifecycleOwner) { following ->
+        userViewModel.following.observe(viewLifecycleOwner) { following ->
             followingsLoaded = true
             show(progressBarOverlay)
 
@@ -142,7 +142,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
 
-        userViewModel.getFollowers(argUid).observe(viewLifecycleOwner) { followers ->
+        userViewModel.followers.observe(viewLifecycleOwner) { followers ->
             followersLoaded = true
             show(progressBarOverlay)
 

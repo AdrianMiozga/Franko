@@ -1,5 +1,6 @@
 package org.wentura.franko.activities
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,15 +26,15 @@ class UserActivityListViewModel @Inject constructor(
         val TAG = UserActivityListViewModel::class.simpleName
     }
 
-    private val userActivities = MutableLiveData<List<UserActivity>>()
+    private val _userActivities = MutableLiveData<List<UserActivity>>()
+    val userActivites: LiveData<List<UserActivity>> = _userActivities
+
+    init {
+        getCurrentActivities(listOf())
+    }
 
     fun getCurrentActivities(activityTypes: List<String>): LiveData<List<UserActivity>> {
         viewModelScope.launch {
-            if (activityTypes.isEmpty()) {
-                userActivities.value = listOf()
-                return@launch
-            }
-
             val userSnapshot = userRepository
                 .getUser()
                 .get()
@@ -41,24 +42,34 @@ class UserActivityListViewModel @Inject constructor(
 
             val user: User = userSnapshot.toObject() ?: return@launch
 
-            val activitiesSnapshot = activityRepository
+            val query = activityRepository
                 .getActivities(getCurrentUserUid())
-                .whereIn(Constants.ACTIVITY, activityTypes)
                 .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
-                .get()
-                .await()
 
-            val activities: List<Activity> = ArrayList(activitiesSnapshot.toObjects())
-            val result: ArrayList<UserActivity> = ArrayList(activities.size)
-
-            // TODO: 28.09.2021 Optimize
-            for (activity in activities) {
-                result.add(UserActivity(user, activity))
+            if (activityTypes.isNotEmpty()) {
+                query.whereIn(Constants.ACTIVITY, activityTypes)
             }
 
-            userActivities.value = result
+            query.addSnapshotListener { activitiesSnapshot, exception ->
+                if (exception != null) {
+                    Log.w(TAG, exception)
+                    return@addSnapshotListener
+                }
+
+                if (activitiesSnapshot == null) return@addSnapshotListener
+
+                val activities: List<Activity> = ArrayList(activitiesSnapshot.toObjects())
+                val result: ArrayList<UserActivity> = ArrayList(activities.size)
+
+                // TODO: 28.09.2021 Optimize
+                for (activity in activities) {
+                    result.add(UserActivity(user, activity))
+                }
+
+                _userActivities.value = result
+            }
         }
 
-        return userActivities
+        return _userActivities
     }
 }

@@ -1,7 +1,6 @@
 # Show App to Someone
 
-Polish UI  
-Activity doesn't refresh after edit
+Polish UI
 
 # TODO
 

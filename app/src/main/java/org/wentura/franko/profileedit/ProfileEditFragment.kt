@@ -20,7 +20,7 @@ import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentProfileEditBinding
-import org.wentura.franko.viewmodels.UserViewModel
+import org.wentura.franko.viewmodels.CurrentUserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
     private lateinit var profilePictureObserver: ProfilePictureObserver
     private lateinit var saveObserver: SaveObserver
-    private val userViewModel: UserViewModel by viewModels()
+    private val currentUserViewModel: CurrentUserViewModel by viewModels()
 
     private lateinit var user: User
     private lateinit var firstNameInput: TextInputLayout
@@ -73,7 +73,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             }
         }
 
-        userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+        currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
             this.user = user
 
             binding.apply {

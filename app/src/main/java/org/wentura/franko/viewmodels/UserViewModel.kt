@@ -3,45 +3,39 @@ package org.wentura.franko.viewmodels
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.wentura.franko.Constants
+import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    savedStateHandle: SavedStateHandle,
+    userRepository: UserRepository
 ) : ViewModel() {
 
     companion object {
         val TAG = UserViewModel::class.simpleName
     }
 
-    private val user = MutableLiveData<User>()
-    private val following = MutableLiveData<List<String>>()
-    private val followers = MutableLiveData<List<String>>()
+    private val uid: String = savedStateHandle["uid"]
+        ?: getCurrentUserUid()
 
-    fun getUser(): LiveData<User> {
-        userRepository
-            .getUser()
-            .addSnapshotListener { documentSnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
-                if (documentSnapshot == null) return@addSnapshotListener
+    private val _following = MutableLiveData<List<String>>()
+    val following: LiveData<List<String>> = _following
 
-                user.value = documentSnapshot.toObject()
-            }
+    private val _followers = MutableLiveData<List<String>>()
+    val followers: LiveData<List<String>> = _followers
 
-        return user
-    }
-
-    fun getUser(uid: String): LiveData<User> {
+    init {
         userRepository
             .getUser(uid)
             .addSnapshotListener { documentSnapshot, exception ->
@@ -52,13 +46,9 @@ class UserViewModel @Inject constructor(
 
                 val newUser: User = documentSnapshot?.toObject() ?: return@addSnapshotListener
 
-                user.value = newUser
+                _user.value = newUser
             }
 
-        return user
-    }
-
-    fun getFollowing(uid: String): LiveData<List<String>> {
         userRepository
             .getFollowing(uid)
             .addSnapshotListener { querySnapshot, exception ->
@@ -73,13 +63,9 @@ class UserViewModel @Inject constructor(
                     newFollowing.add(document[Constants.UID].toString())
                 }
 
-                following.value = newFollowing
+                _following.value = newFollowing
             }
 
-        return following
-    }
-
-    fun getFollowers(uid: String): LiveData<List<String>> {
         userRepository
             .getFollowers(uid)
             .addSnapshotListener { querySnapshot, exception ->
@@ -94,9 +80,7 @@ class UserViewModel @Inject constructor(
                     newFollowers.add(document[Constants.UID].toString())
                 }
 
-                followers.value = newFollowers
+                _followers.value = newFollowers
             }
-
-        return followers
     }
 }

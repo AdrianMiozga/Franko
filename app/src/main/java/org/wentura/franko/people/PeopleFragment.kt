@@ -19,7 +19,6 @@ class PeopleFragment :
     SearchView.OnQueryTextListener {
 
     private var people: ArrayList<User> = arrayListOf()
-    private var filteredPeople: ArrayList<User> = arrayListOf()
     private lateinit var peopleAdapter: PeopleAdapter
 
     private val viewModel: PeopleListViewModel by viewModels()
@@ -33,28 +32,24 @@ class PeopleFragment :
 
         val binding = FragmentPeopleBinding.bind(view)
 
+        val recyclerView = binding.peopleRecyclerView
+        recyclerView.setHasFixedSize(true)
+
+        peopleAdapter = PeopleAdapter()
+        recyclerView.adapter = peopleAdapter
+
         viewModel.users.observe(viewLifecycleOwner) { result ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
-
-            people.clear()
-            filteredPeople.clear()
-
-            people = ArrayList(result)
-            filteredPeople = ArrayList(result)
 
             if (result.isEmpty()) {
                 binding.apply {
                     peopleNothingToShow.visibility = View.VISIBLE
-                    peopleRecyclerView.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
                 }
             }
 
-            peopleAdapter = PeopleAdapter(filteredPeople)
-
-            binding.peopleRecyclerView.apply {
-                setHasFixedSize(true)
-                adapter = peopleAdapter
-            }
+            people = ArrayList(result)
+            peopleAdapter.submitList(result)
         }
     }
 
@@ -75,10 +70,7 @@ class PeopleFragment :
             user.firstName.lowercase().contains(newText.toString())
         }
 
-        filteredPeople.clear()
-        filteredPeople.addAll(newFilter)
-
-        peopleAdapter.notifyDataSetChanged()
+        peopleAdapter.submitList(newFilter)
         return true
     }
 }

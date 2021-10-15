@@ -7,14 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
-class PeopleAdapter(private val people: List<User>) :
-    RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
+class PeopleAdapter :
+    ListAdapter<User, PeopleAdapter.ViewHolder>(PeopleDiffCallback()) {
 
     companion object {
         val TAG = PeopleAdapter::class.simpleName
@@ -54,8 +56,23 @@ class PeopleAdapter(private val people: List<User>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindView(people[position])
+        viewHolder.bindView(getItem(position))
+    }
+}
+
+private class PeopleDiffCallback : DiffUtil.ItemCallback<User>() {
+
+    override fun areItemsTheSame(
+        oldItem: User,
+        newItem: User
+    ): Boolean {
+        return oldItem.uid == newItem.uid
     }
 
-    override fun getItemCount() = people.size
+    override fun areContentsTheSame(
+        oldItem: User,
+        newItem: User
+    ): Boolean {
+        return oldItem == newItem
+    }
 }

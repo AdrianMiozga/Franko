@@ -31,6 +31,11 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         val binding = FragmentActivitiesBinding.bind(view)
 
         val recyclerView = binding.activitesRecyclerView
+        recyclerView.setHasFixedSize(true)
+
+        val adapter = UserActivityAdapter()
+        recyclerView.adapter = adapter
+
         val activitiesNothingToShow = binding.activitiesNothingToShow
 
         val observer = Observer<List<UserActivity>> { userActivities ->
@@ -45,10 +50,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
                 activitiesNothingToShow.visibility = View.INVISIBLE
             }
 
-            recyclerView.apply {
-                setHasFixedSize(true)
-                adapter = UserActivityAdapter(userActivities)
-            }
+            adapter.submitList(userActivities)
         }
 
         viewModel

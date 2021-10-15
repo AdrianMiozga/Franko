@@ -91,7 +91,7 @@ class ActivityFragment :
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
-        viewModel.userActivity.observe(viewLifecycleOwner) { userActivity ->
+        viewModel.getUserActivity().observe(viewLifecycleOwner) { userActivity ->
             val activity = userActivity.activity
             val user = userActivity.user
 

@@ -52,7 +52,7 @@ Add photos to activities
 
 ## Login
 
-Log in with Facebook, Twitter
+Log in with Email, Facebook, Twitter
 
 ## UI
 

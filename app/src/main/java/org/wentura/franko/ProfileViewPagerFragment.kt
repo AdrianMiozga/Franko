@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import org.wentura.franko.Constants.ACTIVITIES_PAGE_INDEX
 import org.wentura.franko.Constants.PROFILE_PAGE_INDEX
@@ -15,17 +17,23 @@ import org.wentura.franko.databinding.FragmentProfileViewPagerBinding
 
 class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) {
 
+    private val args: ProfileViewPagerFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
         val binding = FragmentProfileViewPagerBinding.bind(view)
 
-        val adapter = ProfilePagerAdapter(this)
-
-        val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout
 
-        viewPager.adapter = adapter
+        val viewPager = binding.viewPager
+        viewPager.adapter = ProfilePagerAdapter(this)
+
+        viewPager.doOnPreDraw {
+            if (args.item != 0) {
+                viewPager.currentItem = args.item
+            }
+        }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = getTabTitle(position)

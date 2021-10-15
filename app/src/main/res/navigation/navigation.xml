@@ -80,6 +80,11 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_profile_view_pager">
 
+        <argument
+            android:name="item"
+            android:defaultValue="0"
+            app:argType="integer" />
+
         <action
             android:id="@+id/to_profile_edit_fragment"
             app:destination="@id/profile_edit_fragment" />

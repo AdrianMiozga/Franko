@@ -61,7 +61,7 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         val activityName: EditTextPreference? =
             preferenceManager.findPreference(Constants.ACTIVITY_NAME)
 
-        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+        activityViewModel.activity.observe(viewLifecycleOwner) { activity ->
             if (activity == null) return@observe
 
             activityType?.let {

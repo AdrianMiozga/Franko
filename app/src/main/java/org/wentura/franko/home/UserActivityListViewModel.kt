@@ -1,5 +1,6 @@
 package org.wentura.franko.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,10 +26,12 @@ class UserActivityListViewModel @Inject constructor(
         val TAG = UserActivityListViewModel::class.simpleName
     }
 
-    private val userActivities = MutableLiveData<List<UserActivity>>()
+    private val _userActivities = MutableLiveData<List<UserActivity>>()
+    val userActivities: LiveData<List<UserActivity>> = _userActivities
 
-    fun getCurrentActivities(): LiveData<List<UserActivity>> {
+    init {
         viewModelScope.launch {
+            // TODO: 15.10.2021 Listener for new followings?
             val following = userRepository
                 .getFollowing(getCurrentUserUid())
                 .get()
@@ -40,31 +43,37 @@ class UserActivityListViewModel @Inject constructor(
                 followingIds.add(user.id)
             }
 
-            val activitiesSnapshot = activityRepository
+            activityRepository
                 .getActivities(followingIds)
                 .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
-                .get()
-                .await()
+                .addSnapshotListener { activitiesSnapshot, exception ->
+                    viewModelScope.launch {
+                        if (exception != null) {
+                            Log.w(TAG, exception)
+                            return@launch
+                        }
 
-            val activities: List<Activity> = ArrayList(activitiesSnapshot.toObjects())
-            val result: ArrayList<UserActivity> = ArrayList(activities.size)
+                        if (activitiesSnapshot == null) return@launch
 
-            // TODO: 28.09.2021 Optimize
-            for (activity in activities) {
-                if (activity.uid == null) continue
+                        val activities: List<Activity> = ArrayList(activitiesSnapshot.toObjects())
+                        val result: ArrayList<UserActivity> = ArrayList(activities.size)
 
-                val userSnapshot = userRepository.getUser(activity.uid)
-                    .get()
-                    .await()
+                        // TODO: 28.09.2021 Optimize
+                        for (activity in activities) {
+                            if (activity.uid == null) continue
 
-                val user: User = userSnapshot.toObject() ?: continue
+                            val userSnapshot = userRepository.getUser(activity.uid)
+                                .get()
+                                .await()
 
-                result.add(UserActivity(user, activity))
-            }
+                            val user: User = userSnapshot.toObject() ?: continue
 
-            userActivities.value = result
+                            result.add(UserActivity(user, activity))
+                        }
+
+                        _userActivities.value = result
+                    }
+                }
         }
-
-        return userActivities
     }
 }

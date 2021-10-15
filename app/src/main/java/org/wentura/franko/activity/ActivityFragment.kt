@@ -33,7 +33,7 @@ class ActivityFragment :
     Fragment(R.layout.fragment_activity),
     OnMapReadyCallback {
 
-    private val viewModel: UserActivityListViewModel by viewModels()
+    private val viewModel: UserActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
 
     private lateinit var profilePicture: ImageView
@@ -91,7 +91,7 @@ class ActivityFragment :
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
-        viewModel.getUserActivity().observe(viewLifecycleOwner) { userActivity ->
+        viewModel.userActivity.observe(viewLifecycleOwner) { userActivity ->
             val activity = userActivity.activity
             val user = userActivity.user
 

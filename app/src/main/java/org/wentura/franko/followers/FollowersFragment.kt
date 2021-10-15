@@ -1,4 +1,4 @@
-package org.wentura.franko.following
+package org.wentura.franko.followers
 
 import android.os.Bundle
 import android.view.View
@@ -12,12 +12,12 @@ import org.wentura.franko.databinding.FragmentSimplifiedPeopleBinding
 
 @AndroidEntryPoint
 class FollowersFragment : Fragment(R.layout.fragment_simplified_people) {
-    private val viewModel: PeopleListViewModel by viewModels()
+    private val viewModel: FollowersListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentSimplifiedPeopleBinding.bind(view)
 
-        viewModel.getFollowers().observe(viewLifecycleOwner) { result ->
+        viewModel.followers.observe(viewLifecycleOwner) { result ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
 
             binding.simplifiedPeopleRecyclerView.apply {

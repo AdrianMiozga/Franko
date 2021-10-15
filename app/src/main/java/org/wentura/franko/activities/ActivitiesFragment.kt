@@ -54,7 +54,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         }
 
         viewModel
-            .getCurrentActivities(activityTypes)
+            .userActivites
             .observe(viewLifecycleOwner, observer)
 
         val chipBike = binding.chipBike

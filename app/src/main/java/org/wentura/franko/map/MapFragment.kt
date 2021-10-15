@@ -28,7 +28,7 @@ import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.*
 import org.wentura.franko.databinding.FragmentMapBinding
-import org.wentura.franko.viewmodels.UserViewModel
+import org.wentura.franko.viewmodels.CurrentUserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +49,7 @@ class MapFragment :
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
 
-    private val userViewModel: UserViewModel by viewModels()
+    private val currentUserViewModel: CurrentUserViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var locationObserver: LocationPermissionObserver
@@ -136,7 +136,7 @@ class MapFragment :
         val spinner = binding.mapActivitySpinner
         spinner.onItemSelectedListener = this
 
-        userViewModel.getUser().observe(viewLifecycleOwner) { user ->
+        currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
             val lastActivity = user.lastActivity
             val id = resources.getStringArray(R.array.activities_array_values).indexOf(lastActivity)
 

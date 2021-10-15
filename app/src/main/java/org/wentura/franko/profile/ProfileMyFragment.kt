@@ -29,8 +29,6 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentProfileMyBinding.bind(view)
 
-        val uid = getCurrentUserUid()
-
         val profileProfilePicture = binding.profilePart1.profileProfilePicture
         val profileFullName = binding.profilePart1.profileFullName
         val profileBio = binding.profilePart1.profileBio
@@ -49,7 +47,7 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
             findNavController().navigate(toProfileEditFragment)
         }
 
-        userViewModel.getUser(uid).observe(viewLifecycleOwner) { profile ->
+        userViewModel.user.observe(viewLifecycleOwner) { profile ->
             profileLoaded = true
             show(progressBarOverlay)
 
@@ -77,7 +75,7 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
             }
         }
 
-        userViewModel.getFollowing(uid).observe(viewLifecycleOwner) { following ->
+        userViewModel.following.observe(viewLifecycleOwner) { following ->
             followingsLoaded = true
             show(progressBarOverlay)
 
@@ -90,13 +88,13 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
 
             profileFollowing.setOnClickListener {
                 val toFollowingFragment =
-                    ProfileFragmentDirections.toFollowingFragment(uid)
+                    ProfileFragmentDirections.toFollowingFragment(getCurrentUserUid())
 
                 findNavController().navigate(toFollowingFragment)
             }
         }
 
-        userViewModel.getFollowers(uid).observe(viewLifecycleOwner) { followers ->
+        userViewModel.followers.observe(viewLifecycleOwner) { followers ->
             followersLoaded = true
             show(progressBarOverlay)
 
@@ -109,7 +107,7 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
 
             profileFollowers.setOnClickListener {
                 val toFollowersFragment =
-                    ProfileFragmentDirections.toFollowersFragment(uid)
+                    ProfileFragmentDirections.toFollowersFragment(getCurrentUserUid())
 
                 findNavController().navigate(toFollowersFragment)
             }

@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val activityRepository: ActivityRepository
+    activityRepository: ActivityRepository
 ) : ViewModel() {
 
     companion object {
@@ -21,9 +21,10 @@ class ActivityViewModel @Inject constructor(
     private val activityId: String = savedStateHandle["id"]
         ?: throw IllegalArgumentException("Missing uid")
 
-    private val activity = MutableLiveData<Activity>()
+    private val _activity = MutableLiveData<Activity>()
+    val activity: LiveData<Activity> = _activity
 
-    fun getCurrentActivity(): LiveData<Activity> {
+    init {
         activityRepository
             .getActivity(activityId)
             .addSnapshotListener { documentSnapshot, exception ->
@@ -34,9 +35,7 @@ class ActivityViewModel @Inject constructor(
 
                 if (documentSnapshot == null) return@addSnapshotListener
 
-                activity.value = documentSnapshot.toObject()
+                _activity.value = documentSnapshot.toObject()
             }
-
-        return activity
     }
 }

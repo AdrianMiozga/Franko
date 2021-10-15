@@ -14,6 +14,7 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
+import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityBinding
@@ -24,11 +25,14 @@ import java.util.concurrent.TimeUnit
 class UserActivityAdapter(private val userActivities: List<UserActivity>) :
     RecyclerView.Adapter<UserActivityAdapter.ViewHolder>() {
 
-    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
+    class ViewHolder(private val view: View) :
+        RecyclerView.ViewHolder(view),
         OnMapReadyCallback {
 
         private lateinit var googleMap: GoogleMap
         private lateinit var bounds: LatLngBounds
+
+        private val currentUser: String by lazy { getCurrentUserUid() }
 
         private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
@@ -54,9 +58,15 @@ class UserActivityAdapter(private val userActivities: List<UserActivity>) :
             if (userActivity.activity.path == null) return
 
             view.setOnClickListener {
+                val arguments = bundleOf(Pair("id", userActivity.activity.documentId))
+
+                if (currentUser == userActivity.user.uid) {
+                    arguments.putBoolean("currentUser", true)
+                }
+
                 Navigation.findNavController(view).navigate(
                     R.id.to_activity_fragment,
-                    bundleOf(Pair("id", userActivity.activity.documentId))
+                    arguments
                 )
             }
 

@@ -1,7 +1,7 @@
 # Show App to Someone
 
 Polish UI  
-You can edit somebody else activity
+Activity doesn't refresh after edit
 
 # TODO
 

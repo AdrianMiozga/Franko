@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,9 +21,9 @@ import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
+import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.databinding.FragmentActivityBinding
-import org.wentura.franko.viewmodels.ActivityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -32,9 +33,11 @@ class ActivityFragment :
     Fragment(R.layout.fragment_activity),
     OnMapReadyCallback {
 
-    private val activityViewModel: ActivityViewModel by viewModels()
+    private val viewModel: UserActivityListViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
 
+    private lateinit var profilePicture: ImageView
+    private lateinit var userName: TextView
     private lateinit var activityTitle: TextView
     private lateinit var activityDuration: TextView
     private lateinit var activityDate: TextView
@@ -48,9 +51,13 @@ class ActivityFragment :
 
         val binding = FragmentActivityBinding.bind(view)
 
-        activityTitle = binding.activityView.activityTitle
-        activityDuration = binding.activityView.activityDuration
-        activityDate = binding.activityView.activityDate
+        binding.activityView.let {
+            profilePicture = it.activityProfilePicture
+            userName = it.activityUsername
+            activityTitle = it.activityTitle
+            activityDuration = it.activityDuration
+            activityDate = it.activityDate
+        }
 
         val mapFragment =
             childFragmentManager
@@ -82,28 +89,37 @@ class ActivityFragment :
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
-        activityViewModel.getCurrentActivity().observe(viewLifecycleOwner) { activity ->
+        viewModel.userActivity.observe(viewLifecycleOwner) { userActivity ->
+            val activity = userActivity.activity
+            val user = userActivity.user
+
             if (activity.path == null) return@observe
 
-            val startTime = activity?.startTime ?: 0L
-            val endTime = activity?.endTime ?: 0L
+            userName.text = getString(
+                R.string.full_name,
+                user.firstName,
+                user.lastName
+            )
+
+            profilePicture.loadProfilePicture(user.photoUrl)
+
+            val startTime = activity.startTime ?: 0L
+            val endTime = activity.endTime ?: 0L
             val duration = endTime - startTime
 
-            activityDuration.text = requireContext().getString(
+            activityDuration.text = getString(
                 R.string.time,
                 Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
             )
 
-            val index = requireContext()
-                .resources
+            val index = resources
                 .getStringArray(R.array.activities_array_values)
                 .indexOf(activity.activity)
 
-            val activityType = requireContext()
-                .resources
+            val activityType = resources
                 .getStringArray(R.array.activities_array)[index]
 
-            activityTitle.text = requireContext().getString(
+            activityTitle.text = getString(
                 R.string.activity_title,
                 activity.activityName,
                 activityType
@@ -113,7 +129,7 @@ class ActivityFragment :
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
 
-            activityDate.text = requireContext().getString(
+            activityDate.text = getString(
                 R.string.date_and_time,
                 date,
                 timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))

@@ -42,12 +42,12 @@ class UserActivityListViewModel @Inject constructor(
 
             val user: User = userSnapshot.toObject() ?: return@launch
 
-            val query = activityRepository
+            var query = activityRepository
                 .getActivities(getCurrentUserUid())
                 .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
 
             if (activityTypes.isNotEmpty()) {
-                query.whereIn(Constants.ACTIVITY, activityTypes)
+                query = query.whereIn(Constants.ACTIVITY, activityTypes)
             }
 
             query.addSnapshotListener { activitiesSnapshot, exception ->

@@ -5,18 +5,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import org.wentura.franko.Constants
+import org.wentura.franko.ProfileViewPagerFragmentDirections
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.Utilities.loadProfilePicture
-import org.wentura.franko.databinding.FragmentProfileBinding
+import org.wentura.franko.databinding.FragmentProfileMyBinding
 import org.wentura.franko.viewmodels.UserViewModel
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
 
     private val userViewModel: UserViewModel by viewModels()
 
@@ -24,27 +22,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private var followingsLoaded = false
     private var profileLoaded = false
 
-    private val db = Firebase.firestore
-
     companion object {
-        val TAG = ProfileFragment::class.simpleName
+        val TAG = ProfileMyFragment::class.simpleName
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentProfileBinding.bind(view)
+        val binding = FragmentProfileMyBinding.bind(view)
 
         val uid = getCurrentUserUid()
-
-        val arguments = arguments
-
-        val argUid = if (arguments == null) {
-            uid
-        } else {
-            ProfileFragmentArgs.fromBundle(arguments).uid
-        }
-
-        val profileFollow = binding.profileFollow
-        val profileUnfollow = binding.profileUnfollow
 
         val profileProfilePicture = binding.profilePart1.profileProfilePicture
         val profileFullName = binding.profilePart1.profileFullName
@@ -54,46 +39,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val profileFollowing = binding.profilePart2.profileFollowing
         val profileFollowers = binding.profilePart2.profileFollowers
 
+        val editProfile = binding.profileMyEditProfile
         val progressBarOverlay = binding.progressBarOverlay.progressBarOverlay
 
-        profileFollow.setOnClickListener {
-            // TODO: 17.09.2021 Queries should act like transactions
-            db.collection(Constants.USERS)
-                .document(uid)
-                .collection(Constants.FOLLOWING)
-                .document(argUid)
-                .set(hashMapOf(Constants.UID to argUid))
-                .addOnSuccessListener {
-                    profileFollow.visibility = View.INVISIBLE
-                    profileUnfollow.visibility = View.VISIBLE
-                }
+        editProfile.setOnClickListener {
+            val toProfileEditFragment =
+                ProfileViewPagerFragmentDirections.toProfileEditFragment()
 
-            db.collection(Constants.USERS)
-                .document(argUid)
-                .collection(Constants.FOLLOWERS)
-                .document(uid)
-                .set(hashMapOf(Constants.UID to uid))
+            findNavController().navigate(toProfileEditFragment)
         }
 
-        profileUnfollow.setOnClickListener {
-            db.collection(Constants.USERS)
-                .document(uid)
-                .collection(Constants.FOLLOWING)
-                .document(argUid)
-                .delete()
-                .addOnSuccessListener {
-                    profileUnfollow.visibility = View.INVISIBLE
-                    profileFollow.visibility = View.VISIBLE
-                }
-
-            db.collection(Constants.USERS)
-                .document(argUid)
-                .collection(Constants.FOLLOWERS)
-                .document(uid)
-                .delete()
-        }
-
-        userViewModel.getUser(argUid).observe(viewLifecycleOwner) { profile ->
+        userViewModel.getUser(uid).observe(viewLifecycleOwner) { profile ->
             profileLoaded = true
             show(progressBarOverlay)
 
@@ -110,20 +66,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profileBio.text = profile.bio
             }
 
-            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location).first()
+            val locationEveryone = resources
+                .getStringArray(R.array.who_can_see_my_location)
+                .first()
 
             if (profile.whoCanSeeMyLocation == locationEveryone) {
                 profileCity.text = profile.city
             } else {
                 profileCity.visibility = View.GONE
             }
-
-            if (argUid == uid) {
-                profileFollow.visibility = View.GONE
-            }
         }
 
-        userViewModel.getFollowing(argUid).observe(viewLifecycleOwner) { following ->
+        userViewModel.getFollowing(uid).observe(viewLifecycleOwner) { following ->
             followingsLoaded = true
             show(progressBarOverlay)
 
@@ -136,13 +90,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             profileFollowing.setOnClickListener {
                 val toFollowingFragment =
-                    ProfileFragmentDirections.toFollowingFragment(argUid)
+                    ProfileFragmentDirections.toFollowingFragment(uid)
 
                 findNavController().navigate(toFollowingFragment)
             }
         }
 
-        userViewModel.getFollowers(argUid).observe(viewLifecycleOwner) { followers ->
+        userViewModel.getFollowers(uid).observe(viewLifecycleOwner) { followers ->
             followersLoaded = true
             show(progressBarOverlay)
 
@@ -151,16 +105,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             profileFollowers.text =
                 resources.getQuantityString(R.plurals.number_followers, size, size)
 
-            if (followers.contains(uid)) {
-                profileFollow.visibility = View.INVISIBLE
-                profileUnfollow.visibility = View.VISIBLE
-            }
-
             if (followers.isEmpty()) return@observe
 
             profileFollowers.setOnClickListener {
                 val toFollowersFragment =
-                    ProfileFragmentDirections.toFollowersFragment(argUid)
+                    ProfileFragmentDirections.toFollowersFragment(uid)
 
                 findNavController().navigate(toFollowersFragment)
             }

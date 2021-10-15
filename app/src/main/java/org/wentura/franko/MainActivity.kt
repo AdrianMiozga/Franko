@@ -26,7 +26,7 @@ import org.wentura.franko.databinding.ActivityMainBinding
 import org.wentura.franko.home.HomeFragment
 import org.wentura.franko.map.MapFragment
 import org.wentura.franko.people.PeopleFragment
-import org.wentura.franko.profile.ProfileFragment
+import org.wentura.franko.profile.ProfileMyFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                         is HomeFragment,
                         is MapFragment,
                         is PeopleFragment,
-                        is ProfileFragment,
+                        is ProfileMyFragment,
                         is ActivitiesFragment -> {
                             bottomNavigation.visibility = View.VISIBLE
                         }

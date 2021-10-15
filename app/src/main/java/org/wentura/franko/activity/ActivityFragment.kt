@@ -47,7 +47,9 @@ class ActivityFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
+        if (args.currentUser) {
+            setHasOptionsMenu(true)
+        }
 
         val binding = FragmentActivityBinding.bind(view)
 

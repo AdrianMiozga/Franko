@@ -113,6 +113,11 @@
             android:id="@+id/to_activity_edit_fragment"
             app:destination="@id/activity_edit_fragment" />
 
+        <argument
+            android:name="currentUser"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
     </fragment>
 
     <fragment

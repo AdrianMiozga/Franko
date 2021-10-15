@@ -94,9 +94,14 @@ class ActivityFragment :
                 Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
             )
 
-            val index =
-                requireContext().resources.getStringArray(R.array.activities_array_values).indexOf(activity.activity)
-            val activityType = requireContext().resources.getStringArray(R.array.activities_array)[index]
+            val index = requireContext()
+                .resources
+                .getStringArray(R.array.activities_array_values)
+                .indexOf(activity.activity)
+
+            val activityType = requireContext()
+                .resources
+                .getStringArray(R.array.activities_array)[index]
 
             activityTitle.text = requireContext().getString(
                 R.string.activity_title,

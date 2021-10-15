@@ -26,9 +26,11 @@
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_home.xml" value="0.22644376899696048" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_main.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_map.xml" value="0.22644376899696048" />
+        <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_my_profile.xml" value="0.33605072463768115" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_people.xml" value="0.22644376899696048" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_profile.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_profile_edit.xml" value="0.47540983606557374" />
+        <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_profile_my.xml" value="0.5" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_profile_view_pager.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_simplified_people.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/fragment_statistics.xml" value="0.21458333333333332" />
@@ -38,6 +40,9 @@
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/list_item_activity_home.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/list_item_user.xml" value="0.22644376899696048" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/map.xml" value="0.333786231884058" />
+        <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/profile_part2.xml" value="0.33605072463768115" />
+        <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/profile_part_1.xml" value="0.33605072463768115" />
+        <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/profile_part_2.xml" value="0.22644376899696048" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/progress_bar_overlay.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/layout/user_item.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Adrian/Code/Franko/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.465625" />

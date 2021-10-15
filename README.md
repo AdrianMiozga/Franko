@@ -1,6 +1,5 @@
 # Show App to Someone
 
-Bottom navigation doesn't hide when viewing other people profiles  
 Polish UI  
 You can edit somebody else activity
 

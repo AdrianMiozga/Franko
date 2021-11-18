@@ -39,8 +39,9 @@ class ActivityFragment :
     private lateinit var profilePicture: ImageView
     private lateinit var userName: TextView
     private lateinit var activityTitle: TextView
-    private lateinit var activityDuration: TextView
     private lateinit var activityDate: TextView
+    private lateinit var activityDuration: TextView
+    private lateinit var activityLength: TextView
 
     companion object {
         val TAG = ActivityFragment::class.simpleName
@@ -57,8 +58,9 @@ class ActivityFragment :
             profilePicture = it.activityProfilePicture
             userName = it.activityUsername
             activityTitle = it.activityTitle
-            activityDuration = it.activityDuration
             activityDate = it.activityDate
+            activityDuration = it.activityDuration
+            activityLength = it.activityLength
         }
 
         val mapFragment =
@@ -151,6 +153,11 @@ class ActivityFragment :
             polyline.points = points
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
+
+            activityLength.text = getString(
+                R.string.activity_length,
+                activity.length / 1000
+            )
         }
     }
 }

@@ -45,6 +45,7 @@ class UserActivityAdapter :
         private val title: TextView = binding.activityView.activityTitle
         private val mapView: MapView = binding.itemActivityHomeMap
         private val durationTextView: TextView = binding.activityView.activityDuration
+        private val lengthTextView: TextView = binding.activityView.activityLength
 
         private val context = view.context
 
@@ -80,6 +81,11 @@ class UserActivityAdapter :
             }
 
             bounds = Utilities.getBounds(points)
+
+            lengthTextView.text = context.getString(
+                R.string.activity_length,
+                userActivity.activity.length / 1000
+            )
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 

@@ -6,7 +6,6 @@ Polish UI
 
 ## Activities
 
-Show activity length in km  
 Show average speed  
 Show max speed
 

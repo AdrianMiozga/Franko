@@ -9,7 +9,8 @@ data class Activity(
     val path: List<HashMap<String, Double>>? = null,
     val activity: String? = null,
     val activityName: String? = "",
-    val whoCanSeeThisActivity: String? = null
+    val whoCanSeeThisActivity: String? = null,
+    val length: Float = 0f
 ) {
     @DocumentId
     lateinit var documentId: String

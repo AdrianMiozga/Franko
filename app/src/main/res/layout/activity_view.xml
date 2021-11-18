@@ -63,4 +63,13 @@
         app:layout_constraintTop_toBottomOf="@id/activity_title"
         tools:text="@string/example_duration" />
 
+    <TextView
+        android:id="@+id/activity_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_duration"
+        tools:text="@string/example_length" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,9 +13,10 @@
     <string name="sample_city" translatable="false">New York</string>
     <string name="user_bio" translatable="false">Opis użytkownika…</string>
 
-    <string name="example_activity_title" translatable="false">Morning Activity (Walking)</string>
+    <string name="example_activity_title" translatable="false">Poranna Aktywność (Chodzenie)</string>
     <string name="example_date" translatable="false">2021-09-28</string>
-    <string name="example_duration" translatable="false">2h 25m</string>
+    <string name="example_duration" translatable="false">Czas: 2h 25m</string>
+    <string name="example_length" translatable="false">Długość: 12km</string>
 
     <!-- Translatable resources -->
     <string name="start">Start</string>
@@ -88,6 +89,7 @@
     <string name="no_one">Nikt</string>
     <string name="date_and_time">%s o %s</string>
     <string name="time">Czas: %s</string>
+    <string name="activity_length">Długość: %.2fkm</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

@@ -17,11 +17,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
 
     private val viewModel: UserActivityListViewModel by viewModels()
 
-    private val activityTypes = arrayListOf(
-        Constants.BIKE,
-        Constants.RUNNING,
-        Constants.WALKING
-    )
+    private val activityTypes = Constants.ACTIVITY_TYPES.toMutableList()
 
     companion object {
         val TAG = ActivitiesFragment::class.simpleName

@@ -48,6 +48,13 @@ object Constants {
     const val LINE_WIDTH = 12F
     const val LINE_COLOR = Color.BLUE
 
+    // Activity Types
+    val ACTIVITY_TYPES = listOf(
+        BIKE,
+        RUNNING,
+        WALKING
+    )
+
     // Notification
     const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1
     const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID =

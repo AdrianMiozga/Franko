@@ -1,7 +1,3 @@
-# Show App to Someone
-
-Polish UI
-
 # TODO
 
 ## Activities

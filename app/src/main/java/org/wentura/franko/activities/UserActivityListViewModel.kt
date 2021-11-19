@@ -30,10 +30,15 @@ class UserActivityListViewModel @Inject constructor(
     val userActivites: LiveData<List<UserActivity>> = _userActivities
 
     init {
-        getCurrentActivities(listOf())
+        getCurrentActivities(Constants.ACTIVITY_TYPES)
     }
 
     fun getCurrentActivities(activityTypes: List<String>): LiveData<List<UserActivity>> {
+        if (activityTypes.isEmpty()) {
+            _userActivities.value = ArrayList()
+            return _userActivities
+        }
+
         viewModelScope.launch {
             val userSnapshot = userRepository
                 .getUser()
@@ -42,13 +47,10 @@ class UserActivityListViewModel @Inject constructor(
 
             val user: User = userSnapshot.toObject() ?: return@launch
 
-            var query = activityRepository
+            val query = activityRepository
                 .getActivities(getCurrentUserUid())
                 .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
-
-            if (activityTypes.isNotEmpty()) {
-                query = query.whereIn(Constants.ACTIVITY, activityTypes)
-            }
+                .whereIn(Constants.ACTIVITY, activityTypes)
 
             query.addSnapshotListener { activitiesSnapshot, exception ->
                 if (exception != null) {

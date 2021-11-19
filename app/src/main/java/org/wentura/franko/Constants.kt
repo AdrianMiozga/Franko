@@ -81,5 +81,5 @@ object Constants {
     val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
 
     /** Meters per second to kilometers per hour **/
-    const val KMH = 3.6
+    const val MS_TO_KMH = 3.6
 }

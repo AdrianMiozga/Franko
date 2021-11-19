@@ -42,6 +42,7 @@ class ActivityFragment :
     private lateinit var activityDate: TextView
     private lateinit var activityDuration: TextView
     private lateinit var activityLength: TextView
+    private lateinit var activityAverageSpeed: TextView
 
     companion object {
         val TAG = ActivityFragment::class.simpleName
@@ -62,6 +63,8 @@ class ActivityFragment :
             activityDuration = it.activityDuration
             activityLength = it.activityLength
         }
+
+        activityAverageSpeed = binding.activityAverageSpeed
 
         val mapFragment =
             childFragmentManager
@@ -157,6 +160,13 @@ class ActivityFragment :
             activityLength.text = getString(
                 R.string.activity_length,
                 activity.length / 1000
+            )
+
+            val averageSpeed = (activity.length / duration).times(Constants.MS_TO_KMH)
+
+            activityAverageSpeed.text = getString(
+                R.string.activity_average_speed,
+                averageSpeed
             )
         }
     }

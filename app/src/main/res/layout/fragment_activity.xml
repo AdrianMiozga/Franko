@@ -4,12 +4,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include
         android:id="@+id/activity_view"
         layout="@layout/activity_view" />
+
+    <TextView
+        android:id="@+id/activity_average_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_view"
+        tools:text="Średnia prędkość: 12 km/h" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_map"
@@ -20,6 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@id/activity_view" />
+        map:layout_constraintTop_toBottomOf="@id/activity_average_speed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

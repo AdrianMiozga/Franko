@@ -6,6 +6,6 @@ class Speedometer {
 
     var speed: Double = 0.0
         get() {
-            return field.times(Constants.KMH)
+            return field.times(Constants.MS_TO_KMH)
         }
 }

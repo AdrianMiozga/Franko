@@ -89,7 +89,8 @@
     <string name="no_one">Nikt</string>
     <string name="date_and_time">%s o %s</string>
     <string name="time">Czas: %s</string>
-    <string name="activity_length">Długość: %.2fkm</string>
+    <string name="activity_length">Długość: %.2f km</string>
+    <string name="activity_average_speed">Średnia prędkość: %.2f km/h</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

@@ -2,7 +2,6 @@
 
 ## Activities
 
-Show average speed  
 Show max speed
 
 Pause activity, not only stop

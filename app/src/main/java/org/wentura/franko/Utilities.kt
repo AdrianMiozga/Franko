@@ -190,22 +190,31 @@ object Utilities {
     }
 
     fun formatTime(time: Long): String {
+        var remaining = time
         var result = ""
 
-        val hours = TimeUnit.MILLISECONDS.toHours(time)
+        val hours = TimeUnit.MILLISECONDS.toHours(remaining)
 
         if (hours != 0L) {
-            result += "${hours}h"
+            result += "${hours}h "
         }
 
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(time)
+        remaining = time - TimeUnit.HOURS.toMillis(hours)
+
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(remaining)
 
         result += if (minutes == 0L) {
             "1m"
         } else {
-            "${minutes}m"
+            "${minutes}m "
         }
 
-        return result
+        remaining = time - TimeUnit.MINUTES.toMillis(minutes)
+
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(remaining)
+
+        result += "${seconds}s"
+
+        return result.trim()
     }
 }

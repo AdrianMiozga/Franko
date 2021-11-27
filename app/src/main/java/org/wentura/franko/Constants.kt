@@ -21,6 +21,7 @@ object Constants {
     const val PHOTO_URL = "photoUrl"
     const val LATITUDE = "latitude"
     const val LONGITUDE = "longitude"
+    const val SPEED = "speed"
     const val ACTIVITY = "activity"
     const val END_TIME = "endTime"
 

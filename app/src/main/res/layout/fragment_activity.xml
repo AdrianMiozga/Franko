@@ -21,6 +21,15 @@
         app:layout_constraintTop_toBottomOf="@id/activity_view"
         tools:text="Średnia prędkość: 12 km/h" />
 
+    <TextView
+        android:id="@+id/activity_max_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_average_speed"
+        tools:text="Maksymalna prędkość: 20 km/h" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -30,6 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@id/activity_average_speed" />
+        map:layout_constraintTop_toBottomOf="@id/activity_max_speed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

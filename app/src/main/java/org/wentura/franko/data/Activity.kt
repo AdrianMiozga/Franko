@@ -10,7 +10,8 @@ data class Activity(
     val activity: String? = null,
     val activityName: String? = "",
     val whoCanSeeThisActivity: String? = null,
-    val length: Float = 0f
+    val length: Float = 0f,
+    val maxSpeed: Double = 0.0
 ) {
     @DocumentId
     lateinit var documentId: String

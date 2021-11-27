@@ -3,9 +3,9 @@ package org.wentura.franko.activitysave
 import android.content.Context
 import android.content.Intent
 import android.location.Location
+import android.os.Build
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
-import com.google.android.gms.maps.model.LatLng
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities.getCurrentUserUid
@@ -26,9 +26,10 @@ class ActivitySaveObserver(
     fun save() {
         val path: ArrayList<HashMap<String, Double>> = ArrayList()
 
-        val points = recordingRepository.points.value
+        val points = recordingRepository.locations.value
         val startTime = recordingRepository.startTime
         val elapsedTime = recordingRepository.recordingTime.value
+        var maxSpeed = 0.0
 
         context.stopService(Intent(context, RecordingService::class.java))
 
@@ -37,10 +38,21 @@ class ActivitySaveObserver(
         if (elapsedTime == null) return
 
         points.forEach { point ->
+            val speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                point.speedAccuracyMetersPerSecond.toDouble()
+            } else {
+                point.speed.toDouble()
+            }
+
             val element = hashMapOf(
                 Constants.LATITUDE to point.latitude,
-                Constants.LONGITUDE to point.longitude
+                Constants.LONGITUDE to point.longitude,
+                Constants.SPEED to speed
             )
+
+            if (speed > maxSpeed) {
+                maxSpeed = speed
+            }
 
             path.add(element)
         }
@@ -81,13 +93,14 @@ class ActivitySaveObserver(
             activityType,
             activityName,
             visibility,
-            distance
+            distance,
+            maxSpeed
         )
 
         activityRepository.addActivity(activity)
     }
 
-    private fun calculateLength(points: List<LatLng>): Float {
+    private fun calculateLength(points: List<Location>): Float {
         var distance = 0f
 
         for (i in 1 until points.size) {

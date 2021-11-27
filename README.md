@@ -2,7 +2,6 @@
 
 ## Activities
 
-Show max speed  
 Moving time to calculate proper average speed instead of taking whole activity time
 
 Pause activity, not only stop

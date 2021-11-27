@@ -91,6 +91,7 @@
     <string name="time">Czas: %s</string>
     <string name="activity_length">Długość: %.2f km</string>
     <string name="activity_average_speed">Średnia prędkość: %.2f km/h</string>
+    <string name="activity_max_speed">Maksymalna prędkość: %.2f km/h</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

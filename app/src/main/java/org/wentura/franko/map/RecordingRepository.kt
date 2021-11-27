@@ -27,6 +27,8 @@ class RecordingRepository @Inject constructor() : LocationCallback() {
 
     val points = MutableLiveData<List<LatLng>>()
 
+    val locations = MutableLiveData<List<Location>>()
+
     override fun onLocationResult(locationResult: LocationResult) {
         val locationList = locationResult.locations
 
@@ -40,5 +42,10 @@ class RecordingRepository @Inject constructor() : LocationCallback() {
         tempPoints.add(LatLng(location.latitude, location.longitude))
 
         points.value = tempPoints
+
+        val tempLocations = locations.value?.toMutableList() ?: ArrayList()
+        tempLocations.add(location)
+
+        locations.value = tempLocations
     }
 }

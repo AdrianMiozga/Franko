@@ -2,20 +2,19 @@
 
 ## Activities
 
-Show max speed
+Show max speed  
+Moving time to calculate proper average speed instead of taking whole activity time
 
 Pause activity, not only stop
 
 Auto pause
 https://developer.android.com/guide/topics/location/transitions
 
-## Performance
-
-Cache network requests from Firebase
-
 ## People
 
 If you follow someone, they need to accept it
+
+- Notifications Activity
 
 ## UI
 
@@ -23,7 +22,8 @@ App logo
 Fold something when scrolling through activities (app bar? tab layout? chips?)
 Polyline should be smoothed out, without corners. Like in Strava   
 Dialog in case user disabled location during activity recording  
-Dialog in case of disabled network  
+Dialog in case of disabled network
+
 Time isn't saved correctly all the time?  
 GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
 
@@ -46,6 +46,10 @@ Add photos to activities
 ## Login
 
 Log in with Email, Facebook, Twitter
+
+## Performance
+
+Cache network requests from Firebase
 
 ## UI
 

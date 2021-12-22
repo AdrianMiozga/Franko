@@ -1,5 +1,18 @@
 # TODO
 
+# Nice to Have
+
+## People
+
+If you follow someone, they need to accept it
+
+- Notifications Activity
+
+Recent profile searches  
+Clear recent profile searches  
+Ability to display profile pic on full screen  
+Notification about follower new activity
+
 ## Activities
 
 Moving time to calculate proper average speed instead of taking whole activity time
@@ -8,34 +21,6 @@ Pause activity, not only stop
 
 Auto pause
 https://developer.android.com/guide/topics/location/transitions
-
-## People
-
-If you follow someone, they need to accept it
-
-- Notifications Activity
-
-## UI
-
-App logo  
-Fold something when scrolling through activities (app bar? tab layout? chips?)
-Polyline should be smoothed out, without corners. Like in Strava   
-Dialog in case user disabled location during activity recording  
-Dialog in case of disabled network
-
-Time isn't saved correctly all the time?  
-GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
-
-# Nice to Have
-
-## People
-
-Recent profile searches  
-Clear recent profile searches  
-Ability to display profile pic on full screen  
-Notification about follower new activity
-
-## Activities
 
 Search by title  
 Pagination  
@@ -51,6 +36,15 @@ Log in with Email, Facebook, Twitter
 Cache network requests from Firebase
 
 ## UI
+
+App logo  
+Fold something when scrolling through activities (app bar? tab layout? chips?)
+Polyline should be smoothed out, without corners. Like in Strava   
+Dialog in case user disabled location during activity recording  
+Dialog in case of disabled network
+
+Time isn't saved correctly all the time?  
+GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
 
 Optional notification when somebody follows you  
 Loading bar when changing profile picture  

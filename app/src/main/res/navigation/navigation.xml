@@ -117,14 +117,18 @@
             android:name="id"
             app:argType="string" />
 
-        <action
-            android:id="@+id/to_activity_edit_fragment"
-            app:destination="@id/activity_edit_fragment" />
-
         <argument
             android:name="currentUser"
             android:defaultValue="false"
             app:argType="boolean" />
+
+        <action
+            android:id="@+id/to_activity_edit_fragment"
+            app:destination="@id/activity_edit_fragment" />
+
+        <action
+            android:id="@+id/to_activity_map_fragment"
+            app:destination="@+id/activity_map_fragment" />
 
     </fragment>
 
@@ -194,5 +198,16 @@
         android:name="org.wentura.franko.activitysave.ActivitySaveFragment"
         android:label="@string/save_activity"
         tools:layout="@layout/fragment_activity_save" />
+
+    <fragment
+        android:id="@+id/activity_map_fragment"
+        android:name="org.wentura.franko.activitymap.ActivityMapFragment"
+        android:label="@string/fragment_activity_map">
+
+        <argument
+            android:name="id"
+            app:argType="string" />
+
+    </fragment>
 
 </navigation>

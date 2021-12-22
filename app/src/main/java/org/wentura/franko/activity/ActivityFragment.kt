@@ -16,11 +16,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
-import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.databinding.FragmentActivityBinding
@@ -96,7 +96,12 @@ class ActivityFragment :
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setup(requireContext())
 
-        val polyline = googleMap.addPolyline(createPolylineOptions())
+        googleMap.setOnMapClickListener {
+            val toActivityMapFragment =
+                ActivityFragmentDirections.toActivityMapFragment(args.id)
+
+            findNavController().navigate(toActivityMapFragment)
+        }
 
         viewModel.userActivity.observe(viewLifecycleOwner) { userActivity ->
             val activity = userActivity.activity
@@ -144,21 +149,6 @@ class ActivityFragment :
                 timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             )
 
-            val points: ArrayList<LatLng> = arrayListOf()
-
-            for (point in activity.path) {
-                val latitude = point[Constants.LATITUDE]!!
-                val longitude = point[Constants.LONGITUDE]!!
-
-                points.add(LatLng(latitude, longitude))
-            }
-
-            val bounds = Utilities.getBounds(points)
-
-            polyline.points = points
-
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
-
             activityLength.text = getString(
                 R.string.activity_length,
                 activity.length / 1000
@@ -175,6 +165,26 @@ class ActivityFragment :
                 R.string.activity_max_speed,
                 activity.maxSpeed.times(Constants.MS_TO_KMH)
             )
+
+            val points: ArrayList<LatLng> = arrayListOf()
+
+            for (point in activity.path) {
+                val latitude = point[Constants.LATITUDE]!!
+                val longitude = point[Constants.LONGITUDE]!!
+
+                points.add(LatLng(latitude, longitude))
+            }
+
+            googleMap.addPolyline(
+                PolylineOptions()
+                    .addAll(points)
+                    .width(Constants.LINE_WIDTH)
+                    .color(Constants.LINE_COLOR)
+            )
+
+            val bounds = Utilities.getBounds(points)
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
         }
     }
 }

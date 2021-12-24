@@ -1,6 +1,5 @@
 package org.wentura.franko
 
-import android.graphics.Color
 import java.util.concurrent.TimeUnit
 
 object Constants {
@@ -47,7 +46,9 @@ object Constants {
     // Map Settings
     const val DEFAULT_ZOOM = 17F
     const val LINE_WIDTH = 12F
-    const val LINE_COLOR = Color.BLUE
+
+    //    const val LINE_COLOR = Color.BLUE
+    const val LINE_COLOR = 0xFF7E57C2.toInt()
 
     // Activity Types
     val ACTIVITY_TYPES = listOf(

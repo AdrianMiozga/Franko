@@ -9,7 +9,6 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,19 +20,45 @@
             android:id="@+id/activity_average_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/activity_average_speed_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_view"
-            tools:text="Średnia prędkość: 12 km/h" />
+            tools:text="12 km/h" />
+
+        <TextView
+            android:id="@+id/activity_average_speed_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/activity_average_speed_text"
+            app:layout_constraintBottom_toTopOf="@id/activity_map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_average_speed" />
 
         <TextView
             android:id="@+id/activity_max_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_average_speed"
-            tools:text="Maksymalna prędkość: 20 km/h" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/activity_max_speed_text"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/activity_view"
+            tools:text="20 km/h" />
+
+        <TextView
+            android:id="@+id/activity_max_speed_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/activity_max_speed_text"
+            app:layout_constraintBottom_toTopOf="@id/activity_map"
+            app:layout_constraintStart_toStartOf="@id/activity_max_speed"
+            app:layout_constraintTop_toBottomOf="@id/activity_max_speed" />
 
         <fragment
             android:id="@+id/activity_map"
@@ -43,9 +68,16 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_max_speed"
-            map:liteMode="true"
-            map:uiMapToolbar="false" />
+            app:layout_constraintTop_toBottomOf="@id/activity_max_speed_text"
+            app:liteMode="true"
+            app:uiMapToolbar="false" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

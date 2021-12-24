@@ -15,8 +15,8 @@
 
     <string name="example_activity_title" translatable="false">Poranna Aktywność (Chodzenie)</string>
     <string name="example_date" translatable="false">2021-09-28</string>
-    <string name="example_duration" translatable="false">Czas: 2h 25m</string>
-    <string name="example_length" translatable="false">Długość: 12km</string>
+    <string name="example_duration" translatable="false">2h 25m</string>
+    <string name="example_length" translatable="false">12km</string>
 
     <!-- Translatable resources -->
     <string name="start">Start</string>
@@ -46,7 +46,7 @@
     <string name="cancel">Anuluj</string>
     <string name="unsaved_changes">Niezapisane zmiany</string>
     <string name="you_have_unsaved_changes">Masz niezapisane zmiany</string>
-    <string name="who_can_see_my_location">Kto może zobaczyć moję lokalizację</string>
+    <string name="who_can_see_my_location">Kto może zobaczyć moją lokalizację</string>
     <string name="follow">Obserwuj</string>
     <string name="unfollow">Przestań obserwować</string>
     <string name="OK">OK</string>
@@ -88,10 +88,14 @@
     <string name="everyone">Wszyscy</string>
     <string name="no_one">Nikt</string>
     <string name="date_and_time">%s o %s</string>
-    <string name="time">Czas: %s</string>
-    <string name="activity_length">Długość: %.2f km</string>
-    <string name="activity_average_speed">Średnia prędkość: %.2f km/h</string>
-    <string name="activity_max_speed">Maksymalna prędkość: %.2f km/h</string>
+    <string name="time">%s</string>
+    <string name="time_text">Czas</string>
+    <string name="activity_length">%.2f km</string>
+    <string name="activity_length_text">Długość</string>
+    <string name="activity_average_speed">%.2f km/h</string>
+    <string name="activity_average_speed_text">Średnia prędkość</string>
+    <string name="activity_max_speed">%.2f km/h</string>
+    <string name="activity_max_speed_text">Maksymalna prędkość</string>
     <string name="fragment_activity_map">Mapa Aktywności</string>
 
     <!-- String plurals -->

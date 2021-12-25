@@ -3,6 +3,7 @@ package org.wentura.franko.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
@@ -17,6 +18,7 @@ import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.createPolylineOptions
 import org.wentura.franko.Utilities.getCurrentUserUid
+import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityBinding
@@ -39,7 +41,8 @@ class UserActivityAdapter :
         private var points: ArrayList<LatLng> = arrayListOf()
         private val binding = ListItemActivityBinding.bind(view)
 
-        //        private val profileProfilePicture: ImageView = binding.activityView.activityProfilePicture
+        private val profileProfilePicture: ImageView = binding.activityView.activityProfilePicture
+
         private val name: TextView = binding.activityView.activityUsername
         private val dateTextView: TextView = binding.activityView.activityDate
         private val title: TextView = binding.activityView.activityTitle
@@ -123,8 +126,8 @@ class UserActivityAdapter :
             )
 
             // TODO: 13.10.2021 This breaks MapView rendering
-//            val photoUrl = userActivity.user.photoUrl
-//            profileProfilePicture.loadProfilePicture(photoUrl)
+            val photoUrl = userActivity.user.photoUrl
+            profileProfilePicture.loadProfilePicture(photoUrl)
 
             setupMap()
         }
@@ -150,12 +153,14 @@ class UserActivityAdapter :
         private fun setupMap() {
             if (!this::googleMap.isInitialized) return
 
-            googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-            googleMap.setup(context)
-
             if (points.isNotEmpty()) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
                 googleMap.addPolyline(createPolylineOptions().addAll(points))
+            }
+
+            with(googleMap) {
+                mapType = GoogleMap.MAP_TYPE_NORMAL
+                setup(context)
             }
         }
     }

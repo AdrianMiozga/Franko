@@ -1,7 +1,5 @@
 # TODO
 
-Record more paths to show on screenshots
-
 # Nice to Have
 
 ## People

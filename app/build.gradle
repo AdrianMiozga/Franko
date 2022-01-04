@@ -14,14 +14,23 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Adrian\\keystores\\franko-android.jks')
+            storePassword 'eLWvXo5uzH3TcpKr7oMuTKFtafhZkLh9CNseCYq*LXpR2p#mYK79%*Y9WzBpnR@zwqgC%SpUf8MWD^5wfm96StsMNjwstPw7*c$@nrHB3w@#DNrG4eNkzY5k&j#LZ&fy'
+            keyPassword 'eLWvXo5uzH3TcpKr7oMuTKFtafhZkLh9CNseCYq*LXpR2p#mYK79%*Y9WzBpnR@zwqgC%SpUf8MWD^5wfm96StsMNjwstPw7*c$@nrHB3w@#DNrG4eNkzY5k&j#LZ&fy'
+            keyAlias 'FrankoKey'
+        }
+    }
+
     compileSdk 31
 
     defaultConfig {
         applicationId "org.wentura.franko"
         minSdk 21
         targetSdk 31
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 3
+        versionName "0.1.0"
 
         resConfigs "pl"
 
@@ -36,6 +45,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

@@ -45,7 +45,7 @@ object Utilities {
     }
 
     fun extractPhotoUrl(user: FirebaseUser): String {
-        var photoUrl = user.photoUrl.toString()
+        var photoUrl = user.photoUrl?.toString() ?: ""
 
         for (profile in user.providerData) {
             if (profile.providerId == Constants.PROVIDER_GOOGLE) {

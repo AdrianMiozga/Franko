@@ -43,6 +43,11 @@ class UserActivityListViewModel @Inject constructor(
                 followingIds.add(user.id)
             }
 
+            if (followingIds.isEmpty()) {
+                _userActivities.value = ArrayList()
+                return@launch
+            }
+
             activityRepository
                 .getActivities(followingIds)
                 .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)

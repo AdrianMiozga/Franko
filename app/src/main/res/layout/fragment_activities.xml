@@ -57,7 +57,7 @@
         android:id="@+id/activities_nothing_to_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nothing_to_show"
+        android:text="@string/no_activities"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

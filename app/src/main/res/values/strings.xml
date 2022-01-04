@@ -97,6 +97,8 @@
     <string name="activity_max_speed">%.2f km/h</string>
     <string name="activity_max_speed_text">Maksymalna prędkość</string>
     <string name="fragment_activity_map">Mapa Aktywności</string>
+    <string name="no_followers_activity">Brak aktywności obserwowanych użytkowników</string>
+    <string name="no_activities">Brak aktywności</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

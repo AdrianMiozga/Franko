@@ -30,7 +30,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.userActivities.observe(viewLifecycleOwner) { userActivities ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
 
-            adapter.submitList(userActivities)
+            if (userActivities.isEmpty()) {
+                binding.homeNothingToShow.visibility = View.VISIBLE
+            } else {
+                adapter.submitList(userActivities)
+            }
         }
     }
 }

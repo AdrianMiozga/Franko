@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
 
         val values: Map<String, Any> =
             hashMapOf(
-                Constants.FIRST_NAME to (user.displayName ?: ""),
+                Constants.FIRST_NAME to (user.displayName ?: getString(R.string.user)),
                 Constants.PHOTO_URL to photoUrl
             )
 

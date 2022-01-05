@@ -15,11 +15,10 @@ import javax.inject.Singleton
 class UserRepository @Inject constructor() {
 
     private val db = Firebase.firestore
-    private val myUid: String by lazy { getCurrentUserUid() }
 
     fun getUser(): DocumentReference {
         return db.collection(Constants.USERS)
-            .document(myUid)
+            .document(getCurrentUserUid())
     }
 
     fun getUser(uid: String): DocumentReference {
@@ -57,31 +56,31 @@ class UserRepository @Inject constructor() {
 
     fun updateUser(updates: Map<String, Any>) {
         db.collection(Constants.USERS)
-            .document(myUid)
+            .document(getCurrentUserUid())
             .update(updates)
     }
 
     fun addNewUser(values: Map<String, Any>) {
         db.collection(Constants.USERS)
-            .document(myUid)
+            .document(getCurrentUserUid())
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) return@addOnSuccessListener
 
                 db.collection(Constants.USERS)
-                    .document(myUid)
+                    .document(getCurrentUserUid())
                     .set(values)
             }
     }
 
     fun removeProfilePicture() {
         db.collection(Constants.USERS)
-            .document(myUid)
+            .document(getCurrentUserUid())
             .update(Constants.PHOTO_URL, FieldValue.delete())
 
         val imageDirectory = Firebase.storage.reference.child(Constants.IMAGES)
 
-        val imageName = "$myUid.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}"
+        val imageName = "${getCurrentUserUid()}.${Constants.PROFILE_PICTURE_FORMAT_EXTENSION}"
         val profilePicture = imageDirectory.child(imageName)
 
         profilePicture.delete()

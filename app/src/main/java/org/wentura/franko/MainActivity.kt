@@ -149,9 +149,13 @@ class MainActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val photoUrl = Utilities.extractPhotoUrl(user)
 
+        val firstName = user.displayName?.substringBeforeLast(" ") ?: getString(R.string.user)
+        val lastName = user.displayName?.substringAfterLast(" ") ?: ""
+
         val values: Map<String, Any> =
             hashMapOf(
-                Constants.FIRST_NAME to (user.displayName ?: getString(R.string.user)),
+                Constants.FIRST_NAME to firstName,
+                Constants.LAST_NAME to lastName,
                 Constants.PHOTO_URL to photoUrl
             )
 

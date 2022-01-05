@@ -99,6 +99,7 @@
     <string name="fragment_activity_map">Mapa Aktywności</string>
     <string name="no_followers_activity">Brak aktywności obserwowanych użytkowników</string>
     <string name="no_activities">Brak aktywności</string>
+    <string name="user">Użytkownik</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

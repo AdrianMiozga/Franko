@@ -2,16 +2,19 @@ package org.wentura.franko
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.GoogleMap
@@ -216,5 +219,21 @@ object Utilities {
         result += "${seconds}s"
 
         return result.trim()
+    }
+
+    fun createSignInIntent(signInLauncher: ActivityResultLauncher<Intent>) {
+        val providers = listOf(
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        val signInIntent = AuthUI
+            .getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setLogo(R.mipmap.ic_launcher_round)
+//            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
+            .build()
+
+        signInLauncher.launch(signInIntent)
     }
 }

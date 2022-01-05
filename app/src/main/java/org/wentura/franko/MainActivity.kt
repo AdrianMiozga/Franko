@@ -15,7 +15,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var userRepository: UserRepository
 
-    private val signInLauncher = registerForActivityResult(
+    val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         onSignInResult(result)
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         content.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
 
         if (FirebaseAuth.getInstance().currentUser == null) {
-            createSignInIntent()
+            Utilities.createSignInIntent(signInLauncher)
         } else {
             setupUi()
         }
@@ -127,23 +126,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()
-    }
-
-    fun createSignInIntent() {
-        val providers = listOf(
-//            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        val signInIntent = AuthUI
-            .getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setLogo(R.mipmap.ic_launcher_round)
-//            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
-            .build()
-
-        signInLauncher.launch(signInIntent)
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {

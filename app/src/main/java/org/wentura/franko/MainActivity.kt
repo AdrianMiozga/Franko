@@ -142,6 +142,10 @@ class MainActivity : AppCompatActivity() {
 
         setupUi()
 
+        addNewUser()
+    }
+
+    fun addNewUser() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val photoUrl = Utilities.extractPhotoUrl(user)
 

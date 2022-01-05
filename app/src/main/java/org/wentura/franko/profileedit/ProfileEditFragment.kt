@@ -50,6 +50,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     private val homeLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) {
+        (activity as MainActivity).addNewUser()
         findNavController().navigate(ProfileEditFragmentDirections.toHomeFragment())
     }
 

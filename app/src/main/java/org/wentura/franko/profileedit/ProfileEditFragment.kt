@@ -17,7 +17,6 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import org.wentura.franko.MainActivity
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.loadProfilePicture
@@ -45,6 +44,12 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         deleteAccount(result)
+    }
+
+    private val homeLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) {
+        findNavController().navigate(ProfileEditFragmentDirections.toHomeFragment())
     }
 
     companion object {
@@ -118,7 +123,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 .getInstance()
                 .signOut(requireContext())
                 .addOnSuccessListener {
-                    Utilities.createSignInIntent((activity as MainActivity).signInLauncher)
+                    Utilities.createSignInIntent(homeLauncher)
                 }
         }
 

@@ -72,7 +72,14 @@
         android:id="@+id/profile_edit_fragment"
         android:name="org.wentura.franko.profileedit.ProfileEditFragment"
         android:label="@string/edit_profile"
-        tools:layout="@layout/fragment_profile_edit" />
+        tools:layout="@layout/fragment_profile_edit">
+
+        <action
+            android:id="@+id/to_home_fragment"
+            app:destination="@id/home_fragment"
+            app:popUpTo="@id/home_fragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/view_pager_fragment"

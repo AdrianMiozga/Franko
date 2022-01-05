@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var userRepository: UserRepository
 
-    val signInLauncher = registerForActivityResult(
+    private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         onSignInResult(result)

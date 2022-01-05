@@ -7,15 +7,19 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.MainActivity
 import org.wentura.franko.R
+import org.wentura.franko.Utilities
 import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
@@ -36,6 +40,12 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     private lateinit var user: User
     private lateinit var firstNameInput: TextInputLayout
     private lateinit var bioInput: TextInputLayout
+
+    private val deleteAccountLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { result ->
+        deleteAccount(result)
+    }
 
     companion object {
         val TAG = ProfileEditFragment::class.simpleName
@@ -108,23 +118,12 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 .getInstance()
                 .signOut(requireContext())
                 .addOnSuccessListener {
-                    (activity as MainActivity).createSignInIntent()
+                    Utilities.createSignInIntent((activity as MainActivity).signInLauncher)
                 }
         }
 
         profileEditDeleteAccount.setOnClickListener {
-            AuthUI
-                .getInstance()
-                .delete(requireContext())
-                .addOnSuccessListener {
-                    findNavController().navigateUp()
-
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.account_deleted),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            Utilities.createSignInIntent(deleteAccountLauncher)
         }
 
         editProfileProfilePicture.setOnClickListener {
@@ -166,6 +165,25 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 }
 
                 findNavController().navigateUp()
+            }
+    }
+
+    private fun deleteAccount(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode != AppCompatActivity.RESULT_OK) {
+            return
+        }
+
+        AuthUI
+            .getInstance()
+            .delete(requireContext())
+            .addOnSuccessListener {
+                findNavController().navigateUp()
+
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.account_deleted),
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 

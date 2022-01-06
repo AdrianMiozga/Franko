@@ -156,7 +156,10 @@ class MainActivity : AppCompatActivity() {
             hashMapOf(
                 Constants.FIRST_NAME to firstName,
                 Constants.LAST_NAME to lastName,
-                Constants.PHOTO_URL to photoUrl
+                Constants.PHOTO_URL to photoUrl,
+                Constants.LAST_ACTIVITY to Constants.BIKE,
+                Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT to Constants.EVERYONE,
+                Constants.WHO_CAN_SEE_MY_PROFILE to Constants.EVERYONE
             )
 
         userRepository.addNewUser(values)

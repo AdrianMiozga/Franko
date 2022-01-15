@@ -52,4 +52,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/about">
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="versionKey"
+            app:title="@string/version" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import dagger.hilt.android.AndroidEntryPoint
+import org.wentura.franko.BuildConfig
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.viewmodels.CurrentUserViewModel
@@ -47,6 +49,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val whoCanSeeActivityDefault: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT)
+
+        val version: Preference? =
+            preferenceManager.findPreference(Constants.VERSION_KEY)
+
+        version?.summary = BuildConfig.VERSION_NAME
 
         currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
             darkModeSwitch?.let {

@@ -100,6 +100,8 @@
     <string name="no_followers_activity">Brak aktywności obserwowanych użytkowników</string>
     <string name="no_activities">Brak aktywności</string>
     <string name="user">Użytkownik</string>
+    <string name="about">O aplikacji</string>
+    <string name="version">Wersja</string>
 
     <!-- String plurals -->
     <plurals name="number_following">

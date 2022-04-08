@@ -63,7 +63,7 @@
     <string name="location_permissions_needed_dialog_title">Wymagane jest pozwolenie na dostęp do lokalizacji</string>
     <string name="location_permissions_needed_dialog_message">Ta aplikacja wymaga pozwolenia na dostęp do lokalizacji.</string>
     <string name="activity_type">Typ aktywności</string>
-    <string name="who_can_see_this_activity">Kto może zobaczyć tą aktywność</string>
+    <string name="who_can_see_this_activity">Kto może zobaczyć tę aktywność</string>
     <string name="activity_name">Nazwa aktywności</string>
     <string name="who_can_see_activity_default">Kto może widzieć nowo utworzone aktywności</string>
     <string name="keep_screen_on_in_map_title">Utrzymuj włączony ekran</string>

@@ -34,7 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val darkModeSwitch: SwitchPreferenceCompat? =
             preferenceManager.findPreference(Constants.DARK_MODE_KEY)
 

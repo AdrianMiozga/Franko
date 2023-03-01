@@ -214,7 +214,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     }
 
     private fun areInputsInvalid(): Boolean {
-        return (firstNameInput.error != null ||
-                (bioInput.editText?.text?.length ?: 0 > bioInput.counterMaxLength))
+        return ((firstNameInput.error != null ||
+                ((bioInput.editText?.text?.length ?: 0) > bioInput.counterMaxLength)))
     }
 }

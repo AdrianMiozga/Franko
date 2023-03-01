@@ -3,7 +3,7 @@
     <!-- Resources that do not require translation -->
     <string name="app_name" translatable="false">Franko</string>
 
-    <string name="time_span" translatable="false">%s - %s</string>
+    <!--    <string name="time_span" translatable="false">%s - %s</string>-->
     <string name="user_activity_title" translatable="false">%s (%s)</string>
     <string name="activity_title" translatable="false">%s (%s)</string>
 
@@ -38,7 +38,7 @@
     <string name="city">Miasto</string>
     <string name="edit_profile_picture">Edytuj zdjęcie profilowe</string>
     <string name="dark_mode">Motyw ciemny</string>
-    <string name="units_of_measure">Jednostki miary</string>
+    <!--    <string name="units_of_measure">Jednostki miary</string>-->
     <string name="display">Wyświetlanie</string>
     <string name="privacy">Prywatność</string>
     <string name="who_can_see_my_profile">Kto może zobaczyć mój profil</string>
@@ -82,7 +82,7 @@
     <string name="back">Wróć</string>
     <string name="no">Nie</string>
     <string name="new_activity_unsaved_changes_message">Czy chcesz zapisać aktywność?</string>
-    <string name="too_short_activity_to_save_toast">Aktywności krótsze niż jedna minuta nie są zapisywane</string>
+    <!--    <string name="too_short_activity_to_save_toast">Aktywności krótsze niż jedna minuta nie są zapisywane</string>-->
     <string name="activity_without_name">Bez nazwy</string>
     <string name="field_can_not_be_empty">Pole nie może być puste</string>
     <string name="everyone">Wszyscy</string>

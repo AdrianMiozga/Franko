@@ -1,7 +1,5 @@
 package org.wentura.franko
 
-import java.util.concurrent.TimeUnit
-
 object Constants {
 
     // Firestore Paths
@@ -81,7 +79,7 @@ object Constants {
     const val TMP_IMAGE_SUFFIX = ".png"
 
     /** Min activity time to save in milliseconds **/
-    val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
+//    val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
 
     /** Meters per second to kilometers per hour **/
     const val MS_TO_KMH = 3.6

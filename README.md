@@ -15,7 +15,8 @@ Notification about follower new activity
 
 ## Activities
 
-Moving time to calculate proper average speed instead of taking whole activity time
+Moving time to calculate proper average speed instead of taking whole activity
+time
 
 Pause activity, not only stop
 
@@ -44,7 +45,8 @@ Dialog in case user disabled location during activity recording
 Dialog in case of disabled network
 
 Time isn't saved correctly all the time?  
-GPS can loose shit and show your position like 1 km away - smooth that out, remove those points or something
+GPS can loose shit and show your position like 1 km away - smooth that out,
+remove those points or something
 
 Optional notification when somebody follows you  
 Loading bar when changing profile picture  

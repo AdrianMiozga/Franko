@@ -27,7 +27,7 @@ class UserActivityListViewModel @Inject constructor(
     }
 
     private val _userActivities = MutableLiveData<List<UserActivity>>()
-    val userActivites: LiveData<List<UserActivity>> = _userActivities
+    val userActivities: LiveData<List<UserActivity>> = _userActivities
 
     init {
         getCurrentActivities(Constants.ACTIVITY_TYPES)

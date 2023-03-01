@@ -26,7 +26,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentActivitiesBinding.bind(view)
 
-        val recyclerView = binding.activitesRecyclerView
+        val recyclerView = binding.activitiesRecyclerView
         recyclerView.setHasFixedSize(true)
 
         val adapter = UserActivityAdapter()
@@ -50,7 +50,7 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
         }
 
         viewModel
-            .userActivites
+            .userActivities
             .observe(viewLifecycleOwner, observer)
 
         val chipBike = binding.chipBike

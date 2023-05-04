@@ -12,9 +12,12 @@
 - [Firebase](https://firebase.google.com/): [Cloud Firestore](https://firebase.google.com/products/realtime-database), [Authentication](https://firebase.google.com/products/auth), [Cloud Storage](https://firebase.google.com/products/storage)
 - [Google Maps API](https://developers.google.com/maps)
 - [Android Jetpack](https://developer.android.com/jetpack)
-    - [Navigation](https://developer.android.com/guide/navigation) - navigation
-      in application
-    - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+  - [Navigation](https://developer.android.com/guide/navigation) - navigation
+    in application
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+  - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
+  - [Preferences Datastore](https://developer.android.com/topic/libraries/architecture/datastore)
+- [Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
 
 ### Architecture
 

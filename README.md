@@ -14,10 +14,10 @@
 - [Android Jetpack](https://developer.android.com/jetpack)
   - [Navigation](https://developer.android.com/guide/navigation) - navigation
     in application
-  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
-  - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
-  - [Preferences Datastore](https://developer.android.com/topic/libraries/architecture/datastore)
-- [Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - state holder
+  - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - lifecycle-aware observable data holder
+  - [Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore) - data storage for user preferences
+- [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
 
 ### Architecture
 

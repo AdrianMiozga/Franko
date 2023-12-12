@@ -4,10 +4,13 @@
 ## Screenshots
 
 <p align="middle">
-  <img src="/assets/Screenshots/Screenshot1.png" width="384"/>
-  <img src="/assets/Screenshots/Screenshot2.png" width="384"/>
-  <img src="/assets/Screenshots/Screenshot3.png" width="384"/>
-  <img src="/assets/Screenshots/Screenshot4.png" width="384"/>
+  <img src="/assets/Screenshots/Screenshot1.png" width="320"/>
+  <img src="/assets/Screenshots/Screenshot2.png" width="320"/>
+</p>
+
+<p align="middle">
+  <img src="/assets/Screenshots/Screenshot3.png" width="320"/>
+  <img src="/assets/Screenshots/Screenshot4.png" width="320"/>
 </p>
 
 ## Technology Stack

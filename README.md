@@ -1,3 +1,6 @@
+> [!NOTE]
+> Application made for educational purposes only.
+
 ## Screenshots
 
 <p align="middle">

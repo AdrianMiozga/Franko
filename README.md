@@ -4,13 +4,18 @@
 ## Screenshots
 
 <p align="middle">
-  <img src="/assets/Screenshots/Screenshot1.png" width="320"/>
-  <img src="/assets/Screenshots/Screenshot2.png" width="320"/>
+  <img src="/assets/Screenshots/20231214_220759.png" width="320"/>
+  <img src="/assets/Screenshots/20231214_220009.png" width="320"/>
 </p>
 
 <p align="middle">
-  <img src="/assets/Screenshots/Screenshot3.png" width="320"/>
+  <img src="/assets/Screenshots/20231214_220029.png" width="320"/>
   <img src="/assets/Screenshots/Screenshot4.png" width="320"/>
+</p>
+
+<p align="middle">
+  <img src="/assets/Screenshots/20231214_220050.png" width="320"/>
+  <img src="/assets/Screenshots/20231214_220118.png" width="320"/>
 </p>
 
 ## Technology Stack

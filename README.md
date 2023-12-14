@@ -18,10 +18,25 @@
   <img src="/assets/Screenshots/20231214_220118.png" width="320"/>
 </p>
 
+## Features
+
+- Login via Google account
+- Record three different activity types: cycling, walking, and running
+- Filter recorded activities by type
+- Set activity name, type, and visibility (public or private)
+- Set profile visibility (public or private)
+- Search for people using the app
+- Follow people
+- See who is following your profile
+- Edit profile: first and last name, profile picture, bio, and city
+- Set profile picture directly from camera or gallery
+- Polish and English language
+
 ## Technology Stack
 
 - [Firebase](https://firebase.google.com/): [Cloud Firestore](https://firebase.google.com/products/realtime-database), [Authentication](https://firebase.google.com/products/auth), [Cloud Storage](https://firebase.google.com/products/storage)
 - [Google Maps API](https://developers.google.com/maps)
+- [Android Views](https://developer.android.com/develop/ui/views/layout/declaring-layout)
 - [Android Jetpack](https://developer.android.com/jetpack)
   - [Navigation](https://developer.android.com/guide/navigation) - navigation
     in application

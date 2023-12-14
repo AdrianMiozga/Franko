@@ -25,7 +25,7 @@
     <string name="map">Mapa</string>
     <string name="activities">Aktywności</string>
     <string name="settings">Ustawienia</string>
-    <string name="kmh">%d km/h</string>
+    <string name="kmh" translatable="false">%d km/h</string>
     <string name="people">Ludzie</string>
     <string name="delete_account">Usuń konto</string>
     <string name="account_deleted">Konto zostało usunięte</string>
@@ -88,13 +88,13 @@
     <string name="everyone">Wszyscy</string>
     <string name="no_one">Nikt</string>
     <string name="date_and_time">%s o %s</string>
-    <string name="time">%s</string>
+    <string name="time" translatable="false">%s</string>
     <string name="time_text">Czas</string>
-    <string name="activity_length">%.2f km</string>
+    <string name="activity_length" translatable="false">%.2f km</string>
     <string name="activity_length_text">Długość</string>
-    <string name="activity_average_speed">%.2f km/h</string>
+    <string name="activity_average_speed" translatable="false">%.2f km/h</string>
     <string name="activity_average_speed_text">Średnia prędkość</string>
-    <string name="activity_max_speed">%.2f km/h</string>
+    <string name="activity_max_speed" translatable="false">%.2f km/h</string>
     <string name="activity_max_speed_text">Maksymalna prędkość</string>
     <string name="fragment_activity_map">Mapa Aktywności</string>
     <string name="no_followers_activity">Brak aktywności obserwowanych użytkowników</string>
@@ -102,6 +102,9 @@
     <string name="user">Użytkownik</string>
     <string name="about">O aplikacji</string>
     <string name="version">Wersja</string>
+    <string name="take_picture">Zrób zdjęcie</string>
+    <string name="pick_from_gallery">Wybierz z galerii</string>
+    <string name="delete_photo">Usuń zdjęcie</string>
 
     <!-- String plurals -->
     <plurals name="number_following">
@@ -128,9 +131,9 @@
     </string-array>
 
     <string-array name="profile_edit_choice_array">
-        <item>Zrób zdjęcie</item>
-        <item>Wybierz z galerii</item>
-        <item>Usuń zdjęcie</item>
+        <item>@string/take_picture</item>
+        <item>@string/pick_from_gallery</item>
+        <item>@string/delete_photo</item>
     </string-array>
 
     <string-array name="who_can_see_my_profile">

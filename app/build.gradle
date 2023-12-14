@@ -35,7 +35,6 @@ android {
         targetSdk 33
         versionCode 7
         versionName '0.1.4'
-        resConfigs 'pl'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }

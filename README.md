@@ -10,7 +10,7 @@
 
 <p align="middle">
   <img src="/assets/Screenshots/20231214_220029.png" width="320"/>
-  <img src="/assets/Screenshots/Screenshot4.png" width="320"/>
+  <img src="/assets/Screenshots/20231219_190338.png" width="320"/>
 </p>
 
 <p align="middle">

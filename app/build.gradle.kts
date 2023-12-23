@@ -75,23 +75,25 @@ android {
 dependencies {
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx:21.5.0")
+
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+
+    // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
-
-    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
-
-    implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
 
     // Google Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Navigation Framework
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    val navigationVersion = "2.7.6"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
 
     // Preferences
     implementation("androidx.preference:preference-ktx:1.2.1")
@@ -106,8 +108,9 @@ dependencies {
     implementation("id.zelory:compressor:3.0.1")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    val hiltVersion = "2.50"
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Other
     implementation("androidx.core:core-ktx:1.12.0")
@@ -118,13 +121,8 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Testing
-    val jUnitVersion = "5.10.1"
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$jUnitVersion")
-
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(platform("org.junit:junit-bom:5.10.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 kapt {

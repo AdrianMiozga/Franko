@@ -1,5 +1,9 @@
+# Franko
+
 > [!NOTE]
 > Application made for educational purposes only.
+
+Franko is a fitness and social platform for Android that allows users to seamlessly log their physical activities, such as cycling, walking, and running.
 
 ## Screenshots
 
@@ -30,11 +34,14 @@
 - See who is following your profile
 - Edit profile: first and last name, profile picture, bio, and city
 - Set profile picture directly from camera or gallery
-- Polish and English language
+- English and Polish language
 
 ## Technology Stack
 
-- [Firebase](https://firebase.google.com/): [Cloud Firestore](https://firebase.google.com/products/realtime-database), [Authentication](https://firebase.google.com/products/auth), [Cloud Storage](https://firebase.google.com/products/storage)
+- [Firebase](https://firebase.google.com/)
+  - [Authentication](https://firebase.google.com/products/auth)
+  - [Cloud Firestore](https://firebase.google.com/products/realtime-database)
+  - [Cloud Storage](https://firebase.google.com/products/storage)
 - [Google Maps API](https://developers.google.com/maps)
 - [Android Views](https://developer.android.com/develop/ui/views/layout/declaring-layout)
 - [Android Jetpack](https://developer.android.com/jetpack)

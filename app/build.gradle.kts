@@ -3,12 +3,14 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
+
     id("androidx.navigation.safeargs.kotlin")
-    id("org.jetbrains.kotlin.kapt")
 
     // JUnit 5
     id("de.mannodermaus.android-junit5")

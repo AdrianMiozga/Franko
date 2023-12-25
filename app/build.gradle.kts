@@ -17,7 +17,7 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile = rootProject.file("keystore.properties") as File
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 

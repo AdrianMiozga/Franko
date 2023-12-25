@@ -72,6 +72,10 @@ android {
     namespace = "org.wentura.franko"
 }
 
+secrets {
+    propertiesFileName = "secrets.properties"
+}
+
 dependencies {
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))

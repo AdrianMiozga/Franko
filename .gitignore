@@ -1,6 +1,9 @@
 # Signing information
 keystore.properties
 
+# Secrets information
+secrets.properties
+
 # Built application files
 *.apk
 *.aar

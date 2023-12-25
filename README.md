@@ -64,3 +64,28 @@
 ### Static analysis tools
 
 - [Android Linter](https://developer.android.com/studio/write/lint)
+
+## Building
+
+### 1. Google Maps API Key
+
+Create file `secrets.properties` in root project directory with the following contents. Replace `YOUR_API_KEY` with your Google Maps API key.
+
+```properties
+MAPS_API_KEY=YOUR_API_KEY
+```
+
+### 2. Firebase
+
+Download `google-services.json` from [Firebase Console](https://console.firebase.google.com/) and put it in the `app/` directory.
+
+### 3. (Optional) Signing
+
+For signing the release build create `keystore.properties` in root project directory with the following contents and your signing information.
+
+```properties
+storePassword=myStorePassword
+keyPassword=mykeyPassword
+keyAlias=myKeyAlias
+storeFile=myStoreFileLocation
+```

@@ -1,11 +1,14 @@
 package org.wentura.franko.map
 
+import android.Manifest
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.IBinder
 import android.os.Looper
 import android.os.SystemClock
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -15,7 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Timer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.concurrent.timerTask
@@ -95,9 +99,15 @@ class RecordingService : Service() {
 
             notification.setContentTitle(title)
 
-            NotificationManagerCompat
-                .from(applicationContext)
-                .notify(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification.build())
+            if (ActivityCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat
+                    .from(applicationContext)
+                    .notify(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification.build())
+            }
 
         }, 0, 1000)
     }

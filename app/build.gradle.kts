@@ -43,7 +43,7 @@ android {
     defaultConfig {
         applicationId = "org.wentura.franko"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 7
         versionName = "0.1.4"
 

@@ -25,5 +25,7 @@ class RecordingNotification(
         setContentIntent(pendingIntent)
         priority = NotificationCompat.PRIORITY_LOW
         setShowWhen(false)
+        setCategory(NotificationCompat.CATEGORY_NAVIGATION)
+        setOngoing(true)
     }
 }

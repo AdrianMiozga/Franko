@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +54,7 @@ class MapFragment :
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var locationObserver: LocationPermissionObserver
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -222,6 +224,12 @@ class MapFragment :
 
     private fun startTrackingLocation() {
         if (!Utilities.isLocationPermissionGranted(requireContext())) return
+
+        if (!Utilities.isNotificationPermissionGranted(requireContext())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
 
         val intent = Intent(context, RecordingService::class.java)
         requireContext().startService(intent)

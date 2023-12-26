@@ -46,7 +46,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@id/activity_max_speed_text"
-            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="@id/fragment_activity_guideline"
             app:layout_constraintTop_toBottomOf="@id/activity_view"
             tools:text="20 km/h" />
 
@@ -73,7 +73,7 @@
             app:uiMapToolbar="false" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/fragment_activity_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

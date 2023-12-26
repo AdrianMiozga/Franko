@@ -60,7 +60,6 @@ object Utilities {
         return photoUrl
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun InputStream.copyToFile(outputFile: File) {
         withContext(Dispatchers.IO) {
             use { input ->
@@ -95,7 +94,6 @@ object Utilities {
         val file: File
 
         withContext(Dispatchers.IO) {
-            @Suppress("BlockingMethodInNonBlockingContext")
             file = File.createTempFile(
                 prefix,
                 suffix,

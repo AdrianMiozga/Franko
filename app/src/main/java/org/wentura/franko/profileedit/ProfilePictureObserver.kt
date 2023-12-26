@@ -62,7 +62,6 @@ class ProfilePictureObserver(
                 if (uri == null) return@register
 
                 owner.lifecycleScope.launchWhenCreated {
-                    @Suppress("BlockingMethodInNonBlockingContext")
                     withContext(Dispatchers.IO) {
                         context.contentResolver.openInputStream(uri)?.use { inputStream ->
                             tmpFile = Utilities.createTmpFile(
@@ -111,7 +110,6 @@ class ProfilePictureObserver(
             val format = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 Bitmap.CompressFormat.WEBP_LOSSLESS
             } else {
-                @Suppress("Deprecation")
                 Bitmap.CompressFormat.WEBP
             }
 
@@ -119,7 +117,6 @@ class ProfilePictureObserver(
                 default(width = 200, height = 200, format = format, quality = 100)
             }
 
-            @Suppress("BlockingMethodInNonBlockingContext")
             val photoUrl = profilePicture
                 .putStream(FileInputStream(compressedImageFile))
                 .continueWithTask { profilePicture.downloadUrl }

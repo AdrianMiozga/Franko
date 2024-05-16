@@ -16,7 +16,3 @@ plugins {
     // Hilt
     id("com.google.dagger.hilt.android") version "2.50" apply false
 }
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}

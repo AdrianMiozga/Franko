@@ -33,7 +33,7 @@ class CurrentUserViewModel @Inject constructor(
 
                 if (documentSnapshot == null) return@addSnapshotListener
 
-                _user.value = documentSnapshot.toObject()
+                _user.value = documentSnapshot.toObject()!!
             }
     }
 }

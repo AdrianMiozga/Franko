@@ -38,7 +38,7 @@ class ActivityViewModel @Inject constructor(
 
                 if (documentSnapshot == null) return@addSnapshotListener
 
-                _activity.value = documentSnapshot.toObject()
+                _activity.value = documentSnapshot.toObject()!!
             }
     }
 }

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application") version "8.4.0" apply false
 
-    val kotlinVersion = "1.9.22"
+    val kotlinVersion = "1.9.23"
     id("org.jetbrains.kotlin.android") version kotlinVersion apply false
     id("org.jetbrains.kotlin.kapt") version kotlinVersion apply false
 

@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId = "org.wentura.franko"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 7
         versionName = "0.1.4"
@@ -87,15 +87,16 @@ secrets {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
@@ -105,14 +106,14 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
 
     // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
 
     // Google Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 
     // Navigation Framework
-    val navigationVersion = "2.7.6"
+    val navigationVersion = "2.7.7"
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
 
@@ -120,21 +121,21 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
 
     // Coil
-    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil:2.6.0")
 
     // Image Compression
     implementation("id.zelory:compressor:3.0.1")
 
     // Hilt
-    val hiltVersion = "2.50"
+    val hiltVersion = "2.51.1"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Testing
-    testImplementation(platform("org.junit:junit-bom:5.10.1"))
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 

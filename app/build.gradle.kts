@@ -27,17 +27,7 @@ if (keystoreFile.exists()) {
 }
 
 android {
-    if (keystoreFile.exists()) {
-        signingConfigs {
-            create("release") {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-            }
-        }
-    }
-
+    namespace = "org.wentura.franko"
     compileSdk = 34
 
     defaultConfig {
@@ -50,6 +40,17 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    if (keystoreFile.exists()) {
+        signingConfigs {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isDebuggable = true
@@ -57,6 +58,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = false
+
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
             if (signingConfigs.findByName("release") != null) {
@@ -78,8 +80,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-
-    namespace = "org.wentura.franko"
 }
 
 secrets {
@@ -87,6 +87,13 @@ secrets {
 }
 
 dependencies {
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
@@ -125,14 +132,6 @@ dependencies {
     val hiltVersion = "2.50"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-
-    // Other
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Testing
     testImplementation(platform("org.junit:junit-bom:5.10.1"))

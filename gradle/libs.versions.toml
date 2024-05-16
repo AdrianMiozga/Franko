@@ -1,0 +1,64 @@
+[versions]
+agp = "8.4.0"
+kotlin = "1.9.23"
+googleServices = "4.4.0"
+navigationSafeArgs = "2.7.6"
+hiltAndroid = "2.51.1"
+junit5 = "1.10.0.0"
+mapsplatform = "2.0.1"
+appcompat = "1.6.1"
+coil = "2.6.0"
+compressor = "3.0.1"
+constraintlayout = "2.1.4"
+coreKtx = "1.13.1"
+firebaseBom = "33.0.0"
+firebaseUiAuth = "8.0.2"
+junitBom = "5.10.2"
+kotlinxCoroutinesPlayServices = "1.8.1"
+legacySupportV4 = "1.0.0"
+lifecycleLivedataKtx = "2.8.0"
+material = "1.12.0"
+coreSplashscreen = "1.0.1"
+navigationVersion = "2.7.7"
+playServicesAuth = "21.1.1"
+playServicesMaps = "18.2.0"
+playServicesLocation = "21.2.0"
+preferenceKtx = "1.2.1"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationVersion" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationVersion" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+compressor = { module = "id.zelory:compressor", version.ref = "compressor" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx" }
+firebase-storage-ktx = { module = "com.google.firebase:firebase-storage-ktx" }
+firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junitBom" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+android-mapsplatform-secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsplatform" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgs" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }

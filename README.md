@@ -56,6 +56,7 @@ Franko is a fitness and social platform for Android that allows users to seamles
   - [View Binding](https://developer.android.com/topic/libraries/view-binding) - interacting with views from code
 - [Gradle](https://gradle.org/)
   - [Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
+  - [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html)
 
 ### Architecture
 

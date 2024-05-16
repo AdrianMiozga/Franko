@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.mapsplatform.secrets)
     alias(libs.plugins.google.services)
     alias(libs.plugins.navigation.safeargs)
@@ -119,13 +119,9 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Testing
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
-}
-
-kapt {
-    correctErrorTypes = true
 }

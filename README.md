@@ -53,7 +53,8 @@ Franko is a fitness and social platform for Android that allows users to seamles
   - [Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore) - data storage for user preferences
   - [View Binding](https://developer.android.com/topic/libraries/view-binding) - interacting with views from code
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
-- [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
+- [Gradle](https://gradle.org/)
+  - [Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 
 ### Architecture
 

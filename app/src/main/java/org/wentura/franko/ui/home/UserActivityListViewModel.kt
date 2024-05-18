@@ -55,6 +55,7 @@ class UserActivityListViewModel @Inject constructor(
                     viewModelScope.launch {
                         if (exception != null) {
                             Log.w(TAG, exception)
+                            // TODO: There is more than one label with such a name in this scope
                             return@launch
                         }
 

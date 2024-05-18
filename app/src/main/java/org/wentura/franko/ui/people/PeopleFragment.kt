@@ -3,10 +3,14 @@ package org.wentura.franko.ui.people
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import org.wentura.franko.R
 import org.wentura.franko.adapters.PeopleAdapter
@@ -14,9 +18,7 @@ import org.wentura.franko.data.User
 import org.wentura.franko.databinding.FragmentPeopleBinding
 
 @AndroidEntryPoint
-class PeopleFragment :
-    Fragment(R.layout.fragment_people),
-    SearchView.OnQueryTextListener {
+class PeopleFragment : Fragment(R.layout.fragment_people), SearchView.OnQueryTextListener {
 
     private var people: ArrayList<User> = arrayListOf()
     private lateinit var peopleAdapter: PeopleAdapter
@@ -28,7 +30,23 @@ class PeopleFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_search, menu)
+
+                val search = menu.findItem(R.id.search)
+                val searchView = search.actionView as SearchView
+
+                searchView.queryHint = getString(R.string.search_people)
+                searchView.setOnQueryTextListener(this@PeopleFragment)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val binding = FragmentPeopleBinding.bind(view)
 
@@ -51,16 +69,6 @@ class PeopleFragment :
             people = ArrayList(result)
             peopleAdapter.submitList(result)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_search, menu)
-
-        val search = menu.findItem(R.id.search)
-        val searchView = search.actionView as SearchView
-
-        searchView.queryHint = getString(R.string.search_people)
-        searchView.setOnQueryTextListener(this@PeopleFragment)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean = false

@@ -5,8 +5,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,7 +23,26 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
     private val args: ProfileViewPagerFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_settings, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.settings -> {
+                        val toSettingsFragment =
+                            ProfileViewPagerFragmentDirections.toSettingsFragment()
+
+                        findNavController().navigate(toSettingsFragment)
+                    }
+                }
+
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val binding = FragmentProfileViewPagerBinding.bind(view)
 
@@ -45,24 +67,6 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
             PROFILE_PAGE_INDEX -> getString(R.string.profile)
             ACTIVITIES_PAGE_INDEX -> getString(R.string.activities)
             else -> null
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.settings -> {
-                val toSettingsFragment =
-                    ProfileViewPagerFragmentDirections.toSettingsFragment()
-
-                findNavController().navigate(toSettingsFragment)
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

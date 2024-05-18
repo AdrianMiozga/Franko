@@ -2,7 +2,10 @@ package org.wentura.franko.ui.activityedit
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -22,23 +25,6 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         val TAG = ActivityEditFragment::class.simpleName
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_delete, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.delete -> {
-                ActivityDeleteDialogFragment(args.id, requireView()).show(
-                    parentFragmentManager,
-                    ActivityDeleteDialogFragment::class.simpleName
-                )
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_activity, rootKey)
 
@@ -50,7 +36,26 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_delete, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.delete -> {
+                        ActivityDeleteDialogFragment(args.id, requireView()).show(
+                            parentFragmentManager,
+                            ActivityDeleteDialogFragment::class.simpleName
+                        )
+                    }
+                }
+
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val activityType: ListPreference? =
             preferenceManager.findPreference(Constants.ACTIVITY_TYPE_KEY)

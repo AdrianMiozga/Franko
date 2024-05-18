@@ -19,13 +19,13 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import org.wentura.franko.activities.ActivitiesFragment
+import org.wentura.franko.ui.activities.ActivitiesFragment
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.ActivityMainBinding
-import org.wentura.franko.home.HomeFragment
-import org.wentura.franko.map.MapFragment
-import org.wentura.franko.people.PeopleFragment
-import org.wentura.franko.profile.ProfileMyFragment
+import org.wentura.franko.ui.home.HomeFragment
+import org.wentura.franko.ui.map.MapFragment
+import org.wentura.franko.ui.people.PeopleFragment
+import org.wentura.franko.ui.profile.ProfileMyFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint

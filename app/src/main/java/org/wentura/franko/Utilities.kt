@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import org.wentura.franko.map.EnableLocationDialogFragment
+import org.wentura.franko.ui.map.EnableLocationDialogFragment
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

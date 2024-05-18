@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import org.wentura.franko.Constants.ACTIVITIES_PAGE_INDEX
 import org.wentura.franko.Constants.PROFILE_PAGE_INDEX
-import org.wentura.franko.activities.ActivitiesFragment
-import org.wentura.franko.profile.ProfileMyFragment
+import org.wentura.franko.ui.activities.ActivitiesFragment
+import org.wentura.franko.ui.profile.ProfileMyFragment
 
 class ProfilePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

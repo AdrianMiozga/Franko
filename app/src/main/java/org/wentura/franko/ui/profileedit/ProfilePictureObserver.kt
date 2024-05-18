@@ -8,14 +8,17 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.wentura.franko.Constants
@@ -61,18 +64,20 @@ class ProfilePictureObserver(
             ) { uri ->
                 if (uri == null) return@register
 
-                owner.lifecycleScope.launchWhenCreated {
-                    withContext(Dispatchers.IO) {
-                        context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                            tmpFile = Utilities.createTmpFile(
-                                Constants.TMP_IMAGE_PREFIX,
-                                Constants.TMP_IMAGE_SUFFIX,
-                                context.cacheDir
-                            )
+                owner.lifecycleScope.launch {
+                    owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                        withContext(Dispatchers.IO) {
+                            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                                tmpFile = Utilities.createTmpFile(
+                                    Constants.TMP_IMAGE_PREFIX,
+                                    Constants.TMP_IMAGE_SUFFIX,
+                                    context.cacheDir
+                                )
 
-                            inputStream.copyToFile(tmpFile)
+                                inputStream.copyToFile(tmpFile)
 
-                            updateProfilePicture()
+                                updateProfilePicture()
+                            }
                         }
                     }
                 }
@@ -85,8 +90,10 @@ class ProfilePictureObserver(
         ) { isSuccess ->
             if (!isSuccess) return@register
 
-            owner.lifecycleScope.launchWhenCreated {
-                updateProfilePicture()
+            owner.lifecycleScope.launch {
+                owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                    updateProfilePicture()
+                }
             }
         }
     }
@@ -94,14 +101,16 @@ class ProfilePictureObserver(
     fun selectImage() = selectImage.launch("image/*")
 
     fun takePicture() {
-        owner.lifecycleScope.launchWhenCreated {
-            tmpFile = Utilities.createTmpFile(
-                Constants.TMP_IMAGE_PREFIX,
-                Constants.TMP_IMAGE_SUFFIX,
-                context.cacheDir
-            )
+        owner.lifecycleScope.launch {
+            owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                tmpFile = Utilities.createTmpFile(
+                    Constants.TMP_IMAGE_PREFIX,
+                    Constants.TMP_IMAGE_SUFFIX,
+                    context.cacheDir
+                )
 
-            takeImage.launch(tmpFile.getUri(context))
+                takeImage.launch(tmpFile.getUri(context))
+            }
         }
     }
 

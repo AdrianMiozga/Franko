@@ -15,7 +15,9 @@ import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.wentura.franko.Constants
 import org.wentura.franko.R
 import org.wentura.franko.Utilities
@@ -91,8 +94,10 @@ class MapFragment :
 
         checkLocationPermission()
 
-        lifecycleScope.launchWhenCreated {
-            Utilities.checkLocationEnabled(requireContext(), parentFragmentManager)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                Utilities.checkLocationEnabled(requireContext(), parentFragmentManager)
+            }
         }
 
         recordingViewModel.location.observe(viewLifecycleOwner) { location ->

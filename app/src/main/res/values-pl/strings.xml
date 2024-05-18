@@ -86,12 +86,14 @@
     <!-- String plurals -->
     <plurals name="number_following">
         <item quantity="one">%d Obserwowany</item>
-        <item quantity="other">%d Obserwowanych</item>
+        <item quantity="few">%d Obserwowanych</item>
+        <item quantity="many">%d Obserwowanych</item>
     </plurals>
 
     <plurals name="number_followers">
         <item quantity="one">%d Obserwujący</item>
-        <item quantity="other">%d Obserwujących</item>
+        <item quantity="few">%d Obserwujących</item>
+        <item quantity="many">%d Obserwujących</item>
     </plurals>
 
 </resources>

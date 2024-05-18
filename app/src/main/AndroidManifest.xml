@@ -38,7 +38,7 @@
             android:value="@integer/google_play_services_version" />
 
         <service
-            android:name=".map.RecordingService"
+            android:name=".ui.map.RecordingService"
             android:description="@string/location_updates_service_description"
             android:exported="false"
             android:foregroundServiceType="location" />

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/map_fragment"
-        android:name="org.wentura.franko.map.MapFragment"
+        android:name="org.wentura.franko.ui.map.MapFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_map">
 
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/people_fragment"
-        android:name="org.wentura.franko.people.PeopleFragment"
+        android:name="org.wentura.franko.ui.people.PeopleFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_people">
 
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="org.wentura.franko.profile.ProfileFragment"
+        android:name="org.wentura.franko.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/profile_edit_fragment"
-        android:name="org.wentura.franko.profileedit.ProfileEditFragment"
+        android:name="org.wentura.franko.ui.profileedit.ProfileEditFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_profile_edit">
 
@@ -158,7 +158,7 @@
 
     <fragment
         android:id="@+id/following_fragment"
-        android:name="org.wentura.franko.following.FollowingFragment"
+        android:name="org.wentura.franko.ui.following.FollowingFragment"
         android:label="@string/following"
         tools:layout="@layout/fragment_simplified_people">
 
@@ -174,7 +174,7 @@
 
     <fragment
         android:id="@+id/followers_fragment"
-        android:name="org.wentura.franko.followers.FollowersFragment"
+        android:name="org.wentura.franko.ui.followers.FollowersFragment"
         android:label="@string/followers"
         tools:layout="@layout/fragment_simplified_people">
 
@@ -190,7 +190,7 @@
 
     <fragment
         android:id="@+id/home_fragment"
-        android:name="org.wentura.franko.home.HomeFragment"
+        android:name="org.wentura.franko.ui.home.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home">
 

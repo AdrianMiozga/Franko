@@ -24,7 +24,6 @@ import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.FragmentProfileEditBinding
-import org.wentura.franko.profileedit.ProfileEditFragmentDirections
 import org.wentura.franko.viewmodels.CurrentUserViewModel
 import javax.inject.Inject
 

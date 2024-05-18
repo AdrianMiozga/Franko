@@ -11,7 +11,6 @@ import org.wentura.franko.R
 import org.wentura.franko.Utilities.getCurrentUserUid
 import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.databinding.FragmentProfileMyBinding
-import org.wentura.franko.profile.ProfileFragmentDirections
 import org.wentura.franko.viewmodels.UserViewModel
 
 @AndroidEntryPoint

@@ -1,10 +1,14 @@
 package org.wentura.franko.data
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import org.wentura.franko.Utilities.getCurrentUserUid

@@ -1,8 +1,8 @@
 package org.wentura.franko.settings
 
 import androidx.preference.PreferenceDataStore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import org.wentura.franko.Constants
 import org.wentura.franko.Utilities.getCurrentUserUid
 

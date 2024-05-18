@@ -1,7 +1,7 @@
 package org.wentura.franko.following
 
 import androidx.lifecycle.*
-import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.firestore.toObjects
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

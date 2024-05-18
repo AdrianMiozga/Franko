@@ -11,15 +11,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileEditPictureDialogFragment(
-    private val profilePictureObserver: ProfilePictureObserver
+    private val profilePictureObserver: ProfilePictureObserver,
 ) : DialogFragment() {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    @Inject lateinit var userRepository: UserRepository
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog
-            .Builder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setTitle(R.string.edit_profile_picture)
             .setItems(R.array.profile_edit_choice_array) { _, which ->
                 when (which) {

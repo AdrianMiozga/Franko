@@ -31,8 +31,7 @@ class RecordingService : Service() {
         val TAG = RecordingService::class.simpleName
     }
 
-    @Inject
-    lateinit var recordingRepository: RecordingRepository
+    @Inject lateinit var recordingRepository: RecordingRepository
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -43,11 +42,12 @@ class RecordingService : Service() {
 
     private val binder: IBinder = LocalBinder()
 
-    private val locationRequest = LocationRequest.create().apply {
-        interval = TimeUnit.SECONDS.toMillis(2)
-//        fastestInterval = TimeUnit.SECONDS.toMillis(5)
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-    }
+    private val locationRequest =
+        LocationRequest.create().apply {
+            interval = TimeUnit.SECONDS.toMillis(2)
+            //        fastestInterval = TimeUnit.SECONDS.toMillis(5)
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
 
     override fun onCreate() {
         super.onCreate()
@@ -84,32 +84,32 @@ class RecordingService : Service() {
     private fun startTimer() {
         timer = Timer()
 
-        timer.scheduleAtFixedRate(timerTask {
-            val elapsedTime = SystemClock.elapsedRealtime() - initialTime
+        timer.scheduleAtFixedRate(
+            timerTask {
+                val elapsedTime = SystemClock.elapsedRealtime() - initialTime
 
-            recordingRepository.startTime = System.currentTimeMillis()
-            recordingRepository.recordingTime.postValue(elapsedTime)
+                recordingRepository.startTime = System.currentTimeMillis()
+                recordingRepository.recordingTime.postValue(elapsedTime)
 
-            val time = SimpleDateFormat("mm:ss", Locale.US).format(elapsedTime)
+                val time = SimpleDateFormat("mm:ss", Locale.US).format(elapsedTime)
 
-            val title = getString(
-                R.string.activity_recording_notification_title,
-                time
-            )
+                val title = getString(R.string.activity_recording_notification_title, time)
 
-            notification.setContentTitle(title)
+                notification.setContentTitle(title)
 
-            if (ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                NotificationManagerCompat
-                    .from(applicationContext)
-                    .notify(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification.build())
-            }
-
-        }, 0, 1000)
+                if (
+                    ActivityCompat.checkSelfPermission(
+                        applicationContext,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    NotificationManagerCompat.from(applicationContext)
+                        .notify(Constants.ACTIVITY_TRACKING_NOTIFICATION_ID, notification.build())
+                }
+            },
+            0,
+            1000
+        )
     }
 
     fun stopUpdates() {

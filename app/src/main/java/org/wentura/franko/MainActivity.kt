@@ -19,9 +19,9 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import org.wentura.franko.ui.activities.ActivitiesFragment
 import org.wentura.franko.data.UserRepository
 import org.wentura.franko.databinding.ActivityMainBinding
+import org.wentura.franko.ui.activities.ActivitiesFragment
 import org.wentura.franko.ui.home.HomeFragment
 import org.wentura.franko.ui.map.MapFragment
 import org.wentura.franko.ui.people.PeopleFragment
@@ -31,14 +31,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    @Inject lateinit var userRepository: UserRepository
 
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { result ->
-        onSignInResult(result)
-    }
+    private val signInLauncher =
+        registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
+            onSignInResult(result)
+        }
 
     private val onPreDrawListener = ViewTreeObserver.OnPreDrawListener { false }
 
@@ -74,8 +72,8 @@ class MainActivity : AppCompatActivity() {
         content.viewTreeObserver.removeOnPreDrawListener(onPreDrawListener)
 
         val navHostFragment =
-            supportFragmentManager
-                .findFragmentById(R.id.main_fragment_container_view) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.main_fragment_container_view)
+                as NavHostFragment
 
         val navController = navHostFragment.navController
 
@@ -83,12 +81,13 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setupWithNavController(navController)
 
-        val topLevelDestinations = setOf(
-            R.id.home_fragment,
-            R.id.map_fragment,
-            R.id.people_fragment,
-            R.id.view_pager_fragment
-        )
+        val topLevelDestinations =
+            setOf(
+                R.id.home_fragment,
+                R.id.map_fragment,
+                R.id.people_fragment,
+                R.id.view_pager_fragment
+            )
 
         val appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
@@ -100,19 +99,18 @@ class MainActivity : AppCompatActivity() {
                     fragmentManager: FragmentManager,
                     fragment: Fragment,
                     view: View,
-                    savedInstanceState: Bundle?
+                    savedInstanceState: Bundle?,
                 ) {
                     when (fragment) {
                         is HomeFragment,
                         is MapFragment,
                         is PeopleFragment,
                         is ProfileMyFragment,
-                        is ActivitiesFragment -> {
+                        is ActivitiesFragment, -> {
                             bottomNavigation.visibility = View.VISIBLE
                         }
                         is NavHostFragment,
-                        is ProfileViewPagerFragment -> {
-                        }
+                        is ProfileViewPagerFragment, -> {}
                         else -> {
                             bottomNavigation.visibility = View.GONE
                         }
@@ -173,12 +171,11 @@ class MainActivity : AppCompatActivity() {
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel =
             NotificationChannel(
-                Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID,
-                name,
-                importance
-            ).apply {
-                description = descriptionText
-            }
+                    Constants.ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID,
+                    name,
+                    importance
+                )
+                .apply { description = descriptionText }
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

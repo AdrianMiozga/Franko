@@ -14,8 +14,7 @@ class InvalidChangesDialogFragment(
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog
-            .Builder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.unsaved_changes))
             .setMessage(getString(R.string.you_have_unsaved_changes))
             .setPositiveButton(getString(R.string.back)) { _, _ -> }

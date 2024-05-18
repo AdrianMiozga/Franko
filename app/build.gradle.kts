@@ -45,14 +45,15 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            applicationIdSuffix = ".debug"
-        }
+        getByName("debug") { applicationIdSuffix = ".debug" }
 
         getByName("release") {
             isMinifyEnabled = false
 
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
 
             if (signingConfigs.findByName("release") != null) {
                 signingConfig = signingConfigs.getByName("release")
@@ -65,9 +66,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
+    kotlinOptions { jvmTarget = JavaVersion.VERSION_17.toString() }
 
     buildFeatures {
         viewBinding = true
@@ -75,9 +74,7 @@ android {
     }
 }
 
-secrets {
-    propertiesFileName = "secrets.properties"
-}
+secrets { propertiesFileName = "secrets.properties" }
 
 dependencies {
     implementation(libs.androidx.core.ktx)

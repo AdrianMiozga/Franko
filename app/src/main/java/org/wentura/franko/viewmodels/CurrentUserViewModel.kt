@@ -11,8 +11,10 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrentUserViewModel @Inject constructor(
-    userRepository: UserRepository
+class CurrentUserViewModel
+@Inject
+constructor(
+    userRepository: UserRepository,
 ) : ViewModel() {
 
     companion object {
@@ -23,17 +25,15 @@ class CurrentUserViewModel @Inject constructor(
     val user: LiveData<User> = _user
 
     init {
-        userRepository
-            .getUser()
-            .addSnapshotListener { documentSnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
-
-                if (documentSnapshot == null) return@addSnapshotListener
-
-                _user.value = documentSnapshot.toObject()!!
+        userRepository.getUser().addSnapshotListener { documentSnapshot, exception ->
+            if (exception != null) {
+                Log.w(TAG, "Listen failed.", exception)
+                return@addSnapshotListener
             }
+
+            if (documentSnapshot == null) return@addSnapshotListener
+
+            _user.value = documentSnapshot.toObject()!!
+        }
     }
 }

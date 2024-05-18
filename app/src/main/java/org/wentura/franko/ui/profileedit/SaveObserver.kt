@@ -8,7 +8,7 @@ import org.wentura.franko.databinding.FragmentProfileEditBinding
 
 class SaveObserver(
     private val userRepository: UserRepository,
-    private val view: View
+    private val view: View,
 ) : DefaultLifecycleObserver {
 
     fun save() {

@@ -33,8 +33,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    @Inject lateinit var userRepository: UserRepository
 
     private lateinit var profilePictureObserver: ProfilePictureObserver
     private lateinit var saveObserver: SaveObserver
@@ -44,18 +43,16 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     private lateinit var firstNameInput: TextInputLayout
     private lateinit var bioInput: TextInputLayout
 
-    private val deleteAccountLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { result ->
-        deleteAccount(result)
-    }
+    private val deleteAccountLauncher =
+        registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
+            deleteAccount(result)
+        }
 
-    private val homeLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) {
-        (activity as MainActivity).addNewUser()
-        findNavController().navigate(ProfileEditFragmentDirections.toHomeFragment())
-    }
+    private val homeLauncher =
+        registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
+            (activity as MainActivity).addNewUser()
+            findNavController().navigate(ProfileEditFragmentDirections.toHomeFragment())
+        }
 
     companion object {
         val TAG = ProfileEditFragment::class.simpleName
@@ -64,33 +61,33 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_save, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.save -> {
-                        if (areInputsInvalid()) {
-                            return true
-                        }
-
-                        saveObserver.save()
-                        findNavController().navigateUp()
-                    }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_save, menu)
                 }
 
-                return true
-            }
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    when (menuItem.itemId) {
+                        R.id.save -> {
+                            if (areInputsInvalid()) {
+                                return true
+                            }
 
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                            saveObserver.save()
+                            findNavController().navigateUp()
+                        }
+                    }
+
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         profilePictureObserver =
-            ProfilePictureObserver(
-                requireContext(),
-                requireActivity().activityResultRegistry
-            )
+            ProfilePictureObserver(requireContext(), requireActivity().activityResultRegistry)
 
         lifecycle.addObserver(profilePictureObserver)
 
@@ -146,12 +143,9 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         }
 
         profileEditSignOut.setOnClickListener {
-            AuthUI
-                .getInstance()
-                .signOut(requireContext())
-                .addOnSuccessListener {
-                    Utilities.createSignInIntent(homeLauncher)
-                }
+            AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
+                Utilities.createSignInIntent(homeLauncher)
+            }
         }
 
         profileEditDeleteAccount.setOnClickListener {
@@ -159,45 +153,38 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         }
 
         editProfileProfilePicture.setOnClickListener {
-            ProfileEditPictureDialogFragment(profilePictureObserver).show(
-                parentFragmentManager,
-                ProfileEditPictureDialogFragment::class.simpleName
-            )
+            ProfileEditPictureDialogFragment(profilePictureObserver)
+                .show(parentFragmentManager, ProfileEditPictureDialogFragment::class.simpleName)
         }
 
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner) {
-                if (areInputsInvalid()) {
-                    InvalidChangesDialogFragment(view).show(
-                        parentFragmentManager,
-                        InvalidChangesDialogFragment::class.simpleName
-                    )
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (areInputsInvalid()) {
+                InvalidChangesDialogFragment(view)
+                    .show(parentFragmentManager, InvalidChangesDialogFragment::class.simpleName)
 
-                    return@addCallback
-                }
+                return@addCallback
+            }
 
-                // TODO: 01.10.2021 Compare changes in a cleaner way
-                val firstName = firstNameInput.editText?.text.toString().trim()
-                val lastName = lastNameInput.editText?.text.toString().trim()
-                val bio = bioInput.editText?.text.toString().trim()
-                val city = cityInput.editText?.text.toString().trim()
+            // TODO: 01.10.2021 Compare changes in a cleaner way
+            val firstName = firstNameInput.editText?.text.toString().trim()
+            val lastName = lastNameInput.editText?.text.toString().trim()
+            val bio = bioInput.editText?.text.toString().trim()
+            val city = cityInput.editText?.text.toString().trim()
 
-                if (user.firstName != firstName ||
+            if (
+                user.firstName != firstName ||
                     user.lastName != lastName ||
                     user.bio != bio ||
                     user.city != city
-                ) {
-                    UnsavedChangesDialogFragment(view, saveObserver).show(
-                        parentFragmentManager,
-                        UnsavedChangesDialogFragment::class.simpleName
-                    )
+            ) {
+                UnsavedChangesDialogFragment(view, saveObserver)
+                    .show(parentFragmentManager, UnsavedChangesDialogFragment::class.simpleName)
 
-                    return@addCallback
-                }
-
-                findNavController().navigateUp()
+                return@addCallback
             }
+
+            findNavController().navigateUp()
+        }
     }
 
     private fun deleteAccount(result: FirebaseAuthUIAuthenticationResult) {
@@ -205,22 +192,16 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
             return
         }
 
-        AuthUI
-            .getInstance()
-            .delete(requireContext())
-            .addOnSuccessListener {
-                (activity as MainActivity).finish()
+        AuthUI.getInstance().delete(requireContext()).addOnSuccessListener {
+            (activity as MainActivity).finish()
 
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.account_deleted),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            Toast.makeText(requireContext(), getString(R.string.account_deleted), Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
     private fun areInputsInvalid(): Boolean {
         return ((firstNameInput.error != null ||
-                ((bioInput.editText?.text?.length ?: 0) > bioInput.counterMaxLength)))
+            ((bioInput.editText?.text?.length ?: 0) > bioInput.counterMaxLength)))
     }
 }

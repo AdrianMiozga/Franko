@@ -18,16 +18,13 @@ import org.wentura.franko.Utilities.setup
 import org.wentura.franko.ui.activity.UserActivityViewModel
 
 @AndroidEntryPoint
-class ActivityMapFragment :
-    Fragment(R.layout.fragment_activity_map),
-    OnMapReadyCallback {
+class ActivityMapFragment : Fragment(R.layout.fragment_activity_map), OnMapReadyCallback {
 
     private val viewModel: UserActivityViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val mapFragment =
-            childFragmentManager
-                .findFragmentById(R.id.activity_map_map) as SupportMapFragment
+            childFragmentManager.findFragmentById(R.id.activity_map_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
     }

@@ -41,8 +41,7 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
         val progressBarOverlay = binding.progressBarOverlay.progressBarOverlay
 
         editProfile.setOnClickListener {
-            val toProfileEditFragment =
-                ProfileViewPagerFragmentDirections.toProfileEditFragment()
+            val toProfileEditFragment = ProfileViewPagerFragmentDirections.toProfileEditFragment()
 
             findNavController().navigate(toProfileEditFragment)
         }
@@ -53,20 +52,15 @@ class ProfileMyFragment : Fragment(R.layout.fragment_profile_my) {
 
             profileProfilePicture.loadProfilePicture(profile.photoUrl)
 
-            profileFullName.text = getString(
-                R.string.full_name,
-                profile.firstName,
-                profile.lastName
-            )
+            profileFullName.text =
+                getString(R.string.full_name, profile.firstName, profile.lastName)
 
             if (profile.bio.isNotBlank()) {
                 profileBio.visibility = View.VISIBLE
                 profileBio.text = profile.bio
             }
 
-            val locationEveryone = resources
-                .getStringArray(R.array.who_can_see_my_location)
-                .first()
+            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location).first()
 
             if (profile.whoCanSeeMyLocation == locationEveryone) {
                 profileCity.text = profile.city

@@ -16,10 +16,10 @@ class RecordingRepository @Inject constructor() : LocationCallback() {
         val TAG = RecordingRepository::class.simpleName
     }
 
-    /** Recording time in milliseconds **/
+    /** Recording time in milliseconds * */
     var recordingTime = MutableLiveData<Long>()
 
-    /** Milliseconds since epoch **/
+    /** Milliseconds since epoch * */
     var startTime = 0L
 
     private val _currentLocation = MutableLiveData<Location>()

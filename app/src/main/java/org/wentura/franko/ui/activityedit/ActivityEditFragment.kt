@@ -1,7 +1,12 @@
 package org.wentura.franko.ui.activityedit
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
@@ -34,28 +39,33 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_delete, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.delete -> {
-                        ActivityDeleteDialogFragment(args.id, requireView()).show(
-                            parentFragmentManager,
-                            ActivityDeleteDialogFragment::class.simpleName
-                        )
-                    }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_delete, menu)
                 }
 
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    when (menuItem.itemId) {
+                        R.id.delete -> {
+                            ActivityDeleteDialogFragment(args.id, requireView())
+                                .show(
+                                    parentFragmentManager,
+                                    ActivityDeleteDialogFragment::class.simpleName
+                                )
+                        }
+                    }
+
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         val activityType: ListPreference? =
             preferenceManager.findPreference(Constants.ACTIVITY_TYPE_KEY)
@@ -70,24 +80,24 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
             if (activity == null) return@observe
 
             activityType?.let {
-                val index = resources
-                    .getStringArray(R.array.activities_array_values)
-                    .indexOf(activity.activity)
+                val index =
+                    resources
+                        .getStringArray(R.array.activities_array_values)
+                        .indexOf(activity.activity)
 
                 activityType.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeThisActivity?.let {
-                val index = resources
-                    .getStringArray(R.array.who_can_see_activity_values)
-                    .indexOf(activity.whoCanSeeThisActivity)
+                val index =
+                    resources
+                        .getStringArray(R.array.who_can_see_activity_values)
+                        .indexOf(activity.whoCanSeeThisActivity)
 
                 whoCanSeeThisActivity.setValueIndex(if (index == -1) 0 else index)
             }
 
-            activityName?.let {
-                activityName.text = activity.activityName
-            }
+            activityName?.let { activityName.text = activity.activityName }
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)

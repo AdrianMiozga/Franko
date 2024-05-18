@@ -13,13 +13,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import org.wentura.franko.Utilities.getCurrentUserUid
-import org.wentura.franko.data.*
+import org.wentura.franko.data.Activity
+import org.wentura.franko.data.ActivityRepository
+import org.wentura.franko.data.User
+import org.wentura.franko.data.UserActivity
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserActivityListViewModel @Inject constructor(
+class UserActivityListViewModel
+@Inject
+constructor(
     private val activityRepository: ActivityRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     companion object {
@@ -32,16 +38,11 @@ class UserActivityListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             // TODO: 15.10.2021 Listener for new followings?
-            val following = userRepository
-                .getFollowing(getCurrentUserUid())
-                .get()
-                .await()
+            val following = userRepository.getFollowing(getCurrentUserUid()).get().await()
 
             val followingIds = ArrayList<String>()
 
-            following?.forEach { user ->
-                followingIds.add(user.id)
-            }
+            following?.forEach { user -> followingIds.add(user.id) }
 
             if (followingIds.isEmpty()) {
                 _userActivities.value = ArrayList()
@@ -68,9 +69,7 @@ class UserActivityListViewModel @Inject constructor(
                         for (activity in activities) {
                             if (activity.uid == null) continue
 
-                            val userSnapshot = userRepository.getUser(activity.uid)
-                                .get()
-                                .await()
+                            val userSnapshot = userRepository.getUser(activity.uid).get().await()
 
                             val user: User = userSnapshot.toObject() ?: continue
 

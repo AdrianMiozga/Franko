@@ -11,8 +11,7 @@ import org.wentura.franko.R
 class EnableLocationDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog
-            .Builder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.enable_location_dialog_message))
             .setPositiveButton(R.string.OK) { _, _ ->
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))

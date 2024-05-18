@@ -15,8 +15,7 @@ import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.data.User
 import org.wentura.franko.databinding.ListItemUserBinding
 
-class PeopleAdapter :
-    ListAdapter<User, PeopleAdapter.ViewHolder>(PeopleDiffCallback()) {
+class PeopleAdapter : ListAdapter<User, PeopleAdapter.ViewHolder>(PeopleDiffCallback()) {
 
     companion object {
         val TAG = PeopleAdapter::class.simpleName
@@ -32,25 +31,20 @@ class PeopleAdapter :
 
         fun bindView(user: User) {
             view.setOnClickListener {
-                Navigation.findNavController(view).navigate(
-                    R.id.to_profile_fragment,
-                    bundleOf("uid" to user.uid)
-                )
+                Navigation.findNavController(view)
+                    .navigate(R.id.to_profile_fragment, bundleOf("uid" to user.uid))
             }
 
             profilePicture.loadProfilePicture(user.photoUrl)
 
-            fullName.text = context.getString(
-                R.string.full_name,
-                user.firstName,
-                user.lastName
-            )
+            fullName.text = context.getString(R.string.full_name, user.firstName, user.lastName)
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.list_item_user, viewGroup, false)
+        val view =
+            LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.list_item_user, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -64,14 +58,14 @@ private class PeopleDiffCallback : DiffUtil.ItemCallback<User>() {
 
     override fun areItemsTheSame(
         oldItem: User,
-        newItem: User
+        newItem: User,
     ): Boolean {
         return oldItem.uid == newItem.uid
     }
 
     override fun areContentsTheSame(
         oldItem: User,
-        newItem: User
+        newItem: User,
     ): Boolean {
         return oldItem == newItem
     }

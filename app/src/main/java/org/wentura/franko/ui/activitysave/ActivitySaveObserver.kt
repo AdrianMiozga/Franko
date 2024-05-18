@@ -20,7 +20,7 @@ class ActivitySaveObserver(
     private val recordingRepository: RecordingRepository,
     private val activityRepository: ActivityRepository,
     private val context: Context,
-    private val view: View
+    private val view: View,
 ) : DefaultLifecycleObserver {
 
     fun save() {
@@ -38,17 +38,19 @@ class ActivitySaveObserver(
         if (elapsedTime == null) return
 
         points.forEach { point ->
-            val speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                point.speedAccuracyMetersPerSecond.toDouble()
-            } else {
-                point.speed.toDouble()
-            }
+            val speed =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    point.speedAccuracyMetersPerSecond.toDouble()
+                } else {
+                    point.speed.toDouble()
+                }
 
-            val element = hashMapOf(
-                Constants.LATITUDE to point.latitude,
-                Constants.LONGITUDE to point.longitude,
-                Constants.SPEED to speed
-            )
+            val element =
+                hashMapOf(
+                    Constants.LATITUDE to point.latitude,
+                    Constants.LONGITUDE to point.longitude,
+                    Constants.SPEED to speed
+                )
 
             if (speed > maxSpeed) {
                 maxSpeed = speed
@@ -71,31 +73,36 @@ class ActivitySaveObserver(
             activityName = context.resources.getString(R.string.activity_without_name)
         }
 
-        val activityIndex = context.resources
-            .getStringArray(R.array.activities_array)
-            .indexOf(activitySaveActivityTypeSpinner.editText?.text.toString())
+        val activityIndex =
+            context.resources
+                .getStringArray(R.array.activities_array)
+                .indexOf(activitySaveActivityTypeSpinner.editText?.text.toString())
 
-        val activityType = context.resources.getStringArray(R.array.activities_array_values)[activityIndex]
+        val activityType =
+            context.resources.getStringArray(R.array.activities_array_values)[activityIndex]
 
-        val visibilityIndex = context.resources
-            .getStringArray(R.array.who_can_see_activity)
-            .indexOf(activitySaveActivityVisibilitySpinner.editText?.text.toString())
+        val visibilityIndex =
+            context.resources
+                .getStringArray(R.array.who_can_see_activity)
+                .indexOf(activitySaveActivityVisibilitySpinner.editText?.text.toString())
 
-        val visibility = context.resources.getStringArray(R.array.who_can_see_activity_values)[visibilityIndex]
+        val visibility =
+            context.resources.getStringArray(R.array.who_can_see_activity_values)[visibilityIndex]
 
         val distance = calculateLength(points)
 
-        val activity = Activity(
-            uid,
-            TimeUnit.MILLISECONDS.toSeconds(startTime),
-            TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
-            path,
-            activityType,
-            activityName,
-            visibility,
-            distance,
-            maxSpeed
-        )
+        val activity =
+            Activity(
+                uid,
+                TimeUnit.MILLISECONDS.toSeconds(startTime),
+                TimeUnit.MILLISECONDS.toSeconds(startTime + elapsedTime),
+                path,
+                activityType,
+                activityName,
+                visibility,
+                distance,
+                maxSpeed
+            )
 
         activityRepository.addActivity(activity)
     }
@@ -113,8 +120,10 @@ class ActivitySaveObserver(
             val results: FloatArray = floatArrayOf(0f)
 
             Location.distanceBetween(
-                startLatitude, startLongitude,
-                endLatitude, endLongitude,
+                startLatitude,
+                startLongitude,
+                endLatitude,
+                endLongitude,
                 results
             )
 

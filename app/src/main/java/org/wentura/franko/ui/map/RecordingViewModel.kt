@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class RecordingViewModel @Inject constructor(
-    recordingRepository: RecordingRepository
+class RecordingViewModel
+@Inject
+constructor(
+    recordingRepository: RecordingRepository,
 ) : ViewModel() {
 
     companion object {
@@ -35,16 +37,13 @@ class RecordingViewModel @Inject constructor(
                 return@addSource
             }
 
-            _recordingTime.value =
-                SimpleDateFormat("mm:ss", Locale.US).format(it)
+            _recordingTime.value = SimpleDateFormat("mm:ss", Locale.US).format(it)
         }
 
         _location.addSource(recordingRepository.currentLocation) { result ->
             _location.value = result
         }
 
-        _points.addSource(recordingRepository.points) { result ->
-            _points.value = result
-        }
+        _points.addSource(recordingRepository.points) { result -> _points.value = result }
     }
 }

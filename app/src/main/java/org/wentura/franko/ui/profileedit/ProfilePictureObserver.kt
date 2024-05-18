@@ -31,7 +31,7 @@ import java.io.FileInputStream
 
 class ProfilePictureObserver(
     private val context: Context,
-    private val registry: ActivityResultRegistry
+    private val registry: ActivityResultRegistry,
 ) : DefaultLifecycleObserver {
 
     private val db = Firebase.firestore
@@ -68,11 +68,12 @@ class ProfilePictureObserver(
                     owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                         withContext(Dispatchers.IO) {
                             context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                                tmpFile = Utilities.createTmpFile(
-                                    Constants.TMP_IMAGE_PREFIX,
-                                    Constants.TMP_IMAGE_SUFFIX,
-                                    context.cacheDir
-                                )
+                                tmpFile =
+                                    Utilities.createTmpFile(
+                                        Constants.TMP_IMAGE_PREFIX,
+                                        Constants.TMP_IMAGE_SUFFIX,
+                                        context.cacheDir
+                                    )
 
                                 inputStream.copyToFile(tmpFile)
 
@@ -83,19 +84,18 @@ class ProfilePictureObserver(
                 }
             }
 
-        takeImage = registry.register(
-            Constants.TAKE_PICTURE_KEY,
-            owner,
-            ActivityResultContracts.TakePicture()
-        ) { isSuccess ->
-            if (!isSuccess) return@register
+        takeImage =
+            registry.register(
+                Constants.TAKE_PICTURE_KEY,
+                owner,
+                ActivityResultContracts.TakePicture()
+            ) { isSuccess ->
+                if (!isSuccess) return@register
 
-            owner.lifecycleScope.launch {
-                owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    updateProfilePicture()
+                owner.lifecycleScope.launch {
+                    owner.repeatOnLifecycle(Lifecycle.State.CREATED) { updateProfilePicture() }
                 }
             }
-        }
     }
 
     fun selectImage() = selectImage.launch("image/*")
@@ -103,11 +103,12 @@ class ProfilePictureObserver(
     fun takePicture() {
         owner.lifecycleScope.launch {
             owner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                tmpFile = Utilities.createTmpFile(
-                    Constants.TMP_IMAGE_PREFIX,
-                    Constants.TMP_IMAGE_SUFFIX,
-                    context.cacheDir
-                )
+                tmpFile =
+                    Utilities.createTmpFile(
+                        Constants.TMP_IMAGE_PREFIX,
+                        Constants.TMP_IMAGE_SUFFIX,
+                        context.cacheDir
+                    )
 
                 takeImage.launch(tmpFile.getUri(context))
             }
@@ -116,27 +117,27 @@ class ProfilePictureObserver(
 
     private suspend fun updateProfilePicture() {
         withContext(Dispatchers.IO) {
-            val format = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                Bitmap.CompressFormat.WEBP_LOSSLESS
-            } else {
-                Bitmap.CompressFormat.WEBP
-            }
+            val format =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Bitmap.CompressFormat.WEBP_LOSSLESS
+                } else {
+                    Bitmap.CompressFormat.WEBP
+                }
 
-            val compressedImageFile = Compressor.compress(context, tmpFile) {
-                default(width = 200, height = 200, format = format, quality = 100)
-            }
+            val compressedImageFile =
+                Compressor.compress(context, tmpFile) {
+                    default(width = 200, height = 200, format = format, quality = 100)
+                }
 
-            val photoUrl = profilePicture
-                .putStream(FileInputStream(compressedImageFile))
-                .continueWithTask { profilePicture.downloadUrl }
-                .await()
+            val photoUrl =
+                profilePicture
+                    .putStream(FileInputStream(compressedImageFile))
+                    .continueWithTask { profilePicture.downloadUrl }
+                    .await()
 
-            val updates: Map<String, Any> =
-                hashMapOf(Constants.PHOTO_URL to photoUrl.toString())
+            val updates: Map<String, Any> = hashMapOf(Constants.PHOTO_URL to photoUrl.toString())
 
-            db.collection(Constants.USERS)
-                .document(uid)
-                .update(updates)
+            db.collection(Constants.USERS).document(uid).update(updates)
         }
     }
 }

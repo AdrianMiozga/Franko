@@ -13,13 +13,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.wentura.franko.Constants
 import org.wentura.franko.Utilities.getCurrentUserUid
-import org.wentura.franko.data.*
+import org.wentura.franko.data.Activity
+import org.wentura.franko.data.ActivityRepository
+import org.wentura.franko.data.User
+import org.wentura.franko.data.UserActivity
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserActivityListViewModel @Inject constructor(
+class UserActivityListViewModel
+@Inject
+constructor(
     private val userRepository: UserRepository,
-    private val activityRepository: ActivityRepository
+    private val activityRepository: ActivityRepository,
 ) : ViewModel() {
 
     companion object {
@@ -40,17 +46,15 @@ class UserActivityListViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val userSnapshot = userRepository
-                .getUser()
-                .get()
-                .await()
+            val userSnapshot = userRepository.getUser().get().await()
 
             val user: User = userSnapshot.toObject() ?: return@launch
 
-            val query = activityRepository
-                .getActivities(getCurrentUserUid())
-                .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
-                .whereIn(Constants.ACTIVITY, activityTypes)
+            val query =
+                activityRepository
+                    .getActivities(getCurrentUserUid())
+                    .orderBy(Constants.END_TIME, Query.Direction.DESCENDING)
+                    .whereIn(Constants.ACTIVITY, activityTypes)
 
             query.addSnapshotListener { activitiesSnapshot, exception ->
                 if (exception != null) {

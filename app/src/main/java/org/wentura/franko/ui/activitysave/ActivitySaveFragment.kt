@@ -34,18 +34,13 @@ import org.wentura.franko.viewmodels.CurrentUserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ActivitySaveFragment :
-    Fragment(R.layout.fragment_activity_save),
-    OnMapReadyCallback {
+class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save), OnMapReadyCallback {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    @Inject lateinit var userRepository: UserRepository
 
-    @Inject
-    lateinit var activityRepository: ActivityRepository
+    @Inject lateinit var activityRepository: ActivityRepository
 
-    @Inject
-    lateinit var recordingRepository: RecordingRepository
+    @Inject lateinit var recordingRepository: RecordingRepository
 
     private val currentUserViewModel: CurrentUserViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
@@ -61,85 +56,89 @@ class ActivitySaveFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_save, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.save -> {
-                        findNavController().navigateUp()
-                        activitySaveObserver.save()
-                    }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_save, menu)
                 }
 
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    when (menuItem.itemId) {
+                        R.id.save -> {
+                            findNavController().navigateUp()
+                            activitySaveObserver.save()
+                        }
+                    }
+
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         val binding = FragmentActivitySaveBinding.bind(view)
 
         val activityTypeTextView =
             (binding.activitySaveActivityType.editText as AutoCompleteTextView).apply {
-                val adapter = ArrayAdapter.createFromResource(
-                    requireContext(),
-                    R.array.activities_array,
-                    R.layout.list_item
-                )
+                val adapter =
+                    ArrayAdapter.createFromResource(
+                        requireContext(),
+                        R.array.activities_array,
+                        R.layout.list_item
+                    )
 
                 setAdapter(adapter)
             }
 
         val activityVisibilityTextView =
             (binding.activitySaveActivityVisibility.editText as AutoCompleteTextView).apply {
-                val adapter = ArrayAdapter.createFromResource(
-                    requireContext(),
-                    R.array.who_can_see_activity,
-                    R.layout.list_item
-                )
+                val adapter =
+                    ArrayAdapter.createFromResource(
+                        requireContext(),
+                        R.array.who_can_see_activity,
+                        R.layout.list_item
+                    )
 
                 setAdapter(adapter)
             }
 
         currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
-            val activityType = resources.getStringArray(R.array.activities_array)[resources
-                .getStringArray(R.array.activities_array_values).indexOf(user.lastActivity)]
+            val activityType =
+                resources
+                    .getStringArray(R.array.activities_array)[
+                        resources
+                            .getStringArray(R.array.activities_array_values)
+                            .indexOf(user.lastActivity)]
 
             activityTypeTextView.setText(activityType, false)
 
-            val whoCanSeeActivityDefault = resources.getStringArray(R.array.who_can_see_activity)[resources
-                .getStringArray(R.array.who_can_see_activity_values).indexOf(user.whoCanSeeActivityDefault)]
+            val whoCanSeeActivityDefault =
+                resources
+                    .getStringArray(R.array.who_can_see_activity)[
+                        resources
+                            .getStringArray(R.array.who_can_see_activity_values)
+                            .indexOf(user.whoCanSeeActivityDefault)]
 
             activityVisibilityTextView.setText(whoCanSeeActivityDefault, false)
         }
 
-        activitySaveObserver = ActivitySaveObserver(
-            recordingRepository,
-            activityRepository,
-            requireContext(),
-            view
-        )
+        activitySaveObserver =
+            ActivitySaveObserver(recordingRepository, activityRepository, requireContext(), view)
 
-        fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         val mapFragment =
-            childFragmentManager
-                .findFragmentById(R.id.activity_save_map) as SupportMapFragment
+            childFragmentManager.findFragmentById(R.id.activity_save_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
 
         lifecycle.addObserver(activitySaveObserver)
 
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner) {
-                ActivitySaveDialogFragment(activitySaveObserver, view).show(
-                    parentFragmentManager,
-                    ActivitySaveDialogFragment::class.simpleName
-                )
-            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            ActivitySaveDialogFragment(activitySaveObserver, view)
+                .show(parentFragmentManager, ActivitySaveDialogFragment::class.simpleName)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

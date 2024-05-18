@@ -41,18 +41,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MapFragment :
-    Fragment(R.layout.fragment_map),
-    OnMapReadyCallback,
-    AdapterView.OnItemSelectedListener {
+    Fragment(R.layout.fragment_map), OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
-    @Inject
-    lateinit var activityRepository: ActivityRepository
+    @Inject lateinit var activityRepository: ActivityRepository
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    @Inject lateinit var userRepository: UserRepository
 
-    @Inject
-    lateinit var recordingRepository: RecordingRepository
+    @Inject lateinit var recordingRepository: RecordingRepository
 
     private var initialOnItemSelected = true
     private val speedometer: Speedometer = Speedometer()
@@ -61,25 +56,27 @@ class MapFragment :
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private lateinit var locationObserver: LocationPermissionObserver
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var recordingService: RecordingService
     private var isRecordingServiceBound: Boolean = false
 
-    private val connection = object : ServiceConnection {
+    private val connection =
+        object : ServiceConnection {
 
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as RecordingService.LocalBinder
-            recordingService = binder.getService()
-            isRecordingServiceBound = true
-        }
+            override fun onServiceConnected(className: ComponentName, service: IBinder) {
+                val binder = service as RecordingService.LocalBinder
+                recordingService = binder.getService()
+                isRecordingServiceBound = true
+            }
 
-        override fun onServiceDisconnected(componentName: ComponentName) {
-            isRecordingServiceBound = false
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                isRecordingServiceBound = false
+            }
         }
-    }
 
     companion object {
         val TAG = MapFragment::class.simpleName
@@ -101,16 +98,14 @@ class MapFragment :
         }
 
         recordingViewModel.location.observe(viewLifecycleOwner) { location ->
-            speedometer.speed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                location.speedAccuracyMetersPerSecond.toDouble()
-            } else {
-                location.speed.toDouble()
-            }
+            speedometer.speed =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    location.speedAccuracyMetersPerSecond.toDouble()
+                } else {
+                    location.speed.toDouble()
+                }
 
-            speed.text = getString(
-                R.string.kmh,
-                speedometer.speed.toInt()
-            )
+            speed.text = getString(R.string.kmh, speedometer.speed.toInt())
         }
 
         val startButton: Button = binding.mapStart
@@ -138,9 +133,7 @@ class MapFragment :
             }
         }
 
-        val mapFragment =
-            childFragmentManager
-                .findFragmentById(R.id.map_map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
 
@@ -200,19 +193,14 @@ class MapFragment :
                 val latLng = LatLng(location.latitude, location.longitude)
 
                 val newLatLngZoom =
-                    CameraUpdateFactory.newLatLngZoom(
-                        latLng,
-                        Constants.DEFAULT_ZOOM
-                    )
+                    CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_ZOOM)
 
                 googleMap.moveCamera(newLatLngZoom)
             }
 
         val polyline = googleMap.addPolyline(createPolylineOptions())
 
-        recordingViewModel.points.observe(viewLifecycleOwner) { points ->
-            polyline.points = points
-        }
+        recordingViewModel.points.observe(viewLifecycleOwner) { points -> polyline.points = points }
     }
 
     private fun checkLocationPermission() {
@@ -222,10 +210,11 @@ class MapFragment :
         lifecycle.addObserver(locationObserver)
 
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            GrantLocationPermissionDialogFragment(locationObserver).show(
-                parentFragmentManager,
-                GrantLocationPermissionDialogFragment::class.simpleName
-            )
+            GrantLocationPermissionDialogFragment(locationObserver)
+                .show(
+                    parentFragmentManager,
+                    GrantLocationPermissionDialogFragment::class.simpleName
+                )
         } else {
             locationObserver.requestLocationPermission()
         }
@@ -260,19 +249,18 @@ class MapFragment :
             return
         }
 
-//        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
-//            Toast.makeText(
-//                context,
-//                getString(R.string.too_short_activity_to_save_toast),
-//                Toast.LENGTH_LONG
-//            ).show()
-//
-//            stopRecordingService()
-//            return
-//        }
+        //        if (elapsedTime < Constants.MIN_ACTIVITY_TIME) {
+        //            Toast.makeText(
+        //                context,
+        //                getString(R.string.too_short_activity_to_save_toast),
+        //                Toast.LENGTH_LONG
+        //            ).show()
+        //
+        //            stopRecordingService()
+        //            return
+        //        }
 
-        val toActivitySaveFragment =
-            MapFragmentDirections.toActivitySaveFragment()
+        val toActivitySaveFragment = MapFragmentDirections.toActivitySaveFragment()
 
         findNavController().navigate(toActivitySaveFragment)
     }
@@ -291,7 +279,7 @@ class MapFragment :
         adapterView: AdapterView<*>,
         view: View?,
         position: Int,
-        id: Long
+        id: Long,
     ) {
         if (initialOnItemSelected) {
             initialOnItemSelected = false
@@ -299,7 +287,10 @@ class MapFragment :
         }
 
         val updates: Map<String, Any> =
-            hashMapOf(Constants.LAST_ACTIVITY to resources.getStringArray(R.array.activities_array_values)[position])
+            hashMapOf(
+                Constants.LAST_ACTIVITY to
+                    resources.getStringArray(R.array.activities_array_values)[position]
+            )
 
         userRepository.updateUser(updates)
     }

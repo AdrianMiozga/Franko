@@ -7,14 +7,20 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.wentura.franko.data.*
+import org.wentura.franko.data.Activity
+import org.wentura.franko.data.ActivityRepository
+import org.wentura.franko.data.User
+import org.wentura.franko.data.UserActivity
+import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserActivityViewModel @Inject constructor(
+class UserActivityViewModel
+@Inject
+constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
-    activityRepository: ActivityRepository
+    activityRepository: ActivityRepository,
 ) : ViewModel() {
 
     companion object {
@@ -24,32 +30,28 @@ class UserActivityViewModel @Inject constructor(
     private val _userActivity = MutableLiveData<UserActivity>()
     val userActivity: LiveData<UserActivity> = _userActivity
 
-    private val activityId: String = savedStateHandle["id"]
-        ?: throw IllegalArgumentException("Missing uid")
+    private val activityId: String =
+        savedStateHandle["id"] ?: throw IllegalArgumentException("Missing uid")
 
     init {
-        activityRepository
-            .getActivity(activityId)
-            .addSnapshotListener { activitySnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
-
-                if (activitySnapshot == null) return@addSnapshotListener
-
-                val activity: Activity = activitySnapshot.toObject() ?: return@addSnapshotListener
-
-                val uid = activity.uid ?: return@addSnapshotListener
-
-                userRepository
-                    .getUser(uid)
-                    .get()
-                    .addOnSuccessListener { userSnapshot ->
-                        val user: User = userSnapshot.toObject() ?: return@addOnSuccessListener
-
-                        _userActivity.value = UserActivity(user, activity)
-                    }
+        activityRepository.getActivity(activityId).addSnapshotListener { activitySnapshot, exception
+            ->
+            if (exception != null) {
+                Log.w(TAG, "Listen failed.", exception)
+                return@addSnapshotListener
             }
+
+            if (activitySnapshot == null) return@addSnapshotListener
+
+            val activity: Activity = activitySnapshot.toObject() ?: return@addSnapshotListener
+
+            val uid = activity.uid ?: return@addSnapshotListener
+
+            userRepository.getUser(uid).get().addOnSuccessListener { userSnapshot ->
+                val user: User = userSnapshot.toObject() ?: return@addOnSuccessListener
+
+                _userActivity.value = UserActivity(user, activity)
+            }
+        }
     }
 }

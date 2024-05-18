@@ -13,12 +13,11 @@ import org.wentura.franko.ui.map.RecordingService
 
 class ActivitySaveDialogFragment(
     private val activitySaveObserver: ActivitySaveObserver,
-    private val activityView: View
+    private val activityView: View,
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog
-            .Builder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.unsaved_changes))
             .setMessage(getString(R.string.new_activity_unsaved_changes_message))
             .setPositiveButton(getString(R.string.save)) { _, _ ->

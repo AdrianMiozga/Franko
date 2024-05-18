@@ -32,21 +32,25 @@ class PeopleFragment : Fragment(R.layout.fragment_people), SearchView.OnQueryTex
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_search, menu)
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_search, menu)
 
-                val search = menu.findItem(R.id.search)
-                val searchView = search.actionView as SearchView
+                    val search = menu.findItem(R.id.search)
+                    val searchView = search.actionView as SearchView
 
-                searchView.queryHint = getString(R.string.search_people)
-                searchView.setOnQueryTextListener(this@PeopleFragment)
-            }
+                    searchView.queryHint = getString(R.string.search_people)
+                    searchView.setOnQueryTextListener(this@PeopleFragment)
+                }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         val binding = FragmentPeopleBinding.bind(view)
 
@@ -74,9 +78,8 @@ class PeopleFragment : Fragment(R.layout.fragment_people), SearchView.OnQueryTex
     override fun onQueryTextSubmit(query: String?): Boolean = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        val newFilter = people.filter { user ->
-            user.firstName.lowercase().contains(newText.toString())
-        }
+        val newFilter =
+            people.filter { user -> user.firstName.lowercase().contains(newText.toString()) }
 
         peopleAdapter.submitList(newFilter)
         return true

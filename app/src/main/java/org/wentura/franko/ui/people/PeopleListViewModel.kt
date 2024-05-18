@@ -12,16 +12,16 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class PeopleListViewModel @Inject constructor(
-    private val userRepository: UserRepository
+class PeopleListViewModel
+@Inject
+constructor(
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
 
     init {
-        viewModelScope.launch {
-            _users.value = ArrayList(userRepository.getPeople().toObjects())
-        }
+        viewModelScope.launch { _users.value = ArrayList(userRepository.getPeople().toObjects()) }
     }
 }

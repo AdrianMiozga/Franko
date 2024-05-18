@@ -18,9 +18,7 @@ class DataStore : PreferenceDataStore() {
     override fun putBoolean(key: String?, value: Boolean) {
         if (key == null) return
 
-        db.collection(Constants.USERS)
-            .document(uid)
-            .update(key, value)
+        db.collection(Constants.USERS).document(uid).update(key, value)
     }
 
     override fun getBoolean(key: String?, defValue: Boolean): Boolean {
@@ -30,9 +28,7 @@ class DataStore : PreferenceDataStore() {
     override fun putString(key: String?, value: String?) {
         if (key == null) return
 
-        db.collection(Constants.USERS)
-            .document(uid)
-            .update(key, value?.trim())
+        db.collection(Constants.USERS).document(uid).update(key, value?.trim())
     }
 
     override fun getString(key: String?, defValue: String?): String? {

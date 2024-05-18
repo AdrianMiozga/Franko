@@ -15,8 +15,7 @@ data class User(
     val whoCanSeeMyLocation: String? = null,
     val whoCanSeeMyFollowingCount: String? = null,
     val whoCanSeeActivityDefault: String? = null,
-    val keepScreenOnInMap: Boolean = false
+    val keepScreenOnInMap: Boolean = false,
 ) {
-    @DocumentId
-    lateinit var uid: String
+    @DocumentId lateinit var uid: String
 }

@@ -25,24 +25,28 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_settings, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.settings -> {
-                        val toSettingsFragment =
-                            ProfileViewPagerFragmentDirections.toSettingsFragment()
-
-                        findNavController().navigate(toSettingsFragment)
-                    }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_settings, menu)
                 }
 
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    when (menuItem.itemId) {
+                        R.id.settings -> {
+                            val toSettingsFragment =
+                                ProfileViewPagerFragmentDirections.toSettingsFragment()
+
+                            findNavController().navigate(toSettingsFragment)
+                        }
+                    }
+
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         val binding = FragmentProfileViewPagerBinding.bind(view)
 
@@ -58,8 +62,9 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
         }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = getTabTitle(position)
-        }.attach()
+                tab.text = getTabTitle(position)
+            }
+            .attach()
     }
 
     private fun getTabTitle(position: Int): String? {

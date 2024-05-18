@@ -77,6 +77,7 @@ Franko is a fitness and social platform for Android that allows users to seamles
 ### Static Analysis Tools
 
 - [Android Linter](https://developer.android.com/studio/write/lint)
+- [ktfmt](https://facebook.github.io/ktfmt/) - formatting Kotlin code
 
 ## Building
 

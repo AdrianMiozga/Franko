@@ -28,13 +28,11 @@ import org.wentura.franko.Utilities.loadProfilePicture
 import org.wentura.franko.Utilities.setup
 import org.wentura.franko.databinding.FragmentActivityBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ActivityFragment :
-    Fragment(R.layout.fragment_activity),
-    OnMapReadyCallback {
+class ActivityFragment : Fragment(R.layout.fragment_activity), OnMapReadyCallback {
 
     private val viewModel: UserActivityViewModel by viewModels()
     private val args: ActivityFragmentArgs by navArgs()
@@ -56,24 +54,28 @@ class ActivityFragment :
         if (args.currentUser) {
             val menuHost: MenuHost = requireActivity()
 
-            menuHost.addMenuProvider(object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_edit, menu)
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    when (menuItem.itemId) {
-                        R.id.edit -> {
-                            val toActivityEditFragment =
-                                ActivityFragmentDirections.toActivityEditFragment(args.id)
-
-                            findNavController().navigate(toActivityEditFragment)
-                        }
+            menuHost.addMenuProvider(
+                object : MenuProvider {
+                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                        menuInflater.inflate(R.menu.menu_edit, menu)
                     }
 
-                    return true
-                }
-            }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                        when (menuItem.itemId) {
+                            R.id.edit -> {
+                                val toActivityEditFragment =
+                                    ActivityFragmentDirections.toActivityEditFragment(args.id)
+
+                                findNavController().navigate(toActivityEditFragment)
+                            }
+                        }
+
+                        return true
+                    }
+                },
+                viewLifecycleOwner,
+                Lifecycle.State.RESUMED
+            )
         }
 
         val binding = FragmentActivityBinding.bind(view)
@@ -91,8 +93,7 @@ class ActivityFragment :
         activityMaxSpeed = binding.activityMaxSpeed
 
         val mapFragment =
-            childFragmentManager
-                .findFragmentById(R.id.activity_map) as SupportMapFragment
+            childFragmentManager.findFragmentById(R.id.activity_map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
     }
@@ -101,8 +102,7 @@ class ActivityFragment :
         googleMap.setup(requireContext())
 
         googleMap.setOnMapClickListener {
-            val toActivityMapFragment =
-                ActivityFragmentDirections.toActivityMapFragment(args.id)
+            val toActivityMapFragment = ActivityFragmentDirections.toActivityMapFragment(args.id)
 
             findNavController().navigate(toActivityMapFragment)
         }
@@ -113,11 +113,7 @@ class ActivityFragment :
 
             if (activity.path == null) return@observe
 
-            userName.text = getString(
-                R.string.full_name,
-                user.firstName,
-                user.lastName
-            )
+            userName.text = getString(R.string.full_name, user.firstName, user.lastName)
 
             profilePicture.loadProfilePicture(user.photoUrl)
 
@@ -125,50 +121,36 @@ class ActivityFragment :
             val endTime = activity.endTime ?: 0L
             val duration = endTime - startTime
 
-            activityDuration.text = getString(
-                R.string.time,
-                Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
-            )
+            activityDuration.text =
+                getString(R.string.time, Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration)))
 
-            val index = resources
-                .getStringArray(R.array.activities_array_values)
-                .indexOf(activity.activity)
+            val index =
+                resources.getStringArray(R.array.activities_array_values).indexOf(activity.activity)
 
-            val activityType = resources
-                .getStringArray(R.array.activities_array)[index]
+            val activityType = resources.getStringArray(R.array.activities_array)[index]
 
-            activityTitle.text = getString(
-                R.string.activity_title,
-                activity.activityName,
-                activityType
-            )
+            activityTitle.text =
+                getString(R.string.activity_title, activity.activityName, activityType)
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
 
-            activityDate.text = getString(
-                R.string.date_and_time,
-                date,
-                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
-            )
+            activityDate.text =
+                getString(
+                    R.string.date_and_time,
+                    date,
+                    timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+                )
 
-            activityLength.text = getString(
-                R.string.activity_length,
-                activity.length / 1000
-            )
+            activityLength.text = getString(R.string.activity_length, activity.length / 1000)
 
             val averageSpeed = (activity.length / duration).times(Constants.MS_TO_KMH)
 
-            activityAverageSpeed.text = getString(
-                R.string.activity_average_speed,
-                averageSpeed
-            )
+            activityAverageSpeed.text = getString(R.string.activity_average_speed, averageSpeed)
 
-            activityMaxSpeed.text = getString(
-                R.string.activity_max_speed,
-                activity.maxSpeed.times(Constants.MS_TO_KMH)
-            )
+            activityMaxSpeed.text =
+                getString(R.string.activity_max_speed, activity.maxSpeed.times(Constants.MS_TO_KMH))
 
             val points: ArrayList<LatLng> = arrayListOf()
 

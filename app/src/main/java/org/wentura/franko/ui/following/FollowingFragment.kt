@@ -25,9 +25,7 @@ class FollowingFragment : Fragment(R.layout.fragment_simplified_people) {
         viewModel.following.observe(viewLifecycleOwner) { result ->
             binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
 
-            recyclerView.apply {
-                adapter.submitList(result)
-            }
+            recyclerView.apply { adapter.submitList(result) }
         }
     }
 }

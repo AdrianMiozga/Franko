@@ -14,17 +14,18 @@ import org.wentura.franko.data.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class UserViewModel
+@Inject
+constructor(
     savedStateHandle: SavedStateHandle,
-    userRepository: UserRepository
+    userRepository: UserRepository,
 ) : ViewModel() {
 
     companion object {
         val TAG = UserViewModel::class.simpleName
     }
 
-    private val uid: String = savedStateHandle["uid"]
-        ?: getCurrentUserUid()
+    private val uid: String = savedStateHandle["uid"] ?: getCurrentUserUid()
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
@@ -36,51 +37,45 @@ class UserViewModel @Inject constructor(
     val followers: LiveData<List<String>> = _followers
 
     init {
-        userRepository
-            .getUser(uid)
-            .addSnapshotListener { documentSnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
-
-                val newUser: User = documentSnapshot?.toObject() ?: return@addSnapshotListener
-
-                _user.value = newUser
+        userRepository.getUser(uid).addSnapshotListener { documentSnapshot, exception ->
+            if (exception != null) {
+                Log.w(TAG, "Listen failed.", exception)
+                return@addSnapshotListener
             }
 
-        userRepository
-            .getFollowing(uid)
-            .addSnapshotListener { querySnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
+            val newUser: User = documentSnapshot?.toObject() ?: return@addSnapshotListener
 
-                val newFollowing = ArrayList<String>()
+            _user.value = newUser
+        }
 
-                querySnapshot?.forEach { document ->
-                    newFollowing.add(document[Constants.UID].toString())
-                }
-
-                _following.value = newFollowing
+        userRepository.getFollowing(uid).addSnapshotListener { querySnapshot, exception ->
+            if (exception != null) {
+                Log.w(TAG, "Listen failed.", exception)
+                return@addSnapshotListener
             }
 
-        userRepository
-            .getFollowers(uid)
-            .addSnapshotListener { querySnapshot, exception ->
-                if (exception != null) {
-                    Log.w(TAG, "Listen failed.", exception)
-                    return@addSnapshotListener
-                }
+            val newFollowing = ArrayList<String>()
 
-                val newFollowers = ArrayList<String>()
-
-                querySnapshot?.forEach { document ->
-                    newFollowers.add(document[Constants.UID].toString())
-                }
-
-                _followers.value = newFollowers
+            querySnapshot?.forEach { document ->
+                newFollowing.add(document[Constants.UID].toString())
             }
+
+            _following.value = newFollowing
+        }
+
+        userRepository.getFollowers(uid).addSnapshotListener { querySnapshot, exception ->
+            if (exception != null) {
+                Log.w(TAG, "Listen failed.", exception)
+                return@addSnapshotListener
+            }
+
+            val newFollowers = ArrayList<String>()
+
+            querySnapshot?.forEach { document ->
+                newFollowers.add(document[Constants.UID].toString())
+            }
+
+            _followers.value = newFollowers
+        }
     }
 }

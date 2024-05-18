@@ -33,7 +33,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val darkModeSwitch: SwitchPreferenceCompat? =
             preferenceManager.findPreference(Constants.DARK_MODE_KEY)
@@ -50,40 +50,38 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val whoCanSeeActivityDefault: ListPreference? =
             preferenceManager.findPreference(Constants.WHO_CAN_SEE_ACTIVITY_DEFAULT)
 
-        val version: Preference? =
-            preferenceManager.findPreference(Constants.VERSION_KEY)
+        val version: Preference? = preferenceManager.findPreference(Constants.VERSION_KEY)
 
         version?.summary = BuildConfig.VERSION_NAME
 
         currentUserViewModel.user.observe(viewLifecycleOwner) { user ->
-            darkModeSwitch?.let {
-                it.isChecked = user.darkMode
-            }
+            darkModeSwitch?.let { it.isChecked = user.darkMode }
 
-            keepScreenOnInMapSwitch?.let {
-                it.isChecked = user.keepScreenOnInMap
-            }
+            keepScreenOnInMapSwitch?.let { it.isChecked = user.keepScreenOnInMap }
 
             whoCanSeeMyProfile?.let {
-                val index = resources
-                    .getStringArray(R.array.who_can_see_my_profile_values)
-                    .indexOf(user.whoCanSeeMyProfile)
+                val index =
+                    resources
+                        .getStringArray(R.array.who_can_see_my_profile_values)
+                        .indexOf(user.whoCanSeeMyProfile)
 
                 whoCanSeeMyProfile.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeMyLocation?.let {
-                val index = resources
-                    .getStringArray(R.array.who_can_see_my_location_values)
-                    .indexOf(user.whoCanSeeMyLocation)
+                val index =
+                    resources
+                        .getStringArray(R.array.who_can_see_my_location_values)
+                        .indexOf(user.whoCanSeeMyLocation)
 
                 whoCanSeeMyLocation.setValueIndex(if (index == -1) 0 else index)
             }
 
             whoCanSeeActivityDefault?.let {
-                val index = resources
-                    .getStringArray(R.array.who_can_see_activity_values)
-                    .indexOf(user.whoCanSeeActivityDefault)
+                val index =
+                    resources
+                        .getStringArray(R.array.who_can_see_activity_values)
+                        .indexOf(user.whoCanSeeActivityDefault)
 
                 whoCanSeeActivityDefault.setValueIndex(if (index == -1) 0 else index)
             }

@@ -37,11 +37,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         val arguments = arguments
 
-        val argUid = if (arguments == null) {
-            uid
-        } else {
-            ProfileFragmentArgs.fromBundle(arguments).uid
-        }
+        val argUid =
+            if (arguments == null) {
+                uid
+            } else {
+                ProfileFragmentArgs.fromBundle(arguments).uid
+            }
 
         val profileFollow = binding.profileFollow
         val profileUnfollow = binding.profileUnfollow
@@ -99,18 +100,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             profileProfilePicture.loadProfilePicture(profile.photoUrl)
 
-            profileFullName.text = getString(
-                R.string.full_name,
-                profile.firstName,
-                profile.lastName
-            )
+            profileFullName.text =
+                getString(R.string.full_name, profile.firstName, profile.lastName)
 
             if (profile.bio.isNotBlank()) {
                 profileBio.visibility = View.VISIBLE
                 profileBio.text = profile.bio
             }
 
-            val locationEveryone = resources.getStringArray(R.array.who_can_see_my_location_values).first()
+            val locationEveryone =
+                resources.getStringArray(R.array.who_can_see_my_location_values).first()
 
             if (profile.whoCanSeeMyLocation == locationEveryone) {
                 profileCity.text = profile.city
@@ -135,8 +134,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             if (following.isEmpty()) return@observe
 
             profileFollowing.setOnClickListener {
-                val toFollowingFragment =
-                    ProfileFragmentDirections.toFollowingFragment(argUid)
+                val toFollowingFragment = ProfileFragmentDirections.toFollowingFragment(argUid)
 
                 findNavController().navigate(toFollowingFragment)
             }
@@ -159,8 +157,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             if (followers.isEmpty()) return@observe
 
             profileFollowers.setOnClickListener {
-                val toFollowersFragment =
-                    ProfileFragmentDirections.toFollowersFragment(argUid)
+                val toFollowersFragment = ProfileFragmentDirections.toFollowersFragment(argUid)
 
                 findNavController().navigate(toFollowersFragment)
             }

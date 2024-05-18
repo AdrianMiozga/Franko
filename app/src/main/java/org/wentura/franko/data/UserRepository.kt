@@ -21,60 +21,43 @@ class UserRepository @Inject constructor() {
     private val db = Firebase.firestore
 
     fun getUser(): DocumentReference {
-        return db.collection(Constants.USERS)
-            .document(getCurrentUserUid())
+        return db.collection(Constants.USERS).document(getCurrentUserUid())
     }
 
     fun getUser(uid: String): DocumentReference {
-        return db.collection(Constants.USERS)
-            .document(uid)
+        return db.collection(Constants.USERS).document(uid)
     }
 
     suspend fun getPeople(): QuerySnapshot {
         return db.collection(Constants.USERS)
-            .whereEqualTo(
-                Constants.WHO_CAN_SEE_MY_PROFILE,
-                Constants.EVERYONE
-            )
+            .whereEqualTo(Constants.WHO_CAN_SEE_MY_PROFILE, Constants.EVERYONE)
             .get()
             .await()
     }
 
     fun getUsers(uidList: List<String>): Task<QuerySnapshot> {
-        return db.collection(Constants.USERS)
-            .whereIn(FieldPath.documentId(), uidList)
-            .get()
+        return db.collection(Constants.USERS).whereIn(FieldPath.documentId(), uidList).get()
     }
 
     fun getFollowing(uid: String): CollectionReference {
-        return db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.FOLLOWING)
+        return db.collection(Constants.USERS).document(uid).collection(Constants.FOLLOWING)
     }
 
     fun getFollowers(uid: String): CollectionReference {
-        return db.collection(Constants.USERS)
-            .document(uid)
-            .collection(Constants.FOLLOWERS)
+        return db.collection(Constants.USERS).document(uid).collection(Constants.FOLLOWERS)
     }
 
     fun updateUser(updates: Map<String, Any>) {
-        db.collection(Constants.USERS)
-            .document(getCurrentUserUid())
-            .update(updates)
+        db.collection(Constants.USERS).document(getCurrentUserUid()).update(updates)
     }
 
     fun addNewUser(values: Map<String, Any>) {
-        db.collection(Constants.USERS)
-            .document(getCurrentUserUid())
-            .get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) return@addOnSuccessListener
+        db.collection(Constants.USERS).document(getCurrentUserUid()).get().addOnSuccessListener {
+            document ->
+            if (document.exists()) return@addOnSuccessListener
 
-                db.collection(Constants.USERS)
-                    .document(getCurrentUserUid())
-                    .set(values)
-            }
+            db.collection(Constants.USERS).document(getCurrentUserUid()).set(values)
+        }
     }
 
     fun removeProfilePicture() {

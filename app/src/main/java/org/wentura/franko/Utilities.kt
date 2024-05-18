@@ -83,33 +83,26 @@ object Utilities {
     }
 
     fun File.getUri(context: Context): Uri {
-        return FileProvider.getUriForFile(
-            context,
-            "${BuildConfig.APPLICATION_ID}.provider",
-            this
-        )
+        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", this)
     }
 
     suspend fun createTmpFile(prefix: String, suffix: String, directory: File): File {
         val file: File
 
         withContext(Dispatchers.IO) {
-            file = File.createTempFile(
-                prefix,
-                suffix,
-                directory
-            ).apply {
-                createNewFile()
-                deleteOnExit()
-            }
+            file =
+                File.createTempFile(prefix, suffix, directory).apply {
+                    createNewFile()
+                    deleteOnExit()
+                }
         }
 
         return file
     }
 
     fun closeKeyboard(view: View) {
-        val inputMethodManager = view.context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val inputMethodManager =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
 
         inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
     }
@@ -123,29 +116,25 @@ object Utilities {
 
     fun isNotificationPermissionGranted(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
         } else {
             true
         }
     }
 
     suspend fun checkLocationEnabled(context: Context, fragmentManager: FragmentManager) {
-        val response = LocationServices
-            .getSettingsClient(context)
-            .checkLocationSettings(LocationSettingsRequest.Builder().build())
-            .await()
+        val response =
+            LocationServices.getSettingsClient(context)
+                .checkLocationSettings(LocationSettingsRequest.Builder().build())
+                .await()
 
         val locationSettingsStates = response.locationSettingsStates ?: return
 
         if (locationSettingsStates.isLocationUsable) return
 
-        EnableLocationDialogFragment().show(
-            fragmentManager,
-            EnableLocationDialogFragment::class.simpleName
-        )
+        EnableLocationDialogFragment()
+            .show(fragmentManager, EnableLocationDialogFragment::class.simpleName)
     }
 
     fun ImageView.loadProfilePicture(photoUrl: String?) {
@@ -154,9 +143,7 @@ object Utilities {
                 transformations(CircleCropTransformation())
             }
         } else {
-            load(photoUrl) {
-                transformations(CircleCropTransformation())
-            }
+            load(photoUrl) { transformations(CircleCropTransformation()) }
         }
     }
 
@@ -166,18 +153,11 @@ object Utilities {
     }
 
     fun createPolylineOptions(): PolylineOptions {
-        return PolylineOptions()
-            .width(Constants.LINE_WIDTH)
-            .color(Constants.LINE_COLOR)
+        return PolylineOptions().width(Constants.LINE_WIDTH).color(Constants.LINE_COLOR)
     }
 
     fun GoogleMap.setup(context: Context) {
-        setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                context,
-                R.raw.google_map_style
-            )
-        )
+        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.google_map_style))
 
         setMaxZoomPreference(18f)
     }
@@ -216,11 +196,12 @@ object Utilities {
 
         val minutes = TimeUnit.MILLISECONDS.toMinutes(remaining)
 
-        result += if (minutes == 0L) {
-            "1m"
-        } else {
-            "${minutes}m "
-        }
+        result +=
+            if (minutes == 0L) {
+                "1m"
+            } else {
+                "${minutes}m "
+            }
 
         remaining = time - TimeUnit.MINUTES.toMillis(minutes)
 
@@ -232,17 +213,15 @@ object Utilities {
     }
 
     fun createSignInIntent(signInLauncher: ActivityResultLauncher<Intent>) {
-        val providers = listOf(
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
+        val providers = listOf(AuthUI.IdpConfig.GoogleBuilder().build())
 
-        val signInIntent = AuthUI
-            .getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setLogo(R.mipmap.ic_launcher_round)
-//            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
-            .build()
+        val signInIntent =
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setLogo(R.mipmap.ic_launcher_round)
+                //            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
+                .build()
 
         signInLauncher.launch(signInIntent)
     }

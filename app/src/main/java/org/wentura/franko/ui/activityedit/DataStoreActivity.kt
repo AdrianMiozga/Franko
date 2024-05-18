@@ -5,9 +5,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import org.wentura.franko.Constants
 
-
 class DataStoreActivity(
-    private val activityId: String
+    private val activityId: String,
 ) : PreferenceDataStore() {
 
     private val db = Firebase.firestore
@@ -19,9 +18,7 @@ class DataStoreActivity(
     override fun putBoolean(key: String?, value: Boolean) {
         if (key == null) return
 
-        db.collection(Constants.ACTIVITIES)
-            .document(activityId)
-            .update(key, value)
+        db.collection(Constants.ACTIVITIES).document(activityId).update(key, value)
     }
 
     override fun getBoolean(key: String?, defValue: Boolean): Boolean {
@@ -31,9 +28,7 @@ class DataStoreActivity(
     override fun putString(key: String?, value: String?) {
         if (key == null) return
 
-        db.collection(Constants.ACTIVITIES)
-            .document(activityId)
-            .update(key, value?.trim())
+        db.collection(Constants.ACTIVITIES).document(activityId).update(key, value?.trim())
     }
 
     override fun getString(key: String?, defValue: String?): String? {

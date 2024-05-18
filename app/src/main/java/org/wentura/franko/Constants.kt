@@ -50,16 +50,11 @@ object Constants {
     const val LINE_COLOR = 0xFF7E57C2.toInt()
 
     // Activity Types
-    val ACTIVITY_TYPES = listOf(
-        BIKE,
-        RUNNING,
-        WALKING
-    )
+    val ACTIVITY_TYPES = listOf(BIKE, RUNNING, WALKING)
 
     // Notification
     const val ACTIVITY_TRACKING_NOTIFICATION_ID = 1
-    const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID =
-        "activityRecordingNotificationChannel"
+    const val ACTIVITY_RECORDING_NOTIFICATION_CHANNEL_ID = "activityRecordingNotificationChannel"
 
     // Providers
     const val PROVIDER_GOOGLE = "google.com"
@@ -78,9 +73,9 @@ object Constants {
     const val TMP_IMAGE_PREFIX = "tmp_image_file_"
     const val TMP_IMAGE_SUFFIX = ".png"
 
-    /** Min activity time to save in milliseconds **/
-//    val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
+    /** Min activity time to save in milliseconds * */
+    //    val MIN_ACTIVITY_TIME = TimeUnit.MINUTES.toMillis(1)
 
-    /** Meters per second to kilometers per hour **/
+    /** Meters per second to kilometers per hour * */
     const val MS_TO_KMH = 3.6
 }

@@ -10,7 +10,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import org.wentura.franko.Constants
@@ -23,15 +27,13 @@ import org.wentura.franko.Utilities.setup
 import org.wentura.franko.data.UserActivity
 import org.wentura.franko.databinding.ListItemActivityBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class UserActivityAdapter :
     ListAdapter<UserActivity, UserActivityAdapter.ViewHolder>(UserActivityDiffCallback()) {
 
-    class ViewHolder(private val view: View) :
-        RecyclerView.ViewHolder(view),
-        OnMapReadyCallback {
+    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
 
         private lateinit var googleMap: GoogleMap
         private lateinit var bounds: LatLngBounds
@@ -70,10 +72,7 @@ class UserActivityAdapter :
                     arguments.putBoolean("currentUser", true)
                 }
 
-                Navigation.findNavController(view).navigate(
-                    R.id.to_activity_fragment,
-                    arguments
-                )
+                Navigation.findNavController(view).navigate(R.id.to_activity_fragment, arguments)
             }
 
             for (point in userActivity.activity.path) {
@@ -85,10 +84,8 @@ class UserActivityAdapter :
 
             bounds = Utilities.getBounds(points)
 
-            lengthTextView.text = context.getString(
-                R.string.activity_length,
-                userActivity.activity.length / 1000
-            )
+            lengthTextView.text =
+                context.getString(R.string.activity_length, userActivity.activity.length / 1000)
 
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
@@ -96,34 +93,41 @@ class UserActivityAdapter :
             val endTime = userActivity.activity.endTime ?: 0L
             val duration = endTime - startTime
 
-            durationTextView.text = context.getString(
-                R.string.time,
-                Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
-            )
+            durationTextView.text =
+                context.getString(
+                    R.string.time,
+                    Utilities.formatTime(TimeUnit.SECONDS.toMillis(duration))
+                )
 
-            val activityType = context.resources.getStringArray(R.array.activities_array)[context.resources
-                .getStringArray(R.array.activities_array_values).indexOf(userActivity.activity.activity)]
-
-            title.text = context.getString(
-                R.string.user_activity_title,
-                userActivity.activity.activityName,
-                activityType
-            )
+            val activityType =
+                context.resources
+                    .getStringArray(R.array.activities_array)[
+                        context.resources
+                            .getStringArray(R.array.activities_array_values)
+                            .indexOf(userActivity.activity.activity)]
+            title.text =
+                context.getString(
+                    R.string.user_activity_title,
+                    userActivity.activity.activityName,
+                    activityType
+                )
 
             val date = dateFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
             val timeFormatter = SimpleDateFormat("HH:mm", Locale.US)
 
-            dateTextView.text = context.getString(
-                R.string.date_and_time,
-                date,
-                timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
-            )
+            dateTextView.text =
+                context.getString(
+                    R.string.date_and_time,
+                    date,
+                    timeFormatter.format(TimeUnit.SECONDS.toMillis(startTime))
+                )
 
-            name.text = context.getString(
-                R.string.full_name,
-                userActivity.user.firstName,
-                userActivity.user.lastName
-            )
+            name.text =
+                context.getString(
+                    R.string.full_name,
+                    userActivity.user.firstName,
+                    userActivity.user.lastName
+                )
 
             // TODO: 13.10.2021 This breaks MapView rendering
             val photoUrl = userActivity.user.photoUrl
@@ -172,8 +176,9 @@ class UserActivityAdapter :
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.list_item_activity, viewGroup, false)
+        val view =
+            LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.list_item_activity, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -187,14 +192,14 @@ private class UserActivityDiffCallback : DiffUtil.ItemCallback<UserActivity>() {
 
     override fun areItemsTheSame(
         oldItem: UserActivity,
-        newItem: UserActivity
+        newItem: UserActivity,
     ): Boolean {
         return oldItem.activity.documentId == newItem.activity.documentId
     }
 
     override fun areContentsTheSame(
         oldItem: UserActivity,
-        newItem: UserActivity
+        newItem: UserActivity,
     ): Boolean {
         return oldItem == newItem
     }

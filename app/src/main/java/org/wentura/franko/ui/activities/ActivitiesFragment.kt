@@ -34,24 +34,23 @@ class ActivitiesFragment : Fragment(R.layout.fragment_activities) {
 
         val activitiesNothingToShow = binding.activitiesNothingToShow
 
-        val observer = Observer<List<UserActivity>> { userActivities ->
-            binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
+        val observer =
+            Observer<List<UserActivity>> { userActivities ->
+                binding.progressBarOverlay.progressBarOverlay.visibility = View.GONE
 
-            if (userActivities.isEmpty()) {
-                recyclerView.visibility = View.INVISIBLE
-                activitiesNothingToShow.visibility = View.VISIBLE
-                return@Observer
-            } else {
-                recyclerView.visibility = View.VISIBLE
-                activitiesNothingToShow.visibility = View.INVISIBLE
+                if (userActivities.isEmpty()) {
+                    recyclerView.visibility = View.INVISIBLE
+                    activitiesNothingToShow.visibility = View.VISIBLE
+                    return@Observer
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    activitiesNothingToShow.visibility = View.INVISIBLE
+                }
+
+                adapter.submitList(userActivities)
             }
 
-            adapter.submitList(userActivities)
-        }
-
-        viewModel
-            .userActivities
-            .observe(viewLifecycleOwner, observer)
+        viewModel.userActivities.observe(viewLifecycleOwner, observer)
 
         val chipBike = binding.chipBike
         val chipWalking = binding.chipWalking

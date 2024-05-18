@@ -19,28 +19,22 @@ class ActivityRepository @Inject constructor() {
     }
 
     fun addActivity(activity: Activity) {
-        db.collection(Constants.ACTIVITIES)
-            .add(activity)
+        db.collection(Constants.ACTIVITIES).add(activity)
     }
 
     fun getActivities(uid: String): Query {
-        return db.collection(Constants.ACTIVITIES)
-            .whereEqualTo(Constants.UID, uid)
+        return db.collection(Constants.ACTIVITIES).whereEqualTo(Constants.UID, uid)
     }
 
     fun getActivities(uid: List<String>): Query {
-        return db.collection(Constants.ACTIVITIES)
-            .whereIn(Constants.UID, uid)
+        return db.collection(Constants.ACTIVITIES).whereIn(Constants.UID, uid)
     }
 
     fun getActivity(activityId: String): DocumentReference {
-        return db.collection(Constants.ACTIVITIES)
-            .document(activityId)
+        return db.collection(Constants.ACTIVITIES).document(activityId)
     }
 
     fun deleteActivity(activityId: String): Task<Void> {
-        return db.collection(Constants.ACTIVITIES)
-            .document(activityId)
-            .delete()
+        return db.collection(Constants.ACTIVITIES).document(activityId).delete()
     }
 }

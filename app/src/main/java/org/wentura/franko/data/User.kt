@@ -1,7 +1,9 @@
 package org.wentura.franko.data
 
+import androidx.annotation.Keep
 import com.google.firebase.firestore.DocumentId
 
+@Keep
 data class User(
     val firstName: String = "",
     val lastName: String = "",

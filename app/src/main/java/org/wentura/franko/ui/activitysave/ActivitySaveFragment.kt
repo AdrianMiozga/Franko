@@ -67,10 +67,10 @@ class ActivitySaveFragment : Fragment(R.layout.fragment_activity_save), OnMapRea
                         R.id.save -> {
                             findNavController().navigateUp()
                             activitySaveObserver.save()
+                            return true
                         }
+                        else -> return false
                     }
-
-                    return true
                 }
             },
             viewLifecycleOwner,

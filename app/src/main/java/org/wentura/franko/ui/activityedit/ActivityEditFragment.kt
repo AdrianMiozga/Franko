@@ -57,10 +57,11 @@ class ActivityEditFragment : PreferenceFragmentCompat() {
                                     parentFragmentManager,
                                     ActivityDeleteDialogFragment::class.simpleName
                                 )
-                        }
-                    }
 
-                    return true
+                            return true
+                        }
+                        else -> return false
+                    }
                 }
             },
             viewLifecycleOwner,

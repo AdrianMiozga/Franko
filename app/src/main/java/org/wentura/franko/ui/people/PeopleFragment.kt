@@ -45,7 +45,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), SearchView.OnQueryTex
                 }
 
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return true
+                    return false
                 }
             },
             viewLifecycleOwner,

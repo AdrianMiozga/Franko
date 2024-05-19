@@ -1,6 +1,7 @@
 package org.wentura.franko.ui.profileedit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -76,10 +77,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
                             saveObserver.save()
                             findNavController().navigateUp()
+                            return true
                         }
+                        else -> return false
                     }
-
-                    return true
                 }
             },
             viewLifecycleOwner,

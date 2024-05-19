@@ -67,10 +67,10 @@ class ActivityFragment : Fragment(R.layout.fragment_activity), OnMapReadyCallbac
                                     ActivityFragmentDirections.toActivityEditFragment(args.id)
 
                                 findNavController().navigate(toActivityEditFragment)
+                                return true
                             }
+                            else -> return false
                         }
-
-                        return true
                     }
                 },
                 viewLifecycleOwner,

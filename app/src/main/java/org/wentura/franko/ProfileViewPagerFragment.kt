@@ -38,10 +38,10 @@ class ProfileViewPagerFragment : Fragment(R.layout.fragment_profile_view_pager) 
                                 ProfileViewPagerFragmentDirections.toSettingsFragment()
 
                             findNavController().navigate(toSettingsFragment)
+                            return true
                         }
+                        else -> return false
                     }
-
-                    return true
                 }
             },
             viewLifecycleOwner,
